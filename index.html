@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R-store Premium Panel - Tingkat Tinggi</title>
+    <title>R-STORE ULTRA PREMIUM - Panel VPN & VPS High-End</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body data-theme="dark">
 
@@ -13,120 +14,226 @@
         <div class="container">
             <div class="logo">
                 <img src="riksanstore.jpg" alt="R-store Logo">
-                <span class="logo-text">R-STORE PREMIUM</span>
+                <span class="logo-text">R-STORE <span class="premium-tag">ULTRA PREMIUM</span></span>
             </div>
-            <nav>
+            <nav class="main-nav">
                 <ul class="nav-links">
-                    <li><a href="#vpn">VPN Premium</a></li>
-                    <li><a href="#vps">VPS Panel</a></li>
+                    <li><a href="#hero" class="nav-item">Beranda</a></li>
+                    <li><a href="#vpn" class="nav-item">VPN Premium</a></li>
+                    <li><a href="#vps" class="nav-item">VPS Global</a></li>
+                    <li><a href="#features" class="nav-item">Fitur Unggulan</a></li>
                     <li class="mode-toggle">
                         <input type="checkbox" id="theme-switch" class="switch-input">
                         <label for="theme-switch" class="switch-label">
-                            <span class="icon-sun">☀️</span>
-                            <span class="icon-moon">🌙</span>
+                            <i class="fas fa-sun icon-sun"></i>
+                            <i class="fas fa-moon icon-moon"></i>
                         </label>
                     </li>
-                    <li><a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20untuk%20order%20premium." class="cta-button nav-cta" target="_blank">Order Sekarang</a></li>
+                    <li><a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20untuk%20order%20layanan%20ULTRA%20PREMIUM%20Anda." class="cta-button nav-cta" target="_blank">Order Sekarang</a></li>
                 </ul>
             </nav>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
 
-    <section id="hero">
+    <section id="hero" class="hero-section">
         <div class="container hero-content">
-            <h1>Akses Internet Tingkat Tinggi.</h1>
-            <p>Panel VPN & VPS Premium dengan Server Canggih dan Jaminan Kecepatan Maksimal.</p>
-            <a href="#vpn" class="cta-button">Lihat Opsi Premium</a>
+            <h1 class="hero-title">Akses Jaringan <span class="highlight">Tanpa Batas</span>.</h1>
+            <p class="hero-subtitle">Panel VPN & VPS Ultra Premium dengan Teknologi Terdepan, Kecepatan Optimal, dan Keamanan Maksimal.</p>
+            <div class="hero-buttons">
+                <a href="#vpn" class="cta-button primary-cta">Jelajahi VPN</a>
+                <a href="#vps" class="cta-button secondary-cta">Pesan VPS</a>
+            </div>
         </div>
-        <div class="animated-background"></div>
+        <div class="hero-animation-layer"></div>
     </section>
 
-    <section id="vpn" class="feature-section">
+    <section id="features" class="info-section">
         <div class="container">
-            <h2>💎 Layanan VPN Premium</h2>
-            <p class="section-subtitle">Akses ke protokol terbaru (SSH, Vmess, Trojan) dengan server berkecepatan tinggi.</p>
+            <h2 class="section-title">Mengapa Memilih R-STORE?</h2>
+            <p class="section-description">Kami menghadirkan solusi konektivitas terbaik dengan teknologi yang selalu terbarukan.</p>
             
-            <div class="card-container">
-                <div class="card wide-card">
-                    <h3>Pilihan Server Global</h3>
-                    
-                    <div class="tab-nav">
-                        <button class="tab-button active" data-tab="indo">Indonesia (IKD, Neva...)</button>
-                        <button class="tab-button" data-tab="sg">Singapore (Melbi, Lasweb...)</button>
-                        <button class="tab-button" data-tab="protocols">Protokol & Harga</button>
-                    </div>
+            <div class="feature-grid">
+                <div class="feature-item card">
+                    <i class="fas fa-rocket feature-icon"></i>
+                    <h3>Kecepatan Hyper</h3>
+                    <p>Nikmati koneksi tanpa lag untuk gaming, streaming, dan browsing. Server dioptimalkan untuk performa puncak.</p>
+                </div>
+                <div class="feature-item card">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <h3>Keamanan Data</h3>
+                    <p>Enkripsi AES-256 dan protokol terbaru melindungi privasi dan data Anda dari ancaman siber.</p>
+                </div>
+                <div class="feature-item card">
+                    <i class="fas fa-globe feature-icon"></i>
+                    <h3>Server Global</h3>
+                    <p>Pilihan server premium di Indonesia dan Singapore untuk aksesibilitas dan latensi terendah.</p>
+                </div>
+                <div class="feature-item card">
+                    <i class="fas fa-headset feature-icon"></i>
+                    <h3>Support 24/7</h3>
+                    <p>Tim dukungan kami siap membantu Anda kapan saja melalui WhatsApp dan grup komunitas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <div class="tab-content active" id="indo">
-                        <ul class="server-list">
-                            <li><span>IKD, Nusa, Wijaya, Biznet, Neva</span></li>
-                            <li class="status-indicator online"><span>Status Server: Aktif</span></li>
-                            <li>Harga: **Rp 5.000 - Rp 15.000**</li>
-                        </ul>
-                        <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Indonesia." class="order-btn" target="_blank">Pesan Server Indo</a>
-                    </div>
+    <section id="vpn" class="service-section alt-bg">
+        <div class="container">
+            <h2 class="section-title">🌐 Layanan VPN Ultra Premium</h2>
+            <p class="section-description">Pilih paket VPN sesuai kebutuhan Anda. Mendukung SSH, Vmess, Trojan, dan lainnya.</p>
+            
+            <div class="tab-interface card">
+                <div class="tab-nav">
+                    <button class="tab-button active" data-tab="vpn-indo">🇮🇩 Server Indonesia</button>
+                    <button class="tab-button" data-tab="vpn-sg">🇸🇬 Server Singapore</button>
+                    <button class="tab-button" data-tab="vpn-protocols">🛡️ Protokol & Harga</button>
+                </div>
 
-                    <div class="tab-content" id="sg">
-                        <ul class="server-list">
-                            <li><span>Melbi, Lasweb, DO, Mualu</span></li>
-                            <li class="status-indicator online"><span>Status Server: Stabil</span></li>
-                            <li>Harga: **Rp 5.000 - Rp 15.000**</li>
+                <div class="tab-content active" id="vpn-indo">
+                    <div class="server-card-grid">
+                        <div class="server-detail-card">
+                            <h4>IKD - Jakarta Data Center</h4>
+                            <div class="status-badge online">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li><i class="fas fa-wifi"></i> Kecepatan: <span class="speed-indicator green">Optimal</span></li>
+                                <li><i class="fas fa-cloud"></i> Lokasi: Jakarta, Indonesia</li>
+                                <li><i class="fas fa-chart-line"></i> Ping: Sangat Rendah</li>
+                                <li class="price-display">Harga: Rp 5.000 - Rp 15.000</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20IKD%20Indonesia." class="order-btn" target="_blank">Pesan IKD Server</a>
+                        </div>
+                        <div class="server-detail-card">
+                            <h4>Nusa - Bandung Data Center</h4>
+                            <div class="status-badge online">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li><i class="fas fa-wifi"></i> Kecepatan: <span class="speed-indicator green">Optimal</span></li>
+                                <li><i class="fas fa-cloud"></i> Lokasi: Bandung, Indonesia</li>
+                                <li><i class="fas fa-chart-line"></i> Ping: Sangat Rendah</li>
+                                <li class="price-display">Harga: Rp 5.000 - Rp 15.000</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Nusa%20Indonesia." class="order-btn" target="_blank">Pesan Nusa Server</a>
+                        </div>
+                        </div>
+                </div>
+
+                <div class="tab-content" id="vpn-sg">
+                    <div class="server-card-grid">
+                        <div class="server-detail-card">
+                            <h4>Melbi - Singapore Premium</h4>
+                            <div class="status-badge online">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li><i class="fas fa-wifi"></i> Kecepatan: <span class="speed-indicator blue">Excellent</span></li>
+                                <li><i class="fas fa-cloud"></i> Lokasi: Singapore</li>
+                                <li><i class="fas fa-chart-line"></i> Ping: Rendah Global</li>
+                                <li class="price-display">Harga: Rp 5.000 - Rp 15.000</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Melbi%20Singapore." class="order-btn" target="_blank">Pesan Melbi Server</a>
+                        </div>
+                        <div class="server-detail-card">
+                            <h4>Lasweb - Singapore Fastlane</h4>
+                            <div class="status-badge online">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li><i class="fas fa-wifi"></i> Kecepatan: <span class="speed-indicator blue">Excellent</span></li>
+                                <li><i class="fas fa-cloud"></i> Lokasi: Singapore</li>
+                                <li><i class="fas fa-chart-line"></i> Ping: Rendah Global</li>
+                                <li class="price-display">Harga: Rp 5.000 - Rp 15.000</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Lasweb%20Singapore." class="order-btn" target="_blank">Pesan Lasweb Server</a>
+                        </div>
+                        </div>
+                </div>
+                
+                <div class="tab-content" id="vpn-protocols">
+                    <div class="protocol-info card">
+                        <h3>Dukungan Protokol VPN</h3>
+                        <p class="protocol-desc">Kami mendukung berbagai protokol VPN modern untuk fleksibilitas dan keamanan Anda.</p>
+                        <ul class="protocol-list">
+                            <li><i class="fas fa-network-wired"></i> **SSH:** Secure Shell - Sederhana & Efisien.</li>
+                            <li><i class="fas fa-sitemap"></i> **Vmess:** VMess Protocol - Fleksibel & Cepat.</li>
+                            <li><i class="fas fa-horse-head"></i> **Trojan:** Trojan Protocol - Kuat & Susah Terdeteksi.</li>
+                            <li><i class="fas fa-cogs"></i> **OpenVPN:** Protokol Standar Industri (opsional).</li>
                         </ul>
-                        <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Singapore." class="order-btn" target="_blank">Pesan Server SG</a>
-                    </div>
-                    
-                    <div class="tab-content" id="protocols">
-                        <ul class="server-list">
-                            <li>Protokol: **SSH, Vmess, Trojan**</li>
-                            <li>Fitur: **Anti-Lag, Unlimited Speed**</li>
-                            <li>Jasa STB (Set Top Box): **Rp 20.000**</li>
-                        </ul>
-                        <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20order%20Jasa%20STB%20(Rp%2020K)." class="order-btn" target="_blank">Order Jasa STB</a>
+                        <hr>
+                        <h3>Jasa Setting STB</h3>
+                        <p class="stb-desc">Optimalkan Set Top Box Anda dengan konfigurasi terbaik dari kami.</p>
+                        <div class="stb-detail">
+                            <span class="stb-price">Rp 20.000</span>
+                            <div class="stb-features">
+                                <i class="fas fa-tv"></i> Unlock Fitur
+                                <i class="fas fa-tachometer-alt"></i> Optimasi Performa
+                            </div>
+                        </div>
+                        <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20order%20Jasa%20Setting%20STB%20(Rp%2020.000)." class="order-btn" target="_blank">Order Jasa STB</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="vps" class="feature-section alt-bg">
+    <section id="vps" class="service-section">
         <div class="container">
-            <h2>🖥️ VPS Premium Pre-Install</h2>
-            <p class="section-subtitle">VPS siap pakai, sudah terinstall script VPN (OpenVPN/Lainnya) untuk kemudahan Anda.</p>
+            <h2 class="section-title">🖥️ VPS Premium Global (Pre-Install Script)</h2>
+            <p class="section-description">Dapatkan Virtual Private Server siap pakai dengan script VPN pilihan terinstal.</p>
             
             <div class="card-container two-columns">
-                <div class="card vps-card">
-                    <h3>VPS Indo (NUSA/NEVA)</h3>
+                <div class="card vps-plan-card">
+                    <div class="vps-header">
+                        <i class="fas fa-server vps-icon"></i>
+                        <h3>VPS Indonesia <span class="badge">NUSA / NEVA</span></h3>
+                    </div>
                     <ul class="specs-list">
-                        <li>**RAM:** 1 GB - 2 GB</li>
-                        <li>**Bandwidth:** Unlimited (Indonesia Only)</li>
-                        <li>**Uptime:** 99.9%</li>
+                        <li><i class="fas fa-memory"></i> **RAM:** 1 GB - 2 GB</li>
+                        <li><i class="fas fa-exchange-alt"></i> **Bandwidth:** Unlimited</li>
+                        <li><i class="fas fa-hdd"></i> **Storage:** SSD High-Speed</li>
+                        <li><i class="fas fa-sync-alt"></i> **Uptime:** 99.9% Dijamin</li>
+                        <li><i class="fas fa-code"></i> **Script Terinstal:** SSH, Vmess, Trojan</li>
                     </ul>
-                    <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPS%20Indo%20dengan%20Bandwidth%20Unlimited." class="order-btn" target="_blank">Order VPS Indo</a>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-label">Ketersediaan Stok</div>
+                        <div class="progress-bar" data-progress="85"></div>
+                    </div>
+                    <div class="vps-price">Mulai dari ...</div>
+                    <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20dengan%20VPS%20Indonesia%20(NUSA/NEVA)%20RAM%201-2GB%20Unlimited%20BW." class="order-btn" target="_blank">Order VPS Indo</a>
                 </div>
 
-                <div class="card vps-card">
-                    <h3>VPS SG (Lasweb/Melbi)</h3>
+                <div class="card vps-plan-card">
+                    <div class="vps-header">
+                        <i class="fas fa-server vps-icon"></i>
+                        <h3>VPS Singapore <span class="badge">LASWEB / MELBI</span></h3>
+                    </div>
                     <ul class="specs-list">
-                        <li>**RAM:** 1 GB - 2 GB</li>
-                        <li>**Bandwidth:** 30 TB</li>
-                        <li>**Uptime:** 99.9%</li>
+                        <li><i class="fas fa-memory"></i> **RAM:** 1 GB - 2 GB</li>
+                        <li><i class="fas fa-exchange-alt"></i> **Bandwidth:** 30 TB / Bulan</li>
+                        <li><i class="fas fa-hdd"></i> **Storage:** SSD High-Speed</li>
+                        <li><i class="fas fa-sync-alt"></i> **Uptime:** 99.9% Dijamin</li>
+                        <li><i class="fas fa-code"></i> **Script Terinstal:** SSH, Vmess, Trojan</li>
                     </ul>
-                    <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPS%20SG%20dengan%2030%20TB%20Bandwidth." class="order-btn" target="_blank">Order VPS SG</a>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-label">Ketersediaan Stok</div>
+                        <div class="progress-bar" data-progress="92"></div>
+                    </div>
+                    <div class="vps-price">Mulai dari ...</div>
+                    <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20dengan%20VPS%20Singapore%20(LASWEB/MELBI)%20RAM%201-2GB%2030TB%20BW." class="order-btn" target="_blank">Order VPS SG</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 R-store. High-Level Premium Services.</p>
+            <p>&copy; 2025 R-STORE ULTRA PREMIUM. Semua Hak Dilindungi.</p>
+            <div class="social-links">
+                <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" target="_blank" title="Join Grup WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
         </div>
     </footer>
 
     <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" class="floating-wa-group" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
-            <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224-99.6 224-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.8 0-67.3-8.8-98.1-25.4l-7 4.1-70.3 18.4L91 359.2l-4.4-7.3c-18.1-32.4-27.9-68.8-27.9-106.1 0-108.7 88.4-197.1 197.1-197.1 53 0 102.8 20.9 139.3 57.4 36.6 36.6 57.4 86.3 57.4 139.3-.1 108.7-88.5 197-197.1 197zM223.9 149.8c-42.1 0-76.4 34.3-76.4 76.4s34.3 76.4 76.4 76.4 76.4-34.3 76.4-76.4c-.1-42.1-34.4-76.4-76.4-76.4zm0 134.1c-31.8 0-57.6-25.8-57.6-57.6s25.8-57.6 57.6-57.6 57.6 25.8 57.6 57.6c-.1 31.8-25.9 57.6-57.6 57.6z"/>
-        </svg>
-        <span class="tooltip-text">Join Grup WA</span>
+        <i class="fab fa-whatsapp"></i>
+        <span class="tooltip-text">Gabung Grup WA</span>
     </a>
 
     <script src="script.js"></script>
