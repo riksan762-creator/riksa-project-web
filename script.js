@@ -1,30 +1,21 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // 1. Logika Dark/Light Mode 
+    // 1. Theme Toggle (Dark/Light Mode)
     const themeSwitch = document.getElementById('theme-switch');
     const body = document.body;
     
-    const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : 'dark';
+    const currentTheme = localStorage.getItem('theme') || 'dark';
     
-    if (currentTheme === 'light') {
-        body.setAttribute('data-theme', 'light');
-        themeSwitch.checked = true;
-    } else {
-         body.setAttribute('data-theme', 'dark');
-         themeSwitch.checked = false;
-    }
+    body.setAttribute('data-theme', currentTheme);
+    themeSwitch.checked = (currentTheme === 'light');
 
     themeSwitch.addEventListener('change', function() {
-        if (this.checked) {
-            body.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            localStorage.setItem('theme', 'dark');
-        }
+        const newTheme = this.checked ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
     });
 
-    // 2. Logika Tabbed Interface
+    // 2. Tabbed Interface Logic
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
 
@@ -32,23 +23,26 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener('click', () => {
             const tabId = button.getAttribute('data-tab');
 
+            // Reset all
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
 
+            // Activate target
             button.classList.add('active');
             document.getElementById(tabId).classList.add('active');
         });
     });
 
-    // 3. Hamburger Menu Toggle (untuk Mobile)
+    // 3. Hamburger Menu Toggle (Mobile)
     const hamburger = document.querySelector('.hamburger-menu');
-    const navLinks = document.querySelector('.main-nav');
+    const mainNav = document.querySelector('.main-nav');
     
     hamburger.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        // Mengganti ikon hamburger menjadi X saat aktif (membutuhkan CSS tambahan)
+        mainNav.classList.toggle('active');
         const icon = hamburger.querySelector('i');
-        if (navLinks.classList.contains('active')) {
+        
+        // Ganti ikon untuk tampilan profesional
+        if (mainNav.classList.contains('active')) {
             icon.classList.remove('fa-bars');
             icon.classList.add('fa-times');
         } else {
@@ -56,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function() {
             icon.classList.add('fa-bars');
         }
     });
-    
-    // 4. Inisialisasi Progress Bar VPS (Fitur Canggih)
+
+    // 4. Progress Bar Animation (Hanya saat terlihat/intersecting)
     const progressBars = document.querySelectorAll('.progress-bar');
     
     const progressObserver = new IntersectionObserver((entries) => {
@@ -65,18 +59,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (entry.isIntersecting) {
                 const progressBar = entry.target;
                 const progressValue = progressBar.getAttribute('data-progress');
-                // Menggunakan pseudo-element ::before, sehingga kita harus mengatur properti CSS
+                // Mengatur CSS variable --progress-width untuk animasi
                 progressBar.style.setProperty('--progress-width', progressValue + '%'); 
-                
-                // Set CSS style untuk animasi width
-                const style = document.createElement('style');
-                style.innerHTML = `
-                    .progress-bar[data-progress="${progressValue}"]::before {
-                        width: ${progressValue}%;
-                    }
-                `;
-                document.head.appendChild(style);
-                
                 progressObserver.unobserve(entry.target); 
             }
         });
@@ -88,8 +72,8 @@ document.addEventListener("DOMContentLoaded", function() {
         progressObserver.observe(bar);
     });
     
-    // 5. Animasi Scroll (Card Fade In/Up)
-    const animatedElements = document.querySelectorAll('.feature-item, .vps-plan-card, .tab-interface');
+    // 5. Card Scroll Animation (Fade In/Up)
+    const animatedElements = document.querySelectorAll('.feature-item, .vps-plan-card, .tab-interface, .server-detail-card');
     
     const scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -105,13 +89,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     animatedElements.forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
+        el.style.transform = 'translateY(25px)';
         el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
         scrollObserver.observe(el);
     });
-    
-    // Tambahkan CSS custom property untuk progress bar di style.css agar animasi berfungsi
-    // Perlu menambahkan kode CSS: .progress-bar::before { width: var(--progress-width); }
-    // Karena JS tidak bisa langsung memodifikasi pseudo-element
-    
 });
