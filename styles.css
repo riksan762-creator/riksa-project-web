@@ -1,0 +1,477 @@
+/* Import Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+/* --- CSS Variables for Theme Management (Canggih) --- */
+:root {
+    /* Dark Mode Defaults */
+    --bg-primary: #090915;
+    --bg-card: rgba(25, 25, 45, 0.6); /* Frosted Glass Effect Base */
+    --text-color: #e0e0f0;
+    --text-muted: #a0a0c0;
+    --accent-gradient: linear-gradient(45deg, #00ffff, #ff00ff); /* Sci-Fi Gradient */
+    --shadow-color: rgba(0, 255, 255, 0.4);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --wa-green: #25D366; 
+}
+
+/* Light Mode Override (Fitur Canggih) */
+[data-theme="light"] {
+    --bg-primary: #f8f8ff;
+    --bg-card: rgba(255, 255, 255, 0.7);
+    --text-color: #1a1a2e;
+    --text-muted: #5c5c7c;
+    --accent-gradient: linear-gradient(45deg, #007bff, #17a2b8); 
+    --shadow-color: rgba(0, 123, 255, 0.2);
+    --border-color: rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- Base Styling --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-color);
+    line-height: 1.6;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* --- Navbar (Premium Look) --- */
+.navbar {
+    background-color: var(--bg-card);
+    backdrop-filter: blur(10px); /* Efek Kaca Buram / Frosted Glass */
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 40px; 
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.2rem;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- Mode Toggle Switch (Fitur Canggih) --- */
+.switch-label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    background-color: var(--bg-card);
+    border-radius: 34px;
+    cursor: pointer;
+    box-shadow: 0 0 5px var(--shadow-color);
+}
+
+.switch-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-label .icon-sun, .switch-label .icon-moon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+    padding: 0 8px;
+    transition: opacity 0.3s;
+}
+
+.switch-label .icon-sun {
+    left: 4px;
+    opacity: 0; /* Default dark mode */
+}
+
+.switch-label .icon-moon {
+    right: 4px;
+    opacity: 1;
+}
+
+.switch-input:checked + .switch-label .icon-sun {
+    opacity: 1;
+}
+
+.switch-input:checked + .switch-label .icon-moon {
+    opacity: 0;
+}
+
+.switch-label:after {
+    content: '';
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    top: 4px;
+    left: 4px;
+    transition: 0.4s;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.switch-input:checked + .switch-label:after {
+    transform: translateX(26px);
+}
+
+/* --- Hero Section --- */
+#hero {
+    height: 90vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--bg-primary) 5%, transparent 100%);
+    opacity: 0.3;
+    z-index: 0;
+    animation: pulse 15s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); opacity: 0.3; }
+    to { transform: scale(1.1); opacity: 0.4; }
+}
+
+.hero-content {
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+/* --- Sections & Cards --- */
+.feature-section {
+    padding: 100px 0;
+}
+
+.alt-bg {
+    /* Subtle background distinction for depth */
+    background-color: var(--bg-primary); 
+    padding: 80px 0;
+}
+
+h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 4rem;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column */
+    gap: 3rem;
+    justify-content: center;
+}
+
+.two-columns {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.card {
+    background: var(--bg-card);
+    backdrop-filter: blur(15px); /* Premium Blur */
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 3rem;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 30px var(--shadow-color);
+}
+
+.wide-card {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* --- Tabbed UI (Fitur Canggih) --- */
+.tab-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    background-color: var(--bg-card);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s;
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    color: var(--text-color);
+}
+
+.tab-button.active {
+    color: var(--bg-primary);
+    font-weight: 700;
+    background: var(--accent-gradient);
+    box-shadow: 0 2px 10px rgba(0, 255, 255, 0.4);
+}
+
+.tab-content {
+    display: none;
+    padding: 20px 0;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- List & Status Indicator (Canggih) --- */
+.server-list {
+    list-style: none;
+    font-size: 1.1rem;
+}
+
+.server-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border-color);
+    color: var(--text-color);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+}
+
+.status-indicator::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    display: inline-block;
+    animation: blink 1.5s infinite alternate;
+}
+
+.status-indicator.online::before {
+    background-color: #28a745; /* Green */
+    box-shadow: 0 0 10px #28a745;
+}
+
+@keyframes blink {
+    from { opacity: 1; }
+    to { opacity: 0.6; }
+}
+
+/* --- Order Button (A Tag) --- */
+.order-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: var(--accent-gradient);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; 
+    text-align: center;   
+    margin-top: 2rem;
+}
+
+.order-btn:hover {
+    opacity: 0.9;
+    box-shadow: 0 5px 25px var(--shadow-color);
+    transform: scale(1.02);
+}
+
+/* --- Footer & Floating WA (Same as before but uses variables) --- */
+footer {
+    background-color: var(--bg-card);
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 50px;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+.floating-wa-group {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--wa-green);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.floating-wa-group svg {
+    width: 30px;
+    height: 30px;
+}
+
+.floating-wa-group:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
+}
+
+/* Tooltip */
+.floating-wa-group .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; 
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.floating-wa-group:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* --- Responsif --- */
+@media (max-width: 992px) {
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+    .two-columns {
+        grid-template-columns: 1fr;
+    }
+    .nav-links li:not(:last-child) {
+        margin-left: 1rem;
+    }
+    .wide-card {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-links {
+        /* Pindahkan toggle mode ke menu agar tidak terlalu ramai */
+    }
+    .nav-links li:not(.mode-toggle) {
+        display: none;
+    }
+    .nav-cta {
+        display: block !important;
+    }
+    .tab-nav {
+        flex-direction: column;
+    }
+    .tab-button {
+        margin: 5px 0;
+    }
+}
