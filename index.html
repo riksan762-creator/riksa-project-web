@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R-Store - Platform VPN & VPS Pay As You Go Premium</title>
+    <title>R-Store - Platform VPN & VPS Premium Kelas Dunia</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,14 +14,15 @@
         :root {
             --color-primary: #00ddff;  /* Biru Cyan Neon */
             --color-secondary: #0070f3; /* Biru Vercel */
-            --color-pink: #ff0080;
-            --bg-dark: #000000;
+            --color-pink: #f000ff;
+            --bg-dark: #050505; /* Lebih pekat dari hitam */
             --bg-light: #111111;
-            --bg-glass: rgba(17, 17, 17, 0.7);
+            --bg-glass: rgba(10, 10, 10, 0.6);
             --text-primary: #ffffff;
-            --text-secondary: #aaaaaa;
+            --text-secondary: #a0a0a0;
             --border-color: rgba(255, 255, 255, 0.1);
-            --shadow-color: rgba(0, 221, 255, 0.15);
+            --shadow-primary: rgba(0, 221, 255, 0.2);
+            --shadow-secondary: rgba(0, 112, 243, 0.3);
         }
 
         /* 2. RESET & DASAR */
@@ -33,6 +34,7 @@
 
         html {
             scroll-behavior: smooth;
+            font-size: 16px;
         }
 
         body {
@@ -42,25 +44,24 @@
             line-height: 1.6;
             overflow-x: hidden;
             /* Latar belakang aurora halus */
-            background-image: radial-gradient(circle at 10% 20%, rgba(0, 112, 243, 0.1), transparent 30%),
-                              radial-gradient(circle at 80% 90%, rgba(255, 0, 128, 0.1), transparent 30%);
+            background-image: radial-gradient(circle at 5% 10%, rgba(0, 112, 243, 0.15), transparent 30%),
+                              radial-gradient(circle at 90% 90%, rgba(240, 0, 255, 0.1), transparent 30%);
         }
 
         /* 3. FITUR CANGGIH: MOUSE-FOLLOW GLOW */
-        /* Hanya tampil di desktop */
         @media (pointer: fine) {
             #mouse-glow {
                 position: fixed;
                 top: 0;
                 left: 0;
-                width: 400px;
-                height: 400px;
+                width: 350px;
+                height: 350px;
                 background: radial-gradient(circle, var(--color-primary), transparent 60%);
                 border-radius: 50%;
-                opacity: 0.15;
+                opacity: 0.1; /* Dibuat lebih subtle */
                 filter: blur(80px);
                 transform: translate(-50%, -50%);
-                pointer-events: none; /* Penting! */
+                pointer-events: none;
                 transition: transform 0.1s ease-out;
                 z-index: 0;
             }
@@ -68,10 +69,10 @@
 
         /* 4. LAYOUT & UTILITAS */
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
-            position: relative; /* Agar konten di atas glow */
+            position: relative;
             z-index: 2;
         }
 
@@ -81,29 +82,29 @@
         }
 
         h1, h2, h3, h4 {
-            font-weight: 800;
+            font-weight: 700;
             color: var(--text-primary);
             margin-bottom: 20px;
             line-height: 1.2;
         }
 
-        h1 { font-size: 3.8rem; }
-        h2 { font-size: 2.8rem; text-align: center; }
-        h3 { font-size: 1.6rem; }
+        h1 { font-size: 3.5rem; }
+        h2 { font-size: 2.5rem; text-align: center; }
+        h3 { font-size: 1.4rem; }
 
         p {
             color: var(--text-secondary);
             margin-bottom: 25px;
             font-size: 1.1rem;
-            max-width: 650px;
+            max-width: 600px;
         }
-        p.center {
+        .center {
             text-align: center;
             margin-left: auto;
             margin-right: auto;
         }
 
-        /* 5. HEADER (GLASSMORPHISM) */
+        /* 5. HEADER CANGGIH (HIDE ON SCROLL) */
         header {
             position: fixed;
             top: 0;
@@ -111,10 +112,15 @@
             width: 100%;
             padding: 20px 0;
             background: var(--bg-glass);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        header.header-hidden {
+            transform: translateY(-100%);
         }
 
         header .container {
@@ -127,80 +133,151 @@
             display: flex;
             align-items: center;
             text-decoration: none;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: var(--text-primary);
         }
 
         .logo img {
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             margin-right: 12px;
             border: 2px solid var(--color-primary);
         }
 
-        nav { display: flex; align-items: center; }
-        nav ul { display: flex; list-style: none; }
-        nav li { margin-left: 35px; }
-        nav a {
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header-nav nav { display: flex; }
+        .header-nav nav ul { display: flex; list-style: none; }
+        .header-nav nav li { margin-left: 30px; }
+        .header-nav nav a {
             text-decoration: none;
             color: var(--text-secondary);
             font-weight: 500;
+            font-size: 0.95rem;
             transition: color 0.3s ease;
         }
-        nav a:hover, nav a.active {
+        .header-nav nav a:hover {
             color: var(--text-primary);
         }
 
-        /* 6. TOMBOL (BUTTON) */
+        /* 6. TOMBOL ELIPSIS CANGGIH "..." */
+        .ellipsis-menu {
+            position: relative;
+        }
+        .ellipsis-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            line-height: 36px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .ellipsis-btn:hover {
+            background: var(--border-color);
+            border-color: var(--text-primary);
+        }
+        .ellipsis-dropdown {
+            position: absolute;
+            top: 120%;
+            right: 0;
+            width: 200px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            padding: 10px;
+            
+            /* Sembunyi by default */
+            display: none;
+            opacity: 0;
+            transform: scale(0.95) translateY(-10px);
+            transform-origin: top right;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+        .ellipsis-dropdown.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .ellipsis-dropdown a {
+            display: block;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            border-radius: 6px;
+        }
+        .ellipsis-dropdown a:hover {
+            background: var(--border-color);
+            color: var(--text-primary);
+        }
+
+        /* 7. TOMBOL (BUTTON) KEKINIAN */
         .btn {
             display: inline-block;
-            padding: 14px 32px;
+            padding: 12px 28px;
             text-decoration: none;
             font-weight: 600;
             border-radius: 8px;
-            color: #fff;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+            color: #000; /* Teks Hitam */
+            background: var(--color-primary);
             border: none;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 112, 243, 0.3);
+            box-shadow: 0 5px 20px var(--shadow-primary);
         }
 
         .btn:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 8px 25px rgba(0, 112, 243, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px var(--shadow-primary);
+        }
+        
+        /* Klik efek */
+        .btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
 
         .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
+            background: transparent;
             border: 1px solid var(--border-color);
-            box-shadow: none;
             color: var(--text-primary);
+            box-shadow: none;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--text-primary);
-            box-shadow: none;
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+            box-shadow: 0 0 15px var(--shadow-primary);
+            transform: translateY(-3px);
         }
 
-        /* 7. SECTION HERO (DENGAN ANIMASI TEKS CANGGIH) */
+        /* 8. SECTION HERO (DENGAN ANIMASI TEKS CANGGIH) */
         #home {
-            height: 100vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding-top: 80px;
+            padding-top: 120px;
             overflow: hidden;
         }
 
         #home h1 {
-            font-size: 4.5rem;
+            font-size: 4rem; /* Lebih besar */
             font-weight: 900;
             margin-bottom: 25px;
+            letter-spacing: -2px;
         }
         
         /* Teks Gradien */
@@ -215,24 +292,16 @@
         .hero-title span {
             display: inline-block;
             opacity: 0;
-            transform: translateY(20px) scale(0.9);
-            animation: reveal-char 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        @keyframes reveal-char {
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition-delay: var(--delay);
         }
         
         #home p {
-            font-size: 1.25rem;
-            max-width: 600px;
+            font-size: 1.2rem;
+            max-width: 550px;
             margin: 0 auto 40px;
-            color: var(--text-secondary);
         }
-
         .button-group {
             display: flex;
             justify-content: center;
@@ -240,88 +309,86 @@
             flex-wrap: wrap;
         }
         
-        /* 8. FITUR UNGGULAN (WHY US) */
-        .features-grid {
+        /* 9. TRUST BAR (PARTNER) */
+        #partners {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        #partners p {
+            text-align: center;
+            margin: 0 auto 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .partners-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .partner-logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .partner-logo:hover {
+            opacity: 1;
+        }
+
+        /* 10. HARGA (PRICING) */
+        #pricing {
+            background-color: var(--bg-light);
+        }
+        .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 50px;
-        }
-        .feature-card {
-            background: var(--bg-light);
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--color-primary);
-            box-shadow: 0 10px 30px var(--shadow-color);
-        }
-        .feature-card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--color-primary);
-        }
-        .feature-card h3 {
-            margin-bottom: 10px;
-        }
-
-        /* 9. HARGA (PAY AS YOU GO) */
-        #pricing {
-            background-color: var(--bg-light);
-        }
-        .pricing-toggle {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-        /* (Fitur Toggle bisa ditambahkan nanti, untuk skrg fokus layout) */
-        
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Dua kolom utama */
-            gap: 30px;
-        }
-        
-        @media (max-width: 900px) {
-            .pricing-grid { grid-template-columns: 1fr; }
         }
 
         .pricing-card {
             background: var(--bg-dark);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 35px;
+            padding: 30px;
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
         }
         .pricing-card:hover {
-            box-shadow: 0 10px 40px var(--shadow-color);
+            transform: translateY(-8px);
             border-color: var(--color-primary);
+            box-shadow: 0 10px 30px var(--shadow-primary);
+        }
+        .pricing-card.popular {
+            border-color: var(--color-secondary);
         }
 
         .pricing-card h3 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--color-primary);
         }
         
         .pricing-card .price {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            margin: 15px 0;
+            margin: 10px 0;
         }
         .pricing-card .price span {
             font-size: 1rem;
             color: var(--text-secondary);
+            font-weight: 400;
         }
         
         .pricing-card ul {
             list-style: none;
-            margin: 25px 0;
-            flex-grow: 1; /* Agar tombol selalu di bawah */
+            margin: 20px 0;
+            flex-grow: 1;
         }
         .pricing-card li {
             position: relative;
@@ -341,71 +408,13 @@
             width: 100%;
             text-align: center;
         }
-        
-        /* Kartu "Populer" */
-        .pricing-card.popular {
-            border-color: var(--color-primary);
-            transform: scale(1.03); /* Sedikit lebih besar */
-        }
-
-        /* 10. SERVER (BENTO GRID) */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: auto auto;
-            gap: 20px;
-            margin-top: 50px;
-        }
-        
-        .bento-box {
-            background: var(--bg-light);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            transition: all 0.3s ease;
-        }
-        .bento-box:hover {
-            background-color: #1a1a1a;
-            border-color: var(--color-secondary);
-        }
-        .bento-box h4 {
-            font-size: 1.3rem;
-            color: var(--color-primary);
-            margin-bottom: 15px;
-        }
-        .bento-box ul {
-            list-style: none;
-        }
-        .bento-box li {
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-        
-        /* Atur ukuran kotak bento */
-        .bento-box.indo-1 { grid-column: 1 / 2; }
-        .bento-box.indo-2 { grid-column: 1 / 2; }
-        .bento-box.singapore {
-            grid-column: 2 / 4; /* Kotak ini lebih besar */
-            grid-row: 1 / 3;
-        }
-        
-        @media (max-width: 900px) {
-            .bento-grid {
-                grid-template-columns: 1fr;
-            }
-            /* Reset di mobile */
-            .bento-box.indo-1, .bento-box.indo-2, .bento-box.singapore {
-                grid-column: auto;
-                grid-row: auto;
-            }
-        }
 
         /* 11. KONTAK (CTA) */
         #contact {
             text-align: center;
         }
         #contact h2 {
-            font-size: 3rem;
+            font-size: 2.8rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -419,17 +428,40 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
         }
-
-        /* 13. RESPONSIVE (MOBILE) */
-        .menu-toggle { display: none; } /* Nanti untuk mobile nav */
         
-        @media (max-width: 768px) {
-            h1, #home h1 { font-size: 2.5rem; }
-            h2 { font-size: 2rem; }
+        /* 13. ANIMASI SCROLL CANGGIH */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Staggered (Bertahap) */
+        .reveal.visible .reveal-child {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: reveal-up 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation-delay: var(--delay);
+        }
+        @keyframes reveal-up {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
+        /* 14. RESPONSIVE (MOBILE) */
+        @media (max-width: 768px) {
+            h1, #home h1 { font-size: 2.8rem; letter-spacing: -1px; }
+            h2 { font-size: 2rem; }
+            
             /* Sembunyikan nav desktop, siapkan untuk mobile */
-            header nav { display: none; }
-            /* (Script untuk nav mobile bisa ditambahkan, tapi fokus ke layout dulu) */
+            .header-nav nav { display: none; }
+            .partners-grid { justify-content: center; }
+            .partner-logo { flex-basis: 30%; text-align: center; }
             
             .button-group { flex-direction: column; gap: 15px; }
             .btn { width: 100%; }
@@ -441,22 +473,36 @@
 
     <div id="mouse-glow"></div>
 
-    <header>
+    <header id="main-header">
         <div class="container">
             <a href="#home" class="logo">
                 <img src="riksanstore.jpg" alt="R-Store Logo">
                 <span>R-Store</span>
             </a>
-            <nav id="nav-desktop">
-                <ul>
-                    <li><a href="#home" class="active">Home</a></li>
-                    <li><a href="#features">Fitur</a></li>
-                    <li><a href="#pricing">Harga</a></li>
-                    <li><a href="#servers">Server</a></li>
-                    <li><a href="#contact">Kontak</a></li>
-                </ul>
-            </nav>
+            
+            <div class="header-nav">
+                <nav id="nav-desktop">
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#pricing">Harga</a></li>
+                        <li><a href="#contact">Kontak</a></li>
+                    </ul>
+                </nav>
+
+                <div class="ellipsis-menu">
+                    <button class="ellipsis-btn" id="ellipsis-btn" aria-label="Menu Lainnya">
+                        ...
+                    </button>
+                    <div class="ellipsis-dropdown" id="ellipsis-dropdown">
+                        <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" target="_blank">
+                            Gabung Grup WA
+                        </a>
+                        <a href="#">Info (Soon)</a>
+                    </div>
+                </div>
             </div>
+            
+        </div>
     </header>
 
     <main>
@@ -465,129 +511,91 @@
             <div class="container">
                 <h1 class="hero-title" id="hero-title">
                     </h1>
-                <p>
-                    Platform VPN & VPS Premium Generasi Baru.
-                    Rasakan kecepatan, fleksibilitas "Pay As You Go", dan performa server terbaik.
+                <p class="reveal">
+                    Platform VPN & VPS Premium dengan server tercepat di Indonesia & Singapura.
+                    Harga mulai 5k, stabil, dan profesional.
                 </p>
-                <div class="button-group">
-                    <a href="#pricing" class="btn">Lihat Paket Harga</a>
-                    <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" class="btn btn-secondary">Gabung Komunitas</a>
+                <div class="button-group reveal" style="transition-delay: 0.2s;">
+                    <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20dengan%20layanannya." class="btn">
+                        Pesan via WhatsApp
+                    </a>
+                    <a href="#pricing" class="btn btn-secondary">Lihat Paket Harga</a>
                 </div>
             </div>
         </section>
 
-        <section id="features">
+        <section id="partners" class="reveal">
             <div class="container">
-                <h2 style="text-align: left; margin-bottom: 10px;">Kenapa R-Store?</h2>
-                <p style="max-width: 800px; margin-bottom: 50px;">
-                    Kami bukan sekadar penyedia. Kami adalah partner Anda dalam konektivitas. Kami fokus pada tiga hal: performa, fleksibilitas, dan dukungan.
-                </p>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="icon">⚡</div>
-                        <h3>Performa Gahar</h3>
-                        <p>Server RAM 1-2 GB, Bandwidth 30TB (SG) & Unlimited (Indo) menjamin koneksi tercepat untuk gaming dan streaming.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">💸</div>
-                        <h3>Pay As You Go</h3>
-                        <p>Model harga revolusioner. Selain langganan, Anda bisa bayar sesuai pemakaian. Fleksibel, adil, dan tanpa komitmen.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🛡️</div>
-                        <h3>Protokol Lengkap</h3>
-                        <p>Dukungan penuh untuk SSH, Vmess, dan Trojan. Semua paket sudah terinstall script VPN premium. Siap pakai dalam sekejap.</p>
-                    </div>
+                <p>INFRASTRUKTUR DIDUKUNG PROVIDER VPS PREMIUM</p>
+                <div class="partners-grid">
+                    <div class="partner-logo">Biznet</div>
+                    <div class="partner-logo">Nusa</div>
+                    <div class="partner-logo">Neva</div>
+                    <div class="partner-logo">Lasweb</div>
+                    <div class="partner-logo">Melbi</div>
+                    <div class="partner-logo">DigitalOcean</div>
                 </div>
             </div>
         </section>
 
         <section id="pricing">
             <div class="container">
-                <h2>Model Harga Fleksibel</h2>
-                <p class="center">
-                    Pilih model yang paling cocok untuk Anda. Langganan bulanan untuk kestabilan, atau "Pay As You Go" untuk fleksibilitas total.
+                <h2 class="reveal">Paket Sesuai Kebutuhan Anda</h2>
+                <p class="center reveal" style="transition-delay: 0.1s;">
+                    Pilih paket VPN premium atau VPS siap pakai dengan script. Semua protokol didukung (SSH, Vmess, Trojan).
                 </p>
                 
-                <div class="pricing-grid">
-                    <div class="pricing-card popular">
-                        <h3>Paket Langganan</h3>
-                        <p>Rekomendasi untuk penggunaan reguler.</p>
-                        <div class="price">5k - 20k <span>/Bulan</span></div>
+                <div class="pricing-grid reveal visible"> <div class="pricing-card reveal-child" style="--delay: 0.1s;">
+                        <h3>Paket VPN Reguler</h3>
+                        <div class="price">5k - 15k <span>/Bulan</span></div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Ideal untuk browsing, streaming, dan gaming.</p>
                         <ul>
-                            <li>Harga flat per bulan</li>
-                            <li><b>Reguler:</b> 5k - 15k</li>
-                            <li><b>Khusus STB:</b> 20k (Lebih stabil)</li>
-                            <li>Akses Penuh ke Server Pilihan</li>
-                            <li>Ideal untuk penggunaan berat & rutin</li>
+                            <li>Full Speed Access</li>
+                            <li>Semua Protokol (SSH, Vmess, Trojan)</li>
+                            <li>Bebas Pilih Server ID/SG</li>
+                            <li>Dukungan Penuh</li>
                         </ul>
-                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20Paket%20Langganan%20Bulanan." class="btn">Pesan Langganan</a>
+                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20Paket%20VPN%20Reguler." class="btn btn-secondary">Pesan Reguler</a>
                     </div>
                     
-                    <div class="pricing-card">
-                        <h3>Pay As You Go</h3>
-                        <p>Bayar hanya saat Anda pakai.</p>
-                        <div class="price">Mulai 1k <span>/Sesuai Pemakaian</span></div>
+                    <div class="pricing-card popular reveal-child" style="--delay: 0.2s;">
+                        <h3>Paket Khusus STB</h3>
+                        <div class="price">20k <span>/Bulan</span></div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Dioptimalkan untuk STB. Sangat stabil, anti lag.</p>
                         <ul>
-                            <li>Tidak ada biaya bulanan</li>
-                            <li>Cocok untuk backup / penggunaan jarang</li>
-                            <li>Kontrol penuh atas pengeluaran</li>
-                            <li>Aktivasi akun instan</li>
-                            <li>Sistem kredit / deposit (Hubungi Admin)</li>
+                            <li>Koneksi Super Stabil</li>
+                            <li>Anti Lag & Buffering</li>
+                            <li>Setup Mudah & Cepat</li>
+                            <li>Semua Protokol Aktif</li>
                         </ul>
-                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20model%20Pay%20As%20You%20Go." class="btn btn-secondary">Info Pay As You Go</a>
+                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20Paket%20Khusus%20STB." class="btn">Pesan Paket STB</a>
                     </div>
-                </div>
-            </div>
-        </section>
-        
-        <section id="servers">
-            <div class="container">
-                <h2>Infrastruktur Server Premium</h2>
-                <p class="center">
-                    Kami hanya menggunakan provider VPS terbaik untuk memastikan latency rendah dan uptime maksimal.
-                </p>
-                <div class="bento-grid">
-                    <div class="bento-box indo-1">
-                        <h4>VPS Indonesia #1</h4>
+
+                    <div class="pricing-card reveal-child" style="--delay: 0.3s;">
+                        <h3>VPS Premium Siap Pakai</h3>
+                        <div class="price">Mulai <span>(Kontak WA)</span></div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Untuk Anda yang ingin mengelola server sendiri.</p>
                         <ul>
-                            <li>Provider: <b>Nusa, Neva</b></li>
-                            <li>Bandwidth: <b>Unlimited</b></li>
+                            <li>Sudah Terinstall Script VPN</li>
+                            <li>RAM 1 GB - 2 GB</li>
+                            <li>Server ID (BW Unlimited)</li>
+                            <li>Server SG (BW 30 TB)</li>
                         </ul>
-                    </div>
-                    <div class="bento-box indo-2">
-                        <h4>VPS Indonesia #2</h4>
-                        <ul>
-                            <li>Provider: <b>IKD, Wijaya, Biznet</b></li>
-                            <li>Bandwidth: <b>Unlimited</b></li>
-                        </ul>
-                    </div>
-                    <div class="bento-box singapore">
-                        <h4>VPS Singapore</h4>
-                        <ul>
-                            <li>Provider: <b>Lasweb, Melbi</b></li>
-                            <li>Bandwidth: <b>30 TB</b></li>
-                            <li>Provider Lain: <b>DO, Mualu</b></li>
-                            <li>Koneksi Internasional Super Cepat</li>
-                            <li>RAM Opsi: 1 GB - 2 GB</li>
-                        </ul>
+                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20mau%20tanya%20harga%20VPS%20Premium." class="btn btn-secondary">Tanya Harga VPS</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <section id="contact" style="background-color: var(--bg-light);">
-            <div class="container">
-                <h2 class="text-gradient">Mulai Proyek Anda Hari Ini.</h2>
-                <p class="center" style="font-size: 1.25rem;">
-                    Hubungi kami untuk konsultasi, pemesanan, atau sekadar bertanya.
+            <div class="container reveal">
+                <h2 class="text-gradient">Siap Memulai?</h2>
+                <p class="center" style="font-size: 1.1rem;">
+                    Hubungi admin kami sekarang. Proses cepat, koneksi instan.
                 </p>
                 <div class="button-group" style="margin-top: 40px;">
                     <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20mau%20order..." class="btn">
                         Chat Admin (082113945743)
-                    </a>
-                    <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" class="btn btn-secondary">
-                        Gabung Grup Komunitas
                     </a>
                 </div>
             </div>
@@ -597,11 +605,7 @@
 
     <footer>
         <div class="container">
-            <a href="#home" class="logo" style="justify-content: center; margin-bottom: 15px; font-size: 1.5rem;">
-                <img src="riksanstore.jpg" alt="R-Store Logo" style="width: 35px; height: 35px;">
-                <span>R-Store</span>
-            </a>
-            <p>&copy; 2025 R-Store. Dibangun untuk Konektivitas Tingkat Tinggi.</p>
+            <p>&copy; 2025 R-Store. Dibuat untuk Konektivitas Kelas Dunia.</p>
         </div>
     </footer>
 
@@ -612,11 +616,8 @@
         // Fitur 1: Efek "Mouse-Follow Glow"
         // ===================================
         const glow = document.getElementById('mouse-glow');
-        
-        // Hanya jalankan jika elemen ada (non-mobile)
         if (glow) {
             window.addEventListener('mousemove', (e) => {
-                // Gunakan requestAnimationFrame untuk performa lebih halus
                 requestAnimationFrame(() => {
                     glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
                 });
@@ -627,60 +628,93 @@
         // Fitur 2: Animasi Teks "Split Reveal"
         // ===================================
         const heroTitle = document.getElementById('hero-title');
-        const text = "Koneksi Cepat. Harga <span class='text-gradient'>Premium.</span>";
-        
-        // Bersihkan title
-        heroTitle.innerHTML = '';
-
-        // Pecah teks menjadi huruf dalam <span>
-        text.split('').forEach((char, index) => {
-            // Cek untuk tag span (agar tidak memecah tag)
-            if (char === '<') {
-                heroTitle.innerHTML += text.substring(index, text.indexOf('>') + 1);
-                // Lompat ke akhir tag
-                index = text.indexOf('>'); 
-                // Note: Ini versi simpel, jika tag kompleks, perlu parser.
-            } else if (char === '>') {
-                // Abaikan
-            } else {
-                const span = document.createElement('span');
-                span.innerHTML = char === ' ' ? '&nbsp;' : char; // Jaga spasi
-                span.style.animationDelay = `${index * 0.02}s`; // Animasi super cepat
-                heroTitle.appendChild(span);
-            }
-        });
-        
-        // Perbaikan untuk menangani tag HTML di dalam teks
-        // (Versi di atas adalah simplifikasi, untuk 'text-gradient' kita hardcode saja)
+        const text = "Koneksi Cepat. <span class='text-gradient'>Harga Terbaik.</span>";
+        heroTitle.innerHTML = text.split('').map((char, index) => {
+            if (char === '<') { return text.substring(index, text.indexOf('>') + 1); }
+            if (text.substring(index - 1, index + 6) === "</span>") { return char; }
+            if (char === ' ') { return ' '; }
+            return `<span style="--delay: ${index * 0.02}s">${char}</span>`;
+        }).join('');
+        // Perbaikan untuk tag
         heroTitle.innerHTML = ''; // Reset
-        const textContent = "Koneksi Cepat. Harga ";
-        const gradientText = "Premium.";
-
+        const textContent = "Koneksi Cepat. ";
+        const gradientText = "Harga Terbaik.";
         let delay = 0;
         
-        // Animasikan bagian pertama
         textContent.split('').forEach((char) => {
             const span = document.createElement('span');
             span.innerHTML = char === ' ' ? '&nbsp;' : char;
-            span.style.animationDelay = `${delay * 0.02}s`;
+            span.style.setProperty('--delay', `${delay * 0.03}s`);
             heroTitle.appendChild(span);
             delay++;
         });
 
-        // Buat <span> untuk bagian gradien
         const gradientSpan = document.createElement('span');
         gradientSpan.className = 'text-gradient';
-        
-        // Animasikan bagian gradien
         gradientText.split('').forEach((char) => {
             const span = document.createElement('span');
             span.innerHTML = char === ' ' ? '&nbsp;' : char;
-            span.style.animationDelay = `${delay * 0.02}s`;
-            gradientSpan.appendChild(span); // Masukkan ke dalam span gradien
+            span.style.setProperty('--delay', `${delay * 0.03}s`);
+            gradientSpan.appendChild(span);
             delay++;
         });
+        heroTitle.appendChild(gradientSpan);
+
+        // ===================================
+        // Fitur 3: Header "Hide on Scroll"
+        // ===================================
+        let lastScrollY = window.scrollY;
+        const header = document.getElementById('main-header');
+
+        window.addEventListener('scroll', () => {
+            if (lastScrollY < window.scrollY && window.scrollY > 150) {
+                // Scroll ke bawah
+                header.classList.add('header-hidden');
+            } else {
+                // Scroll ke atas
+                header.classList.remove('header-hidden');
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // ===================================
+        // Fitur 4: Tombol Elipsis "..." Canggih
+        // ===================================
+        const ellipsisBtn = document.getElementById('ellipsis-btn');
+        const ellipsisDropdown = document.getElementById('ellipsis-dropdown');
+
+        ellipsisBtn.addEventListener('click', (event) => {
+            event.stopPropagation(); // Mencegah klik menyebar ke window
+            ellipsisDropdown.classList.toggle('active');
+        });
+
+        // Klik di luar untuk menutup
+        window.addEventListener('click', (event) => {
+            if (ellipsisDropdown.classList.contains('active') && !ellipsisBtn.contains(event.target)) {
+                ellipsisDropdown.classList.remove('active');
+            }
+        });
         
-        heroTitle.appendChild(gradientSpan); // Tambahkan grup gradien ke title
+        // ===================================
+        // Fitur 5: Animasi Scroll "Reveal"
+        // ===================================
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // (Opsional) Hapus observer setelah animasi
+                    // observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1 // 10% elemen terlihat
+        });
+
+        revealElements.forEach(el => {
+            observer.observe(el);
+        });
 
     });
     </script>
