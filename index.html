@@ -5,9 +5,465 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="pageTitle">R-STORE GLOBAL - Panel Koneksi High-End</title>
     
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        /* Import Fonts & Ikon */
+        /* (Sudah ada di link di atas) */
+
+        /* ======================================================= */
+        /* === 1. VARIABLE & THEME MANAGEMENT (PRO) === */
+        /* ======================================================= */
+        :root {
+            /* Fonts */
+            --font-primary: 'Montserrat', sans-serif;
+            --font-heading: 'Orbitron', sans-serif;
+
+            /* Color Palette (Dark Default) */
+            --bg-primary: #080816; 
+            --bg-secondary: #101025;
+            --bg-card: rgba(18, 18, 38, 0.75); 
+            --text-color: #e8e8ff;
+            --text-muted: #b0b0d0;
+            
+            --accent-gradient: linear-gradient(45deg, #00d4ff, #007bff);
+            --accent-dark: #0056b3; /* Untuk bayangan tombol 3D */
+            --secondary-gradient: linear-gradient(45deg, #ff7e5f, #feb47b); 
+
+            --shadow-light: rgba(0, 212, 255, 0.4);
+            --shadow-dark: rgba(0, 0, 0, 0.8);
+            --border-color: rgba(255, 255, 255, 0.15);
+            
+            /* Utility Colors */
+            --wa-green: #25D366;
+            --color-success: #38c172;
+            --color-info: #3490dc;
+            --progress-width: 0%;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f8f8ff;
+            --bg-secondary: #eef1f6;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-color: #2c2c4a;
+            --text-muted: #6e6e8a;
+            --accent-gradient: linear-gradient(45deg, #0056b3, #0099e6);
+            --accent-dark: #004080; /* Bayangan tombol 3D (Light) */
+            --secondary-gradient: linear-gradient(45deg, #663399, #cc66ff);
+            --shadow-light: rgba(0, 86, 179, 0.2);
+            --shadow-dark: rgba(0, 0, 0, 0.2);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* ======================================================= */
+        /* === 2. BASE, CARDS, & UTILITY === */
+        /* ======================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.75;
+            transition: background-color 0.6s ease, color 0.6s ease;
+            overflow-x: hidden;
+        }
+
+        .container { width: 92%; max-width: 1300px; margin: 0 auto; }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px); 
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-dark);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px var(--shadow-light);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 12px var(--shadow-light);
+        }
+        .info-section, .service-section { padding: 100px 0; }
+        .alt-bg { background-color: var(--bg-secondary); }
+
+
+        /* ======================================================= */
+        /* === 3. HEADER & NAVIGATION (FIXED) === */
+        /* ======================================================= */
+        .navbar {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow-dark);
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 42px; margin-right: 12px; }
+        .logo-text {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5rem;
+        }
+
+        /* Nav Desktop */
+        .nav-links { list-style: none; display: flex; align-items: center; }
+        .nav-links li { margin-left: 2rem; }
+        .nav-links .nav-item {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links .nav-item:hover { color: #fff; } 
+        .nav-links .nav-item::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            left: 50%;
+            bottom: -5px;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        .nav-links .nav-item:hover::after { width: 100%; }
+
+        /* Language Switch */
+        .lang-button {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .lang-button:hover { background: var(--accent-gradient); color: var(--bg-primary); }
+
+        /* Mode Toggle */
+        .switch-label {
+            position: relative; display: inline-block; width: 65px; height: 36px;
+            background-color: var(--bg-secondary); border-radius: 36px; cursor: pointer;
+            box-shadow: inset 0 0 8px var(--shadow-light);
+        }
+        .switch-input { opacity: 0; width: 0; height: 0; }
+        .switch-label .fas { position: absolute; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--text-color); transition: opacity 0.3s; }
+        .switch-label .fa-sun { left: 8px; opacity: 0; }
+        .switch-label .fa-moon { right: 8px; opacity: 1; }
+        .switch-input:checked + .switch-label .fa-sun { opacity: 1; }
+        .switch-input:checked + .switch-label .fa-moon { opacity: 0; }
+        .switch-label:after {
+            content: ''; position: absolute; width: 28px; height: 28px;
+            border-radius: 50%; background: var(--accent-gradient);
+            top: 4px; left: 4px; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 0 12px var(--shadow-light);
+        }
+        .switch-input:checked + .switch-label:after { transform: translateX(29px); }
+
+        /* ======================================================= */
+        /* === 4. TOMBOL CTA (3D PUSH EFFECT - PRO) === */
+        /* ======================================================= */
+        .cta-button {
+            background: var(--accent-gradient);
+            color: var(--bg-primary); 
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+            border: none;
+            
+            /* Efek 3D */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 6px 0 var(--accent-dark); 
+            transform: translateY(0);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 0 var(--accent-dark); 
+        }
+
+        .cta-button:active {
+            transform: translateY(4px); 
+            box-shadow: 0 2px 0 var(--accent-dark); 
+        }
+
+        .secondary-cta {
+            background: var(--bg-card);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 0 var(--shadow-dark);
+        }
+        .secondary-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 var(--shadow-dark);
+            border-color: var(--border-color);
+        }
+        .secondary-cta:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 var(--shadow-dark);
+        }
+
+        /* Tombol Order di dalam Card */
+        .order-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--accent-gradient);
+            color: var(--bg-primary);
+            padding: 0.9rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 0 var(--accent-dark);
+        }
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--accent-dark);
+        }
+        .order-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 var(--accent-dark);
+        }
+
+        /* ======================================================= */
+        /* === 5. KONTEN LAINNYA (SUDAH STABIL) === */
+        /* ======================================================= */
+        /* Hero */
+        .hero-section { height: 95vh; position: relative; display: flex; align-items: center; text-align: center; overflow: hidden; }
+        .hero-animation-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 70% 30%, var(--shadow-light) 0%, transparent 40%), radial-gradient(circle at 30% 80%, var(--secondary-gradient) 0%, transparent 50%); opacity: 0.3; filter: blur(60px); animation: gradientFlow 20s infinite alternate; z-index: 0; }
+        @keyframes gradientFlow { from { transform: scale(1); } to { transform: scale(1.1); } }
+        .hero-content { z-index: 1; max-width: 900px; margin: 0 auto; }
+        .hero-title { font-family: var(--font-heading); font-size: 4.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 2rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px var(--shadow-light); }
+        .hero-title .highlight { background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 3.5rem; font-weight: 300; }
+        .hero-buttons { display: flex; justify-content: center; gap: 20px; }
+
+        /* Features */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .feature-item { text-align: center; padding: 35px 20px; min-height: 250px; }
+        .feature-icon { font-size: 3rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .feature-item h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+
+        /* Tabs */
+        .tab-interface { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tab-nav { display: flex; justify-content: center; margin-bottom: 3rem; background: var(--bg-secondary); border-radius: 12px; padding: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .tab-button { background: none; border: none; color: var(--text-muted); padding: 10px 20px; font-size: 1rem; cursor: pointer; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; }
+        .tab-button.active { color: var(--bg-primary); background: var(--accent-gradient); box-shadow: 0 0 10px var(--shadow-light); transform: translateY(-1px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Server Cards */
+        .server-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .server-detail-card { padding: 25px; border-radius: 15px; background: var(--bg-secondary); border: 1px solid var(--border-color); position: relative; }
+        .server-detail-card h4 { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; }
+        .status-badge { position: absolute; top: 20px; right: 20px; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; background-color: var(--color-success); color: var(--bg-primary); animation: pulseGlow 1.8s infinite alternate; }
+        @keyframes pulseGlow { from { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); } to { box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); } }
+        .server-detail-card ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .server-detail-card ul li { padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
+        .speed-indicator.green { color: var(--color-success); font-weight: 600; }
+        .speed-indicator.blue { color: var(--color-info); font-weight: 600; }
+        .price-display { font-size: 1.1rem; font-weight: 700; color: var(--secondary-gradient); padding-top: 10px; }
+        
+        .protocol-info { padding: 30px; }
+        .protocol-list { list-style: none; padding-left: 0; margin-bottom: 2rem; }
+        .protocol-list li { padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+        .protocol-list li i { margin-right: 15px; font-size: 1.2rem; color: #ffcc00; }
+
+        .stb-detail { display: flex; justify-content: space-between; align-items: center; padding: 15px; background-color: var(--bg-secondary); border-radius: 8px; margin-bottom: 2rem; }
+        .stb-price { font-size: 1.6rem; font-weight: 800; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stb-features span { margin-left: 15px; color: var(--color-success); }
+
+
+        /* VPS Cards & Progress Bar */
+        .two-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .vps-plan-card { padding: 35px; }
+        .vps-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .vps-icon { font-size: 2.2rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 15px; }
+        .vps-plan-card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin: 0; }
+        .badge { font-size: 0.7rem; padding: 3px 8px; background-color: #dc3545; color: white; border-radius: 5px; margin-left: 10px; font-weight: 600; }
+        .specs-list { list-style: none; padding: 0; margin-bottom: 2rem; }
+        .specs-list li { padding: 10px 0; border-bottom: 1px dashed var(--border-color); }
+        .vps-price { font-size: 1.5rem; font-weight: 800; margin-top: 1.5rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .progress-bar-container { margin: 1.5rem 0 1rem; }
+        .progress-bar-label { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
+        .progress-bar { height: 8px; background-color: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+        .progress-bar::before { content: ''; display: block; height: 100%; background: linear-gradient(90deg, #38c172, #3490dc); width: var(--progress-width); transition: width 1s ease-out; border-radius: 4px; }
+
+        /* Footer & Floating CTA */
+        .footer { background-color: var(--bg-secondary); text-align: center; padding: 2.5rem 0; border-top: 1px solid var(--border-color); color: var(--text-muted); }
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--wa-green);
+        }
+
+        /* === FLOATING WA GROUP FIX (Mobile Bug Fixed) === */
+        .floating-wa-group { 
+            position: fixed; 
+            bottom: 25px; 
+            right: 25px; 
+            background-color: var(--wa-green); 
+            color: white; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.6); 
+            transition: all 0.3s ease; 
+            font-size: 1.8rem; 
+            text-decoration: none; 
+        }
+        .floating-wa-group:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); 
+        }
+        .tooltip-text {
+            position: absolute;
+            right: 70px; /* Jauhkan dari tombol */
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            font-size: 0.9rem;
+            pointer-events: none; /* Penting agar tidak menghalangi klik */
+        }
+
+        .floating-wa-group:hover .tooltip-text { 
+            opacity: 1; 
+            visibility: visible;
+        }
+
+        /* ======================================================= */
+        /* === 6. RESPONSIVENESS (MOBILE STABIL) === */
+        /* ======================================================= */
+        .hamburger-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            z-index: 1001;
+            padding: 5px;
+        }
+
+        @media (max-width: 992px) {
+            /* Logika Menu Mobile BARU & STABIL */
+            .hamburger-menu { display: block; }
+            
+            .main-nav {
+                /* Sembunyikan di luar layar */
+                position: absolute;
+                top: 73px; /* Sesuaikan dengan tinggi navbar Anda */
+                left: 0;
+                width: 100%;
+                background: var(--bg-secondary);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                
+                transform: translateY(-150%); 
+                transition: transform 0.4s ease-out;
+                z-index: 999;
+            }
+            
+            .main-nav.active {
+                transform: translateY(0); 
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                padding: 20px 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links .nav-cta {
+                width: 80%;
+                margin: 15px auto 0 auto;
+            }
+
+            /* FIX FLOATING BUTTON BUG DI MOBILE */
+            .floating-wa-group .tooltip-text {
+                display: none !important; 
+            }
+            .floating-wa-group {
+                width: 55px;
+                height: 55px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.6rem;
+            }
+
+            /* Penyesuaian Layout */
+            .hero-title { font-size: 3.5rem; }
+            .section-title { font-size: 2.5rem; }
+            .two-columns { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .hero-buttons { flex-direction: column; gap: 15px; }
+            .secondary-cta { margin-left: 0; }
+            .tab-nav { flex-direction: column; }
+            .tab-button { margin: 5px 0; }
+            .server-card-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+    
 </head>
 <body data-theme="dark" data-lang="id">
 
@@ -238,6 +694,196 @@
         <span class="tooltip-text" data-i18n="joinWaGroup">Gabung Grup WA</span>
     </a>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            // =======================================================
+            // === INTERNATIONALIZATION DATA (STABIL) ===
+            // =======================================================
+            const i18nData = {
+                en: {
+                    pageTitle: "R-STORE GLOBAL - High-End Connection Panel",
+                    navVpn: "VPN Premium", navVps: "VPS Global", navFeatures: "Features",
+                    orderNowCta: "Order Now",
+                    exploreVpn: "Explore VPN", orderVps: "Order VPS",
+                    heroTitle: "Enterprise-Level <span class=\"highlight\">Connection</span>.",
+                    heroSubtitle: "Premium Panel with Leading Technology, Optimal Speed, and Maximum Security.",
+                    whyChoose: "Why Choose R-STORE?",
+                    feat1Title: "Hyper Speed", feat1Desc: "Optimized network routing for unbeatable speed, ideal for gaming and 4K streaming.",
+                    feat2Title: "Absolute Privacy", feat2Desc: "Military encryption (AES-256) and strict no-log policy protect your digital identity.",
+                    feat3Title: "Dedicated Network", feat3Desc: "Premium servers in Indonesia and Singapore with large Bandwidth and 99.9% Uptime guarantee.",
+                    feat4Title: "Professional Support", feat4Desc: "Responsive and knowledgeable support team ready to serve you 24 hours a day.",
+                    vpnSectionTitle: "🌐 R-STORE Premium VPN",
+                    tabIndo: "🇮🇩 Indonesia Server", tabSG: "🇸🇬 Singapore Server", tabProtocols: "🛡️ Protocols & Pricing",
+                    statusOnline: "Online",
+                    pingLow: "Ping: <span class=\"speed-indicator green\">Extremely Low</span>", latency3ms: "Latency: <span class=\"speed-indicator green\">3-5 ms</span>",
+                    pingGood: "Ping: <span class=\"speed-indicator blue\">Very Good</span>", latency20ms: "Latency: <span class=\"speed-indicator blue\">20-30 ms</span>",
+                    bwUnlimited: "Bandwidth: Unlimited", bwHigh: "Bandwidth: High Capacity",
+                    priceVpn: "Price: **Rp 5.000 - Rp 15.000**",
+                    orderIKD: "Order IKD Server", orderNeva: "Order Neva Server",
+                    orderMelbi: "Order Melbi Server", orderLasweb: "Order Lasweb Server",
+                    protocolTitle: "Advanced VPN Protocol Support",
+                    sshDesc: "Secure Shell - Simple & Fast.", vmessDesc: "VMess Protocol - Flexible & Anti-Censorship.", trojanDesc: "Trojan Protocol - Strong & Stealth.",
+                    stbTitle: "🛠️ STB (Set Top Box) Setting Service",
+                    stbFeat1: "<i class=\"fas fa-check-circle\"></i> Unlock Features", stbFeat2: "<i class=\"fas fa-check-circle\"></i> RAM Optimization",
+                    orderStbCta: "Order STB Service",
+                    vpsSectionTitle: "🖥️ Premium VPS & Stock Availability",
+                    vpsIndoTitle: "Indonesia VPS", vpsSgTitle: "Singapore VPS",
+                    specRam: "RAM: 1 GB - 2 GB", specBwUnl: "Bandwidth: Unlimited", specBw30Tb: "Bandwidth: 30 TB / Month", specStorage: "Storage: SSD High-Speed", specScript: "Script: Pre-Installed All Protocol",
+                    stockLabelIndo: "Stock Availability (Sold 85%)", stockLabelSG: "Stock Availability (Sold 92%)",
+                    priceStart: "Price Starts From ...",
+                    orderVpsIndo: "Order Indo VPS", orderVpsSg: "Order SG VPS",
+                    footerText: "&copy; 2025 R-STORE PREMIUM. Designed with High Technology.",
+                    joinWaGroup: "Join WA Group"
+                },
+                id: {
+                    pageTitle: "R-STORE GLOBAL - Panel Koneksi High-End",
+                    navVpn: "VPN Premium", navVps: "VPS Global", navFeatures: "Fitur",
+                    orderNowCta: "Order Sekarang",
+                    exploreVpn: "Jelajahi VPN", orderVps: "Pesan VPS",
+                    heroTitle: "Koneksi <span class=\"highlight\">Level Enterprise</span>.",
+                    heroSubtitle: "Panel Premium dengan Teknologi Terdepan, Kecepatan Optimal, dan Keamanan Maksimal.",
+                    whyChoose: "Mengapa Memilih R-STORE?",
+                    feat1Title: "Kecepatan Hyper", feat1Desc: "Optimasi routing jaringan untuk kecepatan tanpa tandingan, ideal untuk gaming dan 4K streaming.",
+                    feat2Title: "Privasi Absolut", feat2Desc: "Enkripsi militer (AES-256) dan kebijakan *no-log* yang ketat melindungi identitas digital Anda.",
+                    feat3Title: "Jaringan Dedicated", feat3Desc: "Server premium di Indonesia dan Singapore dengan Bandwidth besar dan jaminan Uptime 99.9%.",
+                    feat4Title: "Dukungan Profesional", feat4Desc: "Tim support yang responsif dan berpengetahuan luas siap melayani Anda 24 jam sehari.",
+                    vpnSectionTitle: "🌐 VPN Premium R-STORE",
+                    tabIndo: "🇮🇩 Server Indonesia", tabSG: "🇸🇬 Server Singapore", tabProtocols: "🛡️ Protokol & Harga",
+                    statusOnline: "Online",
+                    pingLow: "Ping: <span class=\"speed-indicator green\">Extremely Low</span>", latency3ms: "Latency: <span class=\"speed-indicator green\">3-5 ms</span>",
+                    pingGood: "Ping: <span class=\"speed-indicator blue\">Very Good</span>", latency20ms: "Latency: <span class=\"speed-indicator blue\">20-30 ms</span>",
+                    bwUnlimited: "Bandwidth: Unlimited", bwHigh: "Bandwidth: High Capacity",
+                    priceVpn: "Harga: **Rp 5.000 - Rp 15.000**",
+                    orderIKD: "Pesan Server IKD", orderNeva: "Pesan Server Neva",
+                    orderMelbi: "Pesan Server Melbi", orderLasweb: "Pesan Server Lasweb",
+                    protocolTitle: "Dukungan Protokol VPN Canggih",
+                    sshDesc: "Secure Shell - Simpel & Cepat.", vmessDesc: "VMess Protocol - Fleksibel & Anti-Sensor.", trojanDesc: "Trojan Protocol - Kuat & Stealth.",
+                    stbTitle: "🛠️ Jasa Setting STB (Set Top Box)",
+                    stbFeat1: "<i class=\"fas fa-check-circle\"></i> Unlock Fitur", stbFeat2: "<i class=\"fas fa-check-circle\"></i> Optimasi RAM",
+                    orderStbCta: "Order Jasa STB",
+                    vpsSectionTitle: "🖥️ VPS Premium & Ketersediaan Stok",
+                    vpsIndoTitle: "VPS Indonesia", vpsSgTitle: "VPS Singapore",
+                    specRam: "RAM: 1 GB - 2 GB", specBwUnl: "Bandwidth: Unlimited", specBw30Tb: "Bandwidth: 30 TB / Bulan", specStorage: "Storage: SSD High-Speed", specScript: "Script: Pre-Installed All Protocol",
+                    stockLabelIndo: "Ketersediaan Stok (Terjual 85%)", stockLabelSG: "Ketersediaan Stok (Terjual 92%)",
+                    priceStart: "Harga Mulai Dari ...",
+                    orderVpsIndo: "Order VPS Indo", orderVpsSg: "Order VPS SG",
+                    footerText: "&copy; 2025 R-STORE PREMIUM. Didesain dengan Teknologi Tinggi.",
+                    joinWaGroup: "Gabung Grup WA"
+                }
+            };
+            
+            // =======================================================
+            // === FUNCTION: Apply Translation (Logika Baru Stabil) ===
+            // =======================================================
+            let currentLang = localStorage.getItem('lang') || 'id';
+
+            function applyTranslation(lang) {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const translation = i18nData[lang][key]; 
+                    
+                    if (translation) {
+                        el.innerHTML = translation;
+                    }
+                });
+                document.body.setAttribute('data-lang', lang);
+                localStorage.setItem('lang', lang);
+                document.querySelector('.current-lang').textContent = lang.toUpperCase();
+            }
+
+            // =======================================================
+            // === FUNCTION: Inisialisasi Event Listeners ===
+            // =======================================================
+            function initializeApp() {
+                
+                // 1. Terapkan Bahasa saat awal load
+                applyTranslation(currentLang);
+
+                // 2. Language Switch Logic
+                document.getElementById('lang-switch').addEventListener('click', () => {
+                    currentLang = (currentLang === 'id') ? 'en' : 'id';
+                    applyTranslation(currentLang);
+                });
+                
+                // 3. Theme Toggle (Dark/Light Mode)
+                const themeSwitch = document.getElementById('theme-switch');
+                const body = document.body;
+                const currentTheme = localStorage.getItem('theme') || 'dark';
+                body.setAttribute('data-theme', currentTheme);
+                themeSwitch.checked = (currentTheme === 'light');
+
+                themeSwitch.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'light' : 'dark';
+                    body.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+
+                // 4. Tabbed Interface Logic
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.getAttribute('data-tab');
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+                        button.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+
+                // 5. Hamburger Menu Toggle (Logika BARU & STABIL)
+                const hamburger = document.querySelector('.hamburger-menu');
+                const mainNav = document.querySelector('.main-nav');
+                
+                hamburger.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                    const icon = hamburger.querySelector('i');
+                    if (mainNav.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                // 6. Progress Bar Animation (Hanya saat terlihat)
+                const progressObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const progressBar = entry.target;
+                            const progressValue = progressBar.getAttribute('data-progress');
+                            progressBar.style.setProperty('--progress-width', progressValue + '%'); 
+                            progressObserver.unobserve(entry.target); 
+                        }
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.progress-bar').forEach(bar => {
+                    progressObserver.observe(bar);
+                });
+                
+                // 7. Card Scroll Animation (Fade In/Up)
+                const scrollObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                            scrollObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.card, .server-detail-card').forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(25px)';
+                    el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                    scrollObserver.observe(el);
+                });
+            }
+
+            // Jalankan aplikasi setelah DOM siap
+            initializeApp();
+        });
+    </script>
 </body>
 </html>
