@@ -17,7 +17,7 @@
     --text-muted: #b0b0d0;
     
     --accent-gradient: linear-gradient(45deg, #00d4ff, #007bff);
-    --accent-dark: #0056b3; /* BARU: Untuk bayangan tombol 3D */
+    --accent-dark: #0056b3; 
     --secondary-gradient: linear-gradient(45deg, #ff7e5f, #feb47b); 
 
     --shadow-light: rgba(0, 212, 255, 0.4);
@@ -38,7 +38,7 @@
     --text-color: #2c2c4a;
     --text-muted: #6e6e8a;
     --accent-gradient: linear-gradient(45deg, #0056b3, #0099e6);
-    --accent-dark: #004080; /* BARU: Bayangan tombol 3D (Light) */
+    --accent-dark: #004080; 
     --secondary-gradient: linear-gradient(45deg, #663399, #cc66ff);
     --shadow-light: rgba(0, 86, 179, 0.2);
     --shadow-dark: rgba(0, 0, 0, 0.2);
@@ -131,7 +131,7 @@ body {
     position: relative;
     transition: color 0.3s;
 }
-.nav-links .nav-item:hover { color: #fff; } /* Hover effect simpler */
+.nav-links .nav-item:hover { color: #fff; } 
 .nav-links .nav-item::after {
     content: '';
     position: absolute;
@@ -184,7 +184,7 @@ body {
 /* ======================================================= */
 .cta-button {
     background: var(--accent-gradient);
-    color: var(--bg-primary); /* Pastikan kontras */
+    color: var(--bg-primary); 
     padding: 0.9rem 1.8rem;
     border-radius: 50px;
     text-decoration: none;
@@ -196,18 +196,18 @@ body {
     
     /* Efek 3D */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 6px 0 var(--accent-dark); /* Bayangan "ketebalan" tombol */
+    box-shadow: 0 6px 0 var(--accent-dark); 
     transform: translateY(0);
 }
 
 .cta-button:hover {
-    transform: translateY(-2px); /* Tombol naik */
-    box-shadow: 0 8px 0 var(--accent-dark); /* Bayangan ikut naik */
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 0 var(--accent-dark); 
 }
 
 .cta-button:active {
-    transform: translateY(4px); /* Tombol "ditekan" */
-    box-shadow: 0 2px 0 var(--accent-dark); /* Bayangan menipis */
+    transform: translateY(4px); 
+    box-shadow: 0 2px 0 var(--accent-dark); 
 }
 
 .secondary-cta {
@@ -273,6 +273,171 @@ body {
 /* Tabs */
 .tab-interface { max-width: 1200px; margin: 0 auto; padding: 2rem; }
 .tab-nav { display: flex; justify-content: center; margin-bottom: 3rem; background: var(--bg-secondary); border-radius: 12px; padding: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+.tab-button { background: none; border: none; color: var(--text-muted); padding: 10px 20px; font-size: 1rem; cursor: pointer; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; }
+.tab-button.active { color: var(--bg-primary); background: var(--accent-gradient); box-shadow: 0 0 10px var(--shadow-light); transform: translateY(-1px); }
+.tab-content { display: none; }
+.tab-content.active { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Server Cards */
+.server-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.server-detail-card { padding: 25px; border-radius: 15px; background: var(--bg-secondary); border: 1px solid var(--border-color); position: relative; }
+.server-detail-card h4 { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; }
+.status-badge { position: absolute; top: 20px; right: 20px; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; background-color: var(--color-success); color: var(--bg-primary); animation: pulseGlow 1.8s infinite alternate; }
+@keyframes pulseGlow { from { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); } to { box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); } }
+.server-detail-card ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+.server-detail-card ul li { padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
+.speed-indicator.green { color: var(--color-success); font-weight: 600; }
+.speed-indicator.blue { color: var(--color-info); font-weight: 600; }
+.price-display { font-size: 1.1rem; font-weight: 700; color: var(--secondary-gradient); padding-top: 10px; }
+.protocol-info, .stb-detail { /* ... (Styling sama seperti sebelumnya, sudah solid) ... */ }
+
+/* VPS Cards & Progress Bar */
+.two-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+.vps-plan-card { padding: 35px; }
+.vps-header { display: flex; align-items: center; margin-bottom: 20px; }
+.vps-icon { font-size: 2.2rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 15px; }
+.vps-plan-card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin: 0; }
+.badge { font-size: 0.7rem; padding: 3px 8px; background-color: #dc3545; color: white; border-radius: 5px; margin-left: 10px; font-weight: 600; }
+.specs-list { list-style: none; padding: 0; margin-bottom: 2rem; }
+.specs-list li { padding: 10px 0; border-bottom: 1px dashed var(--border-color); }
+.vps-price { font-size: 1.5rem; font-weight: 800; margin-top: 1.5rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.progress-bar-container { margin: 1.5rem 0 1rem; }
+.progress-bar-label { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
+.progress-bar { height: 8px; background-color: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+.progress-bar::before { content: ''; display: block; height: 100%; background: linear-gradient(90deg, #38c172, #3490dc); width: var(--progress-width); transition: width 1s ease-out; border-radius: 4px; }
+
+/* Footer & Floating CTA */
+.footer { background-color: var(--bg-secondary); text-align: center; padding: 2.5rem 0; border-top: 1px solid var(--border-color); color: var(--text-muted); }
+
+/* === FLOATING WA GROUP FIX === */
+.floating-wa-group { 
+    position: fixed; 
+    bottom: 25px; 
+    right: 25px; 
+    background-color: var(--wa-green); 
+    color: white; 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 1000; 
+    box-shadow: 0 5px 20px rgba(37, 211, 102, 0.6); 
+    transition: all 0.3s ease; 
+    font-size: 1.8rem; 
+    text-decoration: none; 
+}
+.floating-wa-group:hover { 
+    transform: scale(1.1); 
+    box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); 
+}
+.tooltip-text {
+    position: absolute;
+    right: 70px; /* Jauhkan dari tombol */
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    font-size: 0.9rem;
+    pointer-events: none; /* Penting agar tidak menghalangi klik */
+}
+
+.floating-wa-group:hover .tooltip-text { 
+    opacity: 1; 
+    visibility: visible;
+}
+
+/* ======================================================= */
+/* === 6. RESPONSIVENESS (MOBILE STABIL) === */
+/* ======================================================= */
+.hamburger-menu {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color);
+    z-index: 1001;
+    padding: 5px;
+}
+
+@media (max-width: 992px) {
+    /* Logika Menu Mobile BARU & STABIL */
+    .hamburger-menu { display: block; }
+    
+    .main-nav {
+        /* Sembunyikan di luar layar */
+        position: absolute;
+        top: 73px; 
+        left: 0;
+        width: 100%;
+        background: var(--bg-secondary);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+        
+        transform: translateY(-150%); 
+        transition: transform 0.4s ease-out;
+        z-index: 999;
+    }
+    
+    .main-nav.active {
+        transform: translateY(0); 
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        width: 100%;
+        padding: 20px 0;
+    }
+    .nav-links li {
+        margin: 15px 0;
+        width: 100%;
+        text-align: center;
+    }
+    .nav-links .nav-cta {
+        width: 80%;
+        margin: 15px auto 0 auto;
+    }
+
+    /* FIX FLOATING BUTTON BUG DI MOBILE */
+    /* Sembunyikan text/tooltip di mobile untuk mencegah bug overlap */
+    .floating-wa-group .tooltip-text {
+        display: none !important; 
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+    /* Pastikan tombol tetap besar dan berfungsi */
+    .floating-wa-group {
+        width: 55px;
+        height: 55px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.6rem;
+    }
+
+    /* Penyesuaian Layout */
+    .hero-title { font-size: 3.5rem; }
+    .section-title { font-size: 2.5rem; }
+    .two-columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .hero-title { font-size: 2.5rem; }
+    .hero-subtitle { font-size: 1.1rem; }
+    .section-title { font-size: 2rem; }
+    .hero-buttons { flex-direction: column; gap: 15px; }
+    .secondary-cta { margin-left: 0; }
+    .tab-nav { flex-direction: column; }
+    .tab-button { margin: 5px 0; }
+    .server-card-grid { grid-template-columns: 1fr; }
+    }); }
 .tab-button { background: none; border: none; color: var(--text-muted); padding: 10px 20px; font-size: 1rem; cursor: pointer; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; }
 .tab-button.active { color: var(--bg-primary); background: var(--accent-gradient); box-shadow: 0 0 10px var(--shadow-light); transform: translateY(-1px); }
 .tab-content { display: none; }
