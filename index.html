@@ -3,552 +3,608 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R-Store Pro Console - Dashboard Admin</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <title>R-STORE | Paket Data XL Official - Premium & Terpercaya</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* 1. VARIABLE TEMA (GELAP / TERANG) */
+        /* Custom Font: Inter for professional look */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
         :root {
-            --color-primary: #00ddff; /* Cyan Accent */
-            --color-secondary: #f000ff;
-            
-            /* Dark Mode Defaults */
-            --bg-body: #0f172a; /* Slate Dark */
-            --bg-sidebar: #1e293b;
-            --bg-card: #334155;
-            --bg-header: #1e293b;
-            --text-primary: #f8fafc; /* White */
-            --text-secondary: #94a3b8; /* Light Grey */
-            --border-color: #334155;
-            --hover-color: #3e5169;
-            --shadow-color: rgba(0, 0, 0, 0.4);
+            --primary-color: #6366f1; /* Indigo-500 */
+            --accent-color: #3b82f6; /* Blue-500 */
         }
-
-        /* Light Mode Overrides */
-        body.light-mode {
-            --bg-body: #f1f5f9;
-            --bg-sidebar: #ffffff;
-            --bg-card: #ffffff;
-            --bg-header: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --hover-color: #f8fafc;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-        }
-
-        /* 2. BASE STYLES */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-primary);
-            transition: background-color 0.3s, color 0.3s;
-            overflow-x: hidden;
-            display: flex;
-            height: 100vh;
+            background-color: #0d0d1b; /* Deep Dark Blue/Space */
+            color: #e2e8f0; /* Light Text */
+            scroll-behavior: smooth;
         }
 
-        /* 3. LAYOUT UTAMA (HEADER + SIDEBAR + MAIN) */
-        
-        /* A. HEADER */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60px;
-            background: var(--bg-header);
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-            transition: background-color 0.3s, border-color 0.3s;
-        }
-        
-        /* LOGO */
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            background: var(--color-primary);
-        }
-        
-        /* HEADER KANAN */
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .header-right .user-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background-color: var(--color-primary);
-            color: var(--bg-sidebar);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            cursor: pointer;
+        /* Hero Background with subtle gradient and starry effect */
+        .hero-bg {
+            background: radial-gradient(circle at top, rgba(23, 23, 39, 0.9) 0%, rgba(13, 13, 27, 1) 70%);
         }
 
-        /* B. SIDEBAR (NAVIGASI) */
-        .sidebar {
-            width: 250px;
-            height: 100%;
-            position: fixed;
-            top: 60px; /* Di bawah header */
-            left: 0;
-            background: var(--bg-sidebar);
-            padding: 20px 0;
-            z-index: 900;
-            transition: width 0.3s ease, transform 0.3s ease, background-color 0.3s;
-            border-right: 1px solid var(--border-color);
-            overflow-y: auto;
-            overflow-x: hidden;
+        /* Glassmorphism Effect for Cards */
+        .glass-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 60px rgba(0, 0, 0, 0.3); /* Stronger shadow */
         }
-        
-        /* STATE COLLAPSED */
-        body.sidebar-collapsed .sidebar {
-            width: 70px;
+        .glass-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 80px rgba(99, 102, 241, 0.4); /* Accent shadow on hover */
         }
-        
-        /* Menu Utama */
-        .sidebar-menu a, .sidebar-menu .dropdown-toggle {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            margin: 4px 10px;
-            border-radius: 8px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-            cursor: pointer;
-        }
-        .sidebar-menu a:hover, .sidebar-menu .dropdown-toggle:hover {
-            background-color: var(--hover-color);
-            color: var(--text-primary);
-        }
-        .sidebar-menu a.active {
-            background-color: var(--color-primary);
-            color: #000;
-            font-weight: 600;
-        }
-        
-        /* Ikon & Teks */
-        .sidebar-menu .icon {
-            margin-right: 15px;
-            font-size: 1.2rem;
-            width: 20px; /* Untuk alignment */
-            text-align: center;
-        }
-        .sidebar-menu .label {
-            white-space: nowrap;
+
+        /* Animated CTA Button */
+        .cta-btn-premium {
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
+            position: relative;
             overflow: hidden;
-            opacity: 1;
-            transition: opacity 0.15s;
+            z-index: 10;
+        }
+        .cta-btn-premium:hover {
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
         }
         
-        /* State Collapsed - Ikon Saja */
-        body.sidebar-collapsed .sidebar-menu .label,
-        body.sidebar-collapsed .sidebar-menu .arrow {
-            opacity: 0;
-            visibility: hidden;
+        /* Pulsating WhatsApp Button */
+        .whatsapp-pulse {
+            animation: pulse-whatsapp 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
         }
-        body.sidebar-collapsed .sidebar-menu a,
-        body.sidebar-collapsed .sidebar-menu .dropdown-toggle {
-            padding: 12px 0;
-            justify-content: center;
-        }
-        body.sidebar-collapsed .sidebar-menu .icon {
-            margin-right: 0;
+        @keyframes pulse-whatsapp {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
         }
 
-        /* Dropdown */
-        .dropdown-menu {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            background-color: rgba(0, 0, 0, 0.1);
-            border-radius: 4px;
-            margin: 0 10px 0 20px;
-        }
-        .dropdown-menu.open {
-            max-height: 300px; /* Cukup besar */
-        }
-        .dropdown-menu a {
-            padding: 8px 20px !important;
-            margin: 0 !important;
-            font-size: 0.9rem !important;
-            border-radius: 0 !important;
-            color: var(--text-secondary) !important;
-        }
-        .dropdown-menu a:hover {
-            background-color: var(--hover-color) !important;
-            color: var(--text-primary) !important;
-        }
-        .dropdown-toggle {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .dropdown-toggle .arrow {
-            font-size: 0.8rem;
-            transition: transform 0.3s;
-        }
-        .dropdown-toggle.open .arrow {
-            transform: rotate(90deg);
+        /* Active navigation indicator */
+        .nav-active {
+            color: #818cf8 !important; /* Indigo-300 */
+            border-bottom: 2px solid #818cf8;
+            padding-bottom: 4px;
         }
 
-        /* C. MAIN CONTENT */
-        .main-content {
-            flex-grow: 1;
-            padding: 80px 20px 20px 270px; /* Header + Sidebar padding */
-            transition: padding-left 0.3s ease;
-        }
-        body.sidebar-collapsed .main-content {
-            padding-left: 90px;
-        }
-
-        /* 4. UTILITIES & COMPONENTS */
-
-        /* TOMBOL HAMBURGER (Ellipsis yang dimaksud user) */
-        .menu-toggle, .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 4px;
-            transition: background 0.2s;
-        }
-        .menu-toggle:hover, .theme-toggle:hover {
-            background: var(--hover-color);
-        }
-        
-        /* CARD (Tampilan Order/Spesifikasi) */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 4px 10px var(--shadow-color);
-            transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
-        }
-        .card h3 {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .card-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--color-primary);
-        }
-
-        /* DETAIL AKUN/VPS */
-        .spec-list {
-            list-style: none;
-            margin-top: 20px;
-        }
-        .spec-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed var(--border-color);
-            font-size: 0.95rem;
-        }
-        .spec-list li:last-child {
-            border-bottom: none;
-        }
-        .spec-label {
-            color: var(--text-secondary);
-        }
-        .spec-value {
-            font-weight: 500;
-        }
-
-        /* ALERT/INFORMASI */
-        .info-bar {
-            background-color: var(--color-primary);
-            color: #000;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        
-        /* 5. MEDIA QUERIES (RESPONSIVE) */
-        @media (max-width: 900px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-            .header {
-                padding: 0 10px;
-            }
-            .main-content {
-                padding-left: 20px;
-            }
-            body.sidebar-collapsed .sidebar {
-                width: 250px;
-                transform: translateX(0);
-            }
+        /* Mobile Menu Custom Styling */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            background-color: rgba(13, 13, 27, 0.95);
+            backdrop-filter: blur(16px);
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
-<body class="dark-mode"> <header class="header">
-        <div class="logo">
-            <div class="logo-icon"></div>
-            R-Store Console
-        </div>
-        <div class="header-right">
-            
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Theme">
-                <span id="theme-icon">🔆</span>
-            </button>
+<body class="antialiased">
 
-            <div class="user-avatar">
-                R28
+    <!-- Header & Sticky Navigation -->
+    <header id="main-header" class="sticky top-0 z-50 bg-[#0d0d1b]/80 backdrop-blur-lg border-b border-indigo-900/40 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo/Brand -->
+            <div class="text-3xl font-extrabold text-white flex items-center tracking-wider">
+                <span class="text-indigo-400 mr-2">R</span>-STORE
+                <span class="ml-3 text-xs font-light text-slate-500 hidden sm:inline">OFFICIAL PARTNER</span>
             </div>
+            
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden sm:flex space-x-8 text-lg font-medium items-center">
+                <a href="#akrab-official" class="nav-item text-slate-300 hover:text-indigo-400 transition duration-200">Akrab Series</a>
+                <a href="#bebas-puas" class="nav-item text-slate-300 hover:text-indigo-400 transition duration-200">Bebas Puas</a>
+                <a href="#order" class="text-white bg-green-600 hover:bg-green-500 py-2 px-4 rounded-full text-base font-semibold transition duration-200">
+                    <i data-lucide="whatsapp" class="w-4 h-4 inline-block mr-1"></i> Order
+                </a>
+            </nav>
 
-            <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Sidebar">
-                &#9776;
+            <!-- Mobile Menu Toggle Button (Ellipsis/Hamburger) -->
+            <button id="mobile-menu-toggle" class="sm:hidden p-2 rounded-lg text-white hover:bg-indigo-700 transition duration-200">
+                <i data-lucide="menu" class="w-6 h-6"></i>
             </button>
         </div>
     </header>
 
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-menu">
-            
-            <a href="#dashboard" class="active">
-                <span class="icon">🏠</span> <span class="label">Dashboards</span>
-            </a>
-
-            <div class="dropdown-toggle" data-dropdown="vpn-services">
-                <span class="icon">💻</span> <span class="label">VPN Premium</span> <span class="arrow label">►</span>
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-full max-w-xs z-50 transform translate-x-full shadow-2xl overflow-y-auto">
+        <div class="p-6 h-full flex flex-col">
+            <!-- Close Button -->
+            <div class="flex justify-between items-center pb-8 border-b border-indigo-800">
+                <div class="text-2xl font-bold text-white">MENU</div>
+                <button id="mobile-menu-close" class="p-2 rounded-full text-white hover:bg-indigo-700 transition">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
             </div>
-            <div class="dropdown-menu" id="vpn-services">
-                <a href="#ssh-manage"><span class="icon">🔒</span> Manage SSH</a>
-                <a href="#vmess-manage"><span class="icon">📡</span> Manage VMESS</a>
-                <a href="#vless-manage"><span class="icon">📶</span> Manage VLESS</a>
-                <a href="#trojan-manage"><span class="icon">🛡️</span> Manage TROJAN</a>
+            
+            <!-- Navigation Links -->
+            <nav class="flex flex-col space-y-6 mt-8 flex-grow">
+                <a href="#akrab-official" class="mobile-nav-item text-2xl font-semibold text-slate-300 hover:text-indigo-400 transition duration-200 py-2 border-b border-indigo-900">
+                    <i data-lucide="package-search" class="w-5 h-5 inline-block mr-3 text-indigo-400"></i> Akrab Series
+                </a>
+                <a href="#bebas-puas" class="mobile-nav-item text-2xl font-semibold text-slate-300 hover:text-indigo-400 transition duration-200 py-2 border-b border-indigo-900">
+                    <i data-lucide="star" class="w-5 h-5 inline-block mr-3 text-amber-400"></i> Bebas Puas
+                </a>
+                <a href="#order" class="mobile-nav-item text-2xl font-semibold text-slate-300 hover:text-indigo-400 transition duration-200 py-2 border-b border-indigo-900">
+                    <i data-lucide="shield-check" class="w-5 h-5 inline-block mr-3 text-green-400"></i> Jaminan
+                </a>
+            </nav>
+
+            <!-- CTA Footer in Mobile Menu -->
+            <div class="pt-8">
+                <a href="#order" class="w-full text-center py-3 cta-btn-premium rounded-xl text-white font-bold text-lg">
+                    <i data-lucide="phone-call" class="w-5 h-5 inline-block mr-2"></i> Hubungi Admin
+                </a>
             </div>
-
-            <a href="#coupon">
-                <span class="icon">🏷️</span> <span class="label">Coupon</span>
-            </a>
-            
-            <a href="#tools">
-                <span class="icon">🛠️</span> <span class="label">Tools</span>
-            </a>
-            
-            <a href="#reseller">
-                <span class="icon">👥</span> <span class="label">Reseller Group</span>
-            </a>
-
-            <h4 style="color: var(--text-secondary); font-size: 0.8rem; padding: 20px 10px 5px 20px; font-weight: 500;">AKUN & SUPPORT</h4>
-            
-            <a href="#topup">
-                <span class="icon">💳</span> <span class="label">Top Up Saldo</span>
-            </a>
-            <a href="https://api.whatsapp.com/send?phone=6282113945743" target="_blank">
-                <span class="icon">💬</span> <span class="label">ADMIN R-STORE</span>
-            </a>
-            <a href="https://t.me/yourtelegramgroup" target="_blank">
-                <span class="icon">✈️</span> <span class="label">Group Telegram</span>
-            </a>
         </div>
     </div>
 
-    <main class="main-content" id="main-content">
-        <h1>Dashboard Utama</h1>
-        <p style="color: var(--text-secondary);">Selamat datang, **Riksan 28**. Anda adalah seorang Reseller Aktif.</p>
 
-        <div class="info-bar">
-            ℹ️ Pengumuman: Update server Singapura baru telah selesai. Performa VPS meningkat 20%!
+    <!-- Hero Section -->
+    <section class="hero-bg py-24 sm:py-36 text-center border-b border-indigo-900/40">
+        <div class="max-w-5xl mx-auto px-4">
+            <h1 class="text-6xl sm:text-8xl font-black text-white leading-tight mb-6">
+                Akses <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-blue-400">Data Premium</span>
+            </h1>
+            <p class="text-xl sm:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto font-light">
+                Dapatkan paket data XL Sidompul Resmi dengan harga terbaik. Full reguler 24 jam, terjamin, dan anti ribet.
+            </p>
+            <!-- Premium CTA Button -->
+            <a href="#order" class="cta-btn-premium inline-flex items-center justify-center px-12 py-4 text-xl font-bold rounded-xl text-white shadow-2xl transition duration-500 ease-in-out">
+                <i data-lucide="rocket" class="w-6 h-6 mr-3"></i>
+                Pesan Sekarang Juga
+            </a>
+            <p class="text-sm text-slate-500 mt-4">Harga baru sudah termasuk kenaikan +6.000. Layanan resmi Sidompul.</p>
         </div>
+    </section>
 
-        <div class="dashboard-grid">
-            <div class="card">
-                <h3><span style="font-size: 1.5rem;">👥</span> Total Pengguna Aktif</h3>
-                <div class="card-value">2,145</div>
-                <p style="margin-bottom: 0; font-size: 0.9rem;">Peningkatan 12% bulan ini.</p>
+    <!-- Product List Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+
+        <!-- AKRAB OFFICIAL SECTION -->
+        <section id="akrab-official" class="mb-24 pt-16">
+            <div class="text-center mb-16">
+                <span class="text-sm font-semibold uppercase tracking-widest text-indigo-400 block mb-2">PILIHAN TERPOPULER</span>
+                <h2 class="text-5xl font-extrabold text-white mb-4">AKRAB OFFICIAL SERIES</h2>
+                <p class="text-slate-400 text-lg">Paket Kuota Resmi dengan Garansi 30 Hari. Kuota fleksibel berdasarkan Area.</p>
             </div>
-            <div class="card">
-                <h3><span style="font-size: 1.5rem;">💸</span> Saldo Tersedia</h3>
-                <div class="card-value">Rp 845.000</div>
-                <p style="margin-bottom: 0; font-size: 0.9rem;">Perlu Top Up? Klik menu Top Up Saldo.</p>
+            <div id="akrab-products" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                <!-- Products will be injected here by JavaScript -->
             </div>
-            <div class="card">
-                <h3><span style="font-size: 1.5rem;">⚡</span> Server VPS Ready</h3>
-                <div class="card-value">12 / 15</div>
-                <p style="margin-bottom: 0; font-size: 0.9rem;">3 Server sedang dalam maintenance.</p>
+        </section>
+
+        <!-- BEBAS PUAS SERIES SECTION -->
+        <section id="bebas-puas" class="mb-24 pt-16">
+            <div class="text-center mb-16">
+                <span class="text-sm font-semibold uppercase tracking-widest text-amber-400 block mb-2">VALUE TERBAIK</span>
+                <h2 class="text-5xl font-extrabold text-white mb-4">BEBAS PUAS SERIES</h2>
+                <p class="text-slate-400 text-lg">Triple Kuota dengan Bonus Fantastis. Pilihan volume data tertinggi.</p>
             </div>
-        </div>
+            <div id="bebas-puas-products" class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                <!-- Bebas Puas products will be injected here by JavaScript -->
+            </div>
+        </section>
 
-        <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.6rem; font-weight: 600;">VPS Premium Detail (Contoh)</h2>
+        <!-- Catatan R-STORE Section -->
+        <section class="max-w-5xl mx-auto mt-24 p-10 glass-card rounded-3xl">
+            <h3 class="text-4xl font-bold text-white mb-8 flex items-center">
+                <i data-lucide="shield-check" class="w-8 h-8 mr-4 text-green-400"></i>
+                Jaminan Kualitas R-STORE
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-slate-300">
+                <div class="flex items-start">
+                    <i data-lucide="fingerprint" class="w-6 h-6 mr-3 mt-1 text-indigo-400 flex-shrink-0"></i>
+                    <div>
+                        <p class="font-semibold text-white">Proses Tanpa OTP</p>
+                        <p class="text-sm text-slate-400">Jalur resmi Sidompul. Cepat, aman, dan tanpa kerumitan kode verifikasi.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i data-lucide="clock" class="w-6 h-6 mr-3 mt-1 text-indigo-400 flex-shrink-0"></i>
+                    <div>
+                        <p class="font-semibold text-white">Full Reguler 24 Jam</p>
+                        <p class="text-sm text-slate-400">Kuota murni tanpa pembagian zona waktu. Bebas pakai kapan saja.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i data-lucide="repeat" class="w-6 h-6 mr-3 mt-1 text-indigo-400 flex-shrink-0"></i>
+                    <div>
+                        <p class="font-semibold text-white">Bisa Ditimpa Paket BP Lain</p>
+                        <p class="text-sm text-slate-400">Fleksibilitas penuh untuk menumpuk atau memperpanjang paket.</p>
+                    </div>
+                </div>
+                <div class="flex items-start">
+                    <i data-lucide="calendar-check" class="w-6 h-6 mr-3 mt-1 text-indigo-400 flex-shrink-0"></i>
+                    <div>
+                        <p class="font-semibold text-white">Garansi 30 Hari</p>
+                        <p class="text-sm text-slate-400">Jaminan kepuasan. Khusus untuk pengguna XL Prabayar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <div class="card" style="grid-column: span 3;">
-            <h3 style="color: var(--color-primary);"><span style="font-size: 1.5rem;">🚀</span> VPS ID-01 - Nusa Cloud</h3>
-            <ul class="spec-list">
-                <li><span class="spec-label">Status</span> <span class="spec-value" style="color: lightgreen;">ONLINE</span></li>
-                <li><span class="spec-label">Spesifikasi</span> <span class="spec-value">2GB RAM | 2 vCPU</span></li>
-                <li><span class="spec-label">Lokasi</span> <span class="spec-value">Indonesia (Jakarta)</span></li>
-                <li><span class="spec-label">Bandwidth</span> <span class="spec-value">Unlimited</span></li>
-                <li><span class="spec-label">IP Address</span> <span class="spec-value">103.149.x.x <button style="background: none; border: 1px solid var(--text-secondary); color: var(--text-secondary); padding: 2px 5px; border-radius: 4px; margin-left: 10px; cursor: pointer;">Copy</button></span></li>
-                <li><span class="spec-label">Expiration Date</span> <span class="spec-value">20 Desember 2025</span></li>
-            </ul>
-        </div>
-        
-        <h2 style="margin-top: 40px; margin-bottom: 20px; font-size: 1.6rem; font-weight: 600;" id="ssh-manage">VPN Akun Premium (SSH/VMESS/TROJAN)</h2>
-
-        <div class="card">
-            <h3><span style="font-size: 1.5rem;">🔒</span> Akun SSH Aktif</h3>
-            <p style="margin-bottom: 10px; font-size: 0.9rem;">Anda memiliki <b>15</b> akun SSH aktif saat ini.</p>
-            <button style="background-color: var(--color-primary); color: #000; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">+ Buat Akun Baru</button>
-            <ul class="spec-list">
-                <li><span class="spec-label">Username: riksan001</span> <span class="spec-value">Expired: 10 hari</span></li>
-                <li><span class="spec-label">Username: vpnpro_02</span> <span class="spec-value">Expired: 22 hari</span></li>
-            </ul>
-        </div>
-        
-        <div class="card">
-            <h3><span style="font-size: 1.5rem;">📡</span> Akun VMESS Aktif</h3>
-            <p style="margin-bottom: 10px; font-size: 0.9rem;">Anda memiliki <b>5</b> akun VMESS aktif saat ini.</p>
-            <button style="background-color: var(--color-primary); color: #000; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">+ Buat Akun Baru</button>
-            <ul class="spec-list">
-                <li><span class="spec-label">ID: vm001</span> <span class="spec-value">Server: SG-03</span></li>
-                <li><span class="spec-label">ID: vm002</span> <span class="spec-value">Server: ID-01</span></li>
-            </ul>
-        </div>
-        
     </main>
 
+    <!-- Floating WhatsApp CTA (The Ultimate Elipsis) -->
+    <div class="fixed bottom-8 right-8 z-50" id="order">
+        <a href="https://wa.me/6282113945743?text=Halo%20R-STORE,%20Saya%20tertarik%20dengan%20paket%20XL%20Official." target="_blank" id="order-whatsapp-btn" class="relative block">
+            <!-- Outer pulsing ring -->
+            <div class="absolute inset-0 bg-green-500 rounded-full whatsapp-pulse opacity-50"></div>
+            <!-- Inner button -->
+            <div class="relative p-5 rounded-full bg-green-600 shadow-2xl transition-all duration-300 transform hover:scale-110">
+                <i data-lucide="whatsapp" class="w-8 h-8 text-white relative"></i>
+            </div>
+        </a>
+    </div>
+
+    <!-- Footer / Contact Section -->
+    <footer class="bg-[#1a1a31] border-t border-indigo-900/40 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-4xl font-extrabold text-white mb-4">Hubungi Admin</h3>
+            <p class="text-xl text-slate-400 mb-8">Siap melayani Order, PO, dan pertanyaan Anda dengan Fast Respon.</p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
+                <!-- WhatsApp Contact -->
+                <div class="flex items-center">
+                    <i data-lucide="phone" class="w-6 h-6 mr-3 text-indigo-400"></i>
+                    <span class="text-xl font-medium text-slate-300 mr-4">WhatsApp:</span>
+                    <button id="whatsapp-copy-btn" class="text-indigo-400 hover:text-indigo-300 font-mono text-xl transition duration-300 flex items-center group">
+                        082113945743
+                        <i data-lucide="copy" class="w-5 h-5 ml-2 text-slate-500 group-hover:text-indigo-400 transition-all"></i>
+                    </button>
+                </div>
+                <!-- Group Link -->
+                <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6?mode=hqrt2" target="_blank" class="text-xl text-blue-400 hover:text-blue-300 transition duration-300 flex items-center mt-4 sm:mt-0">
+                    <i data-lucide="users" class="w-6 h-6 mr-2"></i>
+                    Join Grup WA R-STORE
+                </a>
+            </div>
+            
+            <p class="mt-12 text-sm text-slate-600">&copy; 2024 R-STORE - Solusi Data Terbaik Anda. Aesthetic & Resmi XL Sidompul.</p>
+        </div>
+    </footer>
+
+    <!-- Custom Modal/Message Box (No use of alert()) -->
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100] hidden transition-opacity duration-300 opacity-0">
+        <div class="bg-[#1a1a31] p-8 rounded-xl shadow-2xl text-center max-w-sm w-full border border-indigo-500 transform scale-90 transition-transform duration-300" id="modal-content">
+            <i data-lucide="clipboard-check" class="w-10 h-10 text-green-400 mx-auto mb-4"></i>
+            <p class="text-white text-xl font-semibold">Nomor Berhasil Disalin!</p>
+            <p class="text-slate-400 text-sm mt-2">Nomor WhatsApp Admin telah berhasil disalin ke clipboard Anda. Silakan hubungi kami.</p>
+            <button onclick="closeModal()" class="mt-6 bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2 px-6 rounded-lg transition shadow-md">OK, Mengerti</button>
+        </div>
+    </div>
+
+    <!-- JavaScript for dynamic content, rendering, and interactivity -->
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            
-            // ===================================
-            // Fungsionalitas 1: Mode Gelap/Terang
-            // ===================================
-            const themeToggle = document.getElementById('theme-toggle');
-            const body = document.body;
-            const themeIcon = document.getElementById('theme-icon');
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-            // Cek preferensi user di localStorage atau default ke dark
-            const savedTheme = localStorage.getItem('theme') || 'dark-mode';
-            body.classList.add(savedTheme);
+        // 1. DATA STRUCTURE (Centralized and clean)
+        const productData = {
+            akrab: [
+                {
+                    name: "SPESIAL MINION L",
+                    price: "49K",
+                    quota: { area4: "30–32GB", area3: "20–22GB", area2: "15–17GB", area1: "13–15GB" },
+                    duration: "30 Hari",
+                    tag: "Hemat",
+                    icon: "package",
+                    color: "text-blue-400"
+                },
+                {
+                    name: "AKRAB OFFICIAL L V2",
+                    price: "61K",
+                    quota: { area4: "51–52GB", area3: "41–42GB", area2: "36–37GB", area1: "34–35GB" },
+                    duration: "30 Hari",
+                    tag: "Popular",
+                    icon: "package-open",
+                    color: "text-indigo-400"
+                },
+                {
+                    name: "AKRAB OFFICIAL L",
+                    price: "64K",
+                    quota: { area4: "56–57GB", area3: "45–46GB", area2: "41–42GB", area1: "39–40GB" },
+                    duration: "30 Hari",
+                    tag: "Standard",
+                    icon: "box",
+                    color: "text-indigo-400"
+                },
+                {
+                    name: "AKRAB OFFICIAL L V3",
+                    price: "70K",
+                    quota: { area4: "66–67GB", area3: "56–57GB", area2: "51–52GB", area1: "49–50GB" },
+                    duration: "30 Hari",
+                    tag: "Upgrade",
+                    icon: "box-select",
+                    color: "text-indigo-400"
+                },
+                {
+                    name: "AKRAB OFFICIAL SPESIAL JUMBO",
+                    price: "101K",
+                    quota: { area4: "104–105GB", area3: "94–95GB", area2: "89–90GB", area1: "87–88GB" },
+                    duration: "30 Hari",
+                    tag: "Mega Quota",
+                    icon: "zap",
+                    color: "text-red-400",
+                    isJumbo: true
+                },
+            ],
+            bebasPuas: [
+                {
+                    name: "BEBAS PUAS",
+                    price: "98K",
+                    quotaText: "Triple Quota 75GB–90GB",
+                    bonus: ["6GB Utama", "9GB YT/TikTok", "15GB Malam"],
+                    icon: "star",
+                    color: "text-amber-400"
+                },
+                {
+                    name: "BEBAS PUAS V2",
+                    price: "162K",
+                    quotaText: "Triple Quota 234GB–270GB",
+                    bonus: ["15GB Utama", "36GB YT/TikTok", "36GB Malam"],
+                    icon: "star-off",
+                    color: "text-amber-400"
+                },
+            ]
+        };
 
-            if (savedTheme === 'light-mode') {
-                themeIcon.textContent = '🌑'; // Bulan
-            } else {
-                themeIcon.textContent = '🔆'; // Matahari (Light mode icon)
+        // 2. RENDERING FUNCTIONS
+
+        // Helper to generate Quota detail rows
+        const createQuotaDetail = (area, gb) => `
+            <div class="flex justify-between items-center text-sm border-b border-indigo-900/30 py-1">
+                <span class="text-slate-400 font-light">${area}</span>
+                <span class="text-white font-semibold">${gb}</span>
+            </div>
+        `;
+
+        // Render Akrab Official cards
+        const renderAkrabProducts = () => {
+            const container = document.getElementById('akrab-products');
+            if (!container) return;
+
+            const html = productData.akrab.map(product => {
+                const isJumbo = product.isJumbo;
+                const priceClass = isJumbo ? 'text-5xl text-red-400' : 'text-5xl text-indigo-400';
+                const tagBg = isJumbo ? 'bg-red-600' : 'bg-indigo-600';
+                const tagShadow = isJumbo ? 'shadow-red-900/50' : 'shadow-indigo-900/50';
+
+                const quotaDetails = Object.keys(product.quota).reverse().map((key, index) => {
+                    // Custom mapping for Area 4 (Maksimum) down to Area 1 (Minimum)
+                    const areaNames = ['Area 1 (Minimum)', 'Area 2', 'Area 3', 'Area 4 (Maksimum)'];
+                    const areaIndex = parseInt(key.slice(-1)) - 1; 
+                    return createQuotaDetail(areaNames[areaIndex], product.quota[key]);
+                }).join('');
+
+                return `
+                    <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <span class="${tagBg} text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block shadow-lg ${tagShadow}">${product.tag}</span>
+                            <div class="flex items-center mb-6 mt-2">
+                                <i data-lucide="${product.icon}" class="w-8 h-8 ${product.color} mr-4"></i>
+                                <h3 class="text-2xl font-extrabold text-white leading-tight">${product.name}</h3>
+                            </div>
+                            
+                            <div class="border-b border-indigo-900/50 pb-4 mb-4">
+                                <p class="text-slate-400 text-sm mb-1">Harga Premium:</p>
+                                <p class="${priceClass} font-black leading-none">${product.price}</p>
+                            </div>
+
+                            <div class="space-y-2 mb-6">
+                                <p class="text-lg font-bold text-white mb-3">Detail Kuota (${product.duration})</p>
+                                ${quotaDetails}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col space-y-3 pt-4 border-t border-indigo-900/50">
+                            <span class="text-sm text-green-400 flex items-center font-medium">
+                                <i data-lucide="shield" class="w-4 h-4 mr-2"></i>
+                                Garansi 30 Hari Termasuk
+                            </span>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-STORE,%20Saya%20mau%20order%20paket%20${product.name}" target="_blank" class="w-full text-center py-3 cta-btn-premium rounded-xl text-white font-bold transition duration-300 transform hover:scale-[1.02]">
+                                Order ${product.price}
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            container.innerHTML = html;
+            // Re-render lucide icons after injecting new HTML
+            lucide.createIcons(); 
+        };
+
+        // Render Bebas Puas cards
+        const renderBebasPuasProducts = () => {
+            const container = document.getElementById('bebas-puas-products');
+            if (!container) return;
+
+            const html = productData.bebasPuas.map(product => {
+                const bonusList = product.bonus.map(item => `
+                    <li class="flex items-center text-base text-slate-300">
+                        <i data-lucide="award" class="w-5 h-5 mr-3 ${product.color} flex-shrink-0"></i>
+                        ${item}
+                    </li>
+                `).join('');
+
+                return `
+                    <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <span class="bg-amber-600 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider mb-4 inline-block shadow-lg shadow-amber-900/50">Bonus Quota</span>
+                            <div class="flex items-center mb-6 mt-2">
+                                <i data-lucide="${product.icon}" class="w-8 h-8 ${product.color} mr-4"></i>
+                                <h3 class="text-2xl font-extrabold text-white leading-tight">${product.name}</h3>
+                            </div>
+
+                            <div class="border-b border-indigo-900/50 pb-4 mb-4">
+                                <p class="text-slate-400 text-sm mb-1">Harga Premium:</p>
+                                <p class="text-5xl ${product.color} font-black leading-none">${product.price}</p>
+                            </div>
+                            
+                            <div class="border-b border-indigo-900/50 pb-4 mb-4">
+                                <p class="text-xl font-bold text-white mb-2">${product.quotaText}</p>
+                                <p class="text-sm text-slate-400">Full 24 Jam • 30 Hari</p>
+                            </div>
+
+                            <p class="text-lg font-semibold text-white mb-4">Pilih 1 Bonus Fantastis:</p>
+                            <ul class="space-y-3 mb-6 ml-1">
+                                ${bonusList}
+                            </ul>
+                        </div>
+                        
+                        <a href="https://wa.me/6282113945743?text=Halo%20R-STORE,%20Saya%20mau%20order%20paket%20${product.name}" target="_blank" class="w-full text-center py-3 cta-btn-premium rounded-xl text-white font-bold transition duration-300 transform hover:scale-[1.02]">
+                            Pesan ${product.name}
+                        </a>
+                    </div>
+                `;
+            }).join('');
+            container.innerHTML = html;
+            // Re-render lucide icons after injecting new HTML
+            lucide.createIcons(); 
+        };
+
+        // 3. UX INTERACTION FUNCTIONS
+
+        // Modal functions
+        const modal = document.getElementById('message-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        const showModal = () => {
+            modal.classList.remove('hidden');
+            modalContent.classList.remove('scale-90', 'opacity-0');
+            modalContent.classList.add('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        const closeModal = () => {
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-90', 'opacity-0');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Copy to clipboard function (using execCommand for better iFrame compatibility)
+        const copyToClipboard = (text) => {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showModal(); // Show custom modal on success
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                // Fallback message should not use alert() but rather console.error
+                console.error('Gagal menyalin. Silakan salin manual: ' + text); 
             }
+            document.body.removeChild(textarea);
+        };
+        
+        // Navigation Highlighting (Intersection Observer)
+        const setupIntersectionObserver = () => {
+            const observerOptions = {
+                rootMargin: '0px 0px -50% 0px', 
+                threshold: 0.1 
+            };
 
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    const id = entry.target.id;
+                    const navItemDesktop = document.querySelector(`.nav-item[href="#${id}"]`);
+                    const navItemMobile = document.querySelector(`.mobile-nav-item[href="#${id}"]`);
 
-            themeToggle.addEventListener('click', () => {
-                if (body.classList.contains('dark-mode')) {
-                    // Switch ke Light Mode
-                    body.classList.remove('dark-mode');
-                    body.classList.add('light-mode');
-                    localStorage.setItem('theme', 'light-mode');
-                    themeIcon.textContent = '🌑';
-                } else {
-                    // Switch ke Dark Mode
-                    body.classList.remove('light-mode');
-                    body.classList.add('dark-mode');
-                    localStorage.setItem('theme', 'dark-mode');
-                    themeIcon.textContent = '🔆';
-                }
-            });
-
-
-            // ===================================
-            // Fungsionalitas 2: Sidebar Collapsible
-            // ===================================
-            const menuToggle = document.getElementById('menu-toggle');
-            
-            // Set default state for desktop
-            if (window.innerWidth > 900) {
-                body.classList.add('sidebar-collapsed');
-            } else {
-                body.classList.remove('sidebar-collapsed'); // Mobile starts open/hidden
-            }
-
-            menuToggle.addEventListener('click', () => {
-                // Untuk Desktop: Collapse/Expand
-                if (window.innerWidth > 900) {
-                    body.classList.toggle('sidebar-collapsed');
-                } else {
-                    // Untuk Mobile: Hide/Show (mobile uses translateX)
-                    const sidebar = document.getElementById('sidebar');
-                    if (sidebar.style.transform === 'translateX(0px)') {
-                        sidebar.style.transform = 'translateX(-100%)';
-                    } else {
-                        sidebar.style.transform = 'translateX(0px)';
+                    // Ensure we clear previous active states first for a clean switch
+                    if (entry.isIntersecting) {
+                         document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('nav-active'));
+                         document.querySelectorAll('.mobile-nav-item').forEach(item => item.classList.remove('text-indigo-400', 'font-extrabold'));
                     }
-                }
-            });
 
-            // ===================================
-            // Fungsionalitas 3: Dropdown Menu Sidebar
-            // ===================================
-            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-                toggle.addEventListener('click', () => {
-                    const targetId = toggle.getAttribute('data-dropdown');
-                    const targetMenu = document.getElementById(targetId);
-                    
-                    if (targetMenu) {
-                        const isOpen = targetMenu.classList.contains('open');
-
-                        // Tutup semua menu (optional, tapi lebih bersih)
-                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                            menu.classList.remove('open');
-                            menu.style.maxHeight = '0';
-                            menu.previousElementSibling.classList.remove('open');
-                        });
-
-                        if (!isOpen) {
-                            // Buka menu yang diklik
-                            targetMenu.classList.add('open');
-                            targetMenu.style.maxHeight = targetMenu.scrollHeight + "px"; // Set tinggi dinamis
-                            toggle.classList.add('open');
+                    if (entry.isIntersecting) {
+                        if (navItemDesktop) navItemDesktop.classList.add('nav-active');
+                        if (navItemMobile) {
+                            navItemMobile.classList.add('text-indigo-400', 'font-extrabold');
+                            navItemMobile.classList.remove('text-slate-300', 'font-semibold');
                         }
+                    } else {
+                        // Optional: remove active class when scrolling past, but better to keep the last one active
                     }
+                });
+            }, observerOptions);
+
+            // Observe all relevant sections
+            ['akrab-official', 'bebas-puas', 'order'].forEach(id => {
+                const section = document.getElementById(id);
+                if (section) observer.observe(section);
+            });
+        };
+        
+        // Mobile Menu Toggler Functionality
+        const mobileMenu = document.getElementById('mobile-menu');
+        const toggleButton = document.getElementById('mobile-menu-toggle');
+        const closeButton = document.getElementById('mobile-menu-close');
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+
+        const toggleMobileMenu = () => {
+            const isOpen = mobileMenu.classList.contains('translate-x-0');
+            if (isOpen) {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+                document.body.style.overflow = ''; // Enable scrolling
+            } else {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                document.body.style.overflow = 'hidden'; // Disable scrolling while menu is open
+            }
+        };
+
+        // 4. INITIALIZATION
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render all dynamic product content
+            renderAkrabProducts();
+            renderBebasPuasProducts();
+            
+            // Attach copy event listener
+            const copyBtn = document.getElementById('whatsapp-copy-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    copyToClipboard('082113945743'); 
+                });
+            }
+
+            // Mobile Menu Listeners
+            toggleButton.addEventListener('click', toggleMobileMenu);
+            closeButton.addEventListener('click', toggleMobileMenu);
+            
+            mobileNavItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleMobileMenu(); // Close menu on link click
+                    // Smooth scroll to section
+                    document.querySelector(item.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 });
             });
 
+            // Smooth scrolling for desktop nav links
+            document.querySelectorAll('.nav-item').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Start Intersection Observer for nav highlighting
+            setupIntersectionObserver();
         });
+
     </script>
 
 </body>
