@@ -3,507 +3,1026 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R-Store - Panel VPN & VPS Premium</title>
+    <title data-i18n="pageTitle">R-STORE GLOBAL - Panel Koneksi High-End</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        /* 1. Pengaturan Dasar & Tema Gelap (Dark Mode) */
+        /* Import Fonts & Ikon */
+        /* (Sudah ada di link di atas) */
+
+        /* ======================================================= */
+        /* === 1. VARIABLE & THEME MANAGEMENT (PRO) === */
+        /* ======================================================= */
         :root {
-            --primary-color: #3a86ff; /* Biru cerah untuk tombol dan aksen */
-            --secondary-color: #8338ec; /* Ungu untuk gradien */
-            --bg-dark: #121212;         /* Latar belakang utama (Hitam pekat) */
-            --bg-light: #1e1e1e;        /* Latar belakang kartu (Abu-abu tua) */
-            --text-primary: #f0f0f0;    /* Teks utama (Putih pudar) */
-            --text-secondary: #a0a0a0;  /* Teks sekunder (Abu-abu) */
-            --border-color: #333;       /* Warna border */
+            /* Fonts */
+            --font-primary: 'Montserrat', sans-serif;
+            --font-heading: 'Orbitron', sans-serif;
+
+            /* Color Palette (Dark Default) */
+            --bg-primary: #080816; 
+            --bg-secondary: #101025;
+            --bg-card: rgba(18, 18, 38, 0.75); 
+            --text-color: #e8e8ff;
+            --text-muted: #b0b0d0;
+            
+            --accent-gradient: linear-gradient(45deg, #00d4ff, #007bff);
+            --accent-dark: #0056b3; /* Untuk bayangan tombol 3D */
+            --secondary-gradient: linear-gradient(45deg, #ff7e5f, #feb47b); 
+
+            --shadow-light: rgba(0, 212, 255, 0.4);
+            --shadow-dark: rgba(0, 0, 0, 0.8);
+            --border-color: rgba(255, 255, 255, 0.15);
+            
+            /* Utility Colors */
+            --wa-green: #25D366;
+            --color-success: #38c172;
+            --color-info: #3490dc;
+            --progress-width: 0%;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        [data-theme="light"] {
+            --bg-primary: #f8f8ff;
+            --bg-secondary: #eef1f6;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-color: #2c2c4a;
+            --text-muted: #6e6e8a;
+            --accent-gradient: linear-gradient(45deg, #0056b3, #0099e6);
+            --accent-dark: #004080; /* Bayangan tombol 3D (Light) */
+            --secondary-gradient: linear-gradient(45deg, #663399, #cc66ff);
+            --shadow-light: rgba(0, 86, 179, 0.2);
+            --shadow-dark: rgba(0, 0, 0, 0.2);
+            --border-color: rgba(0, 0, 0, 0.1);
         }
 
-        html {
-            scroll-behavior: smooth; /* Fitur scroll halus saat klik nav */
+        /* ======================================================= */
+        /* === 2. BASE, CARDS, & KURSOR KUSTOM (BARU) === */
+        /* ======================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        html, body {
+            /* === (BARU) Mengaktifkan Kursor Kustom === */
+            /* Sembunyikan kursor default di semua elemen */
+            cursor: none;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: var(--font-primary);
+            background-color: var(--bg-primary);
+            color: var(--text-color);
+            line-height: 1.75;
+            transition: background-color 0.6s ease, color 0.6s ease;
+            overflow-x: hidden;
         }
-
-        /* 2. Utilitas & Kontainer */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        section {
-            padding: 60px 0;
-            overflow: hidden; /* Untuk animasi */
-        }
-
-        h1, h2, h3 {
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        h1 { font-size: 2.8rem; }
-        h2 { font-size: 2.2rem; text-align: center; }
-        h3 { font-size: 1.5rem; }
-
-        /* 3. Header & Navigasi */
-        header {
+        
+        /* === (BARU) Styling Kursor Kustom === */
+        .cursor-dot {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 20px 0;
-            background-color: rgba(18, 18, 18, 0.85); /* Latar belakang transparan */
-            backdrop-filter: blur(10px); /* Efek glassmorphism */
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
+            top: 0; left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Penting! */
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s;
+        }
+        .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--text-color);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Penting! */
+            z-index: 9999;
+            transition: transform 0.1s linear, opacity 0.3s;
+        }
+        
+        /* Efek Kursor saat hover link/tombol */
+        /* (Diterapkan oleh JavaScript) */
+        .cursor-dot.link-hover {
+            width: 0; height: 0;
+        }
+        .cursor-outline.link-hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 0.5;
+        }
+        /* Sembunyikan kursor kustom di mobile (karena tidak ada mouse) */
+        @media (max-width: 992px) {
+            .cursor-dot, .cursor-outline { display: none; }
+            html, body { cursor: auto; } /* Kembalikan kursor default */
+        }
+        
+        /* === (DISESUAIKAN) Card & Efek Shine === */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px); 
+            -webkit-backdrop-filter: blur(18px);
+            border-radius: 18px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 30px var(--shadow-dark);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative; /* Diperlukan untuk efek shine */
+            overflow: hidden; /* Diperlukan untuk efek shine */
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px var(--shadow-light);
         }
 
-        header .container {
+        /* === (BARU) Efek Shine/Kilau === */
+        .card::before, .cta-button::before, .order-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%; /* Mulai dari luar */
+            width: 75%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 1;
+        }
+        .card:hover::before, .cta-button:hover::before, .order-btn:hover::before {
+            left: 100%; /* Bergerak ke kanan saat hover */
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 12px var(--shadow-light);
+        }
+        .info-section, .service-section { padding: 100px 0; }
+        .alt-bg { background-color: var(--bg-secondary); }
+
+
+        /* ======================================================= */
+        /* === 3. HEADER & NAVIGATION (FIXED) === */
+        /* ======================================================= */
+        .navbar {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px var(--shadow-dark);
+        }
+        .navbar .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-
-        .logo img {
-            width: 40px; /* Ukuran logo */
-            height: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-            border: 2px solid var(--primary-color);
-        }
-
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo img { height: 42px; margin-right: 12px; }
         .logo-text {
-            font-size: 1.8rem;
+            font-family: var(--font-heading);
             font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav li {
-            margin-left: 30px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: var(--text-primary);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: var(--primary-color);
-        }
-
-        /* 4. Section Hero (Home) */
-        #home {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: linear-gradient(rgba(18, 18, 18, 0.7), var(--bg-dark)), url('https://source.unsplash.com/1600x900/?network,server,technology') no-repeat center center/cover;
-            margin-top: 0;
-        }
-
-        #home h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
         }
 
-        #home p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-        }
-
-        /* 5. Tombol (CTA - Call to Action) */
-        .btn {
-            display: inline-block;
-            padding: 12px 25px;
+        /* Nav Desktop */
+        .nav-links { list-style: none; display: flex; align-items: center; }
+        .nav-links li { margin-left: 2rem; }
+        .nav-links .nav-item {
             text-decoration: none;
-            color: #fff;
+            color: var(--text-color);
             font-weight: 600;
-            border-radius: 50px; /* Tombol bulat */
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(58, 134, 255, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            margin-left: 15px;
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-color);
-            color: #fff;
-            box-shadow: none;
-        }
-
-        /* 6. Section Paket (Grid System) */
-        .paket-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .card {
-            background-color: var(--bg-light);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(58, 134, 255, 0.2);
-        }
-
-        .card-header {
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        .card-price {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-color);
-        }
-
-        .card-price span {
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        .card ul {
-            list-style: none;
-            margin-bottom: 30px;
-        }
-
-        .card li {
+            padding: 8px 0;
             position: relative;
-            padding-left: 25px;
-            margin-bottom: 10px;
-            color: var(--text-secondary);
+            transition: color 0.3s;
         }
-
-        .card li::before {
-            content: '✔'; /* Ceklis */
+        .nav-links .nav-item:hover { color: #fff; } 
+        .nav-links .nav-item::after {
+            content: '';
             position: absolute;
-            left: 0;
-            color: var(--primary-color);
+            width: 0;
+            height: 3px;
+            background: var(--accent-gradient);
+            left: 50%;
+            bottom: -5px;
+            transform: translateX(-50%);
+            transition: width 0.3s ease;
+        }
+        .nav-links .nav-item:hover::after { width: 100%; }
+
+        /* Language Switch */
+        .lang-button {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: none; /* Kursor kustom akan menggantikan */
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .lang-button:hover { background: var(--accent-gradient); color: var(--bg-primary); }
+
+        /* Mode Toggle */
+        .switch-label {
+            position: relative; display: inline-block; width: 65px; height: 36px;
+            background-color: var(--bg-secondary); border-radius: 36px; cursor: none;
+            box-shadow: inset 0 0 8px var(--shadow-light);
+        }
+        .switch-input { opacity: 0; width: 0; height: 0; }
+        .switch-label .fas { position: absolute; top: 50%; transform: translateY(-50%); font-size: 1.1rem; color: var(--text-color); transition: opacity 0.3s; }
+        .switch-label .fa-sun { left: 8px; opacity: 0; }
+        .switch-label .fa-moon { right: 8px; opacity: 1; }
+        .switch-input:checked + .switch-label .fa-sun { opacity: 1; }
+        .switch-input:checked + .switch-label .fa-moon { opacity: 0; }
+        .switch-label:after {
+            content: ''; position: absolute; width: 28px; height: 28px;
+            border-radius: 50%; background: var(--accent-gradient);
+            top: 4px; left: 4px; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: 0 0 12px var(--shadow-light);
+        }
+        .switch-input:checked + .switch-label:after { transform: translateX(29px); }
+
+        /* ======================================================= */
+        /* === 4. TOMBOL CTA (3D PUSH EFFECT - PRO) === */
+        /* ======================================================= */
+        .cta-button {
+            background: var(--accent-gradient);
+            color: var(--bg-primary); 
+            padding: 0.9rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
             font-weight: 700;
-        }
-
-        /* 7. Section Kontak */
-        #contact {
-            text-align: center;
-            background-color: var(--bg-light);
-        }
-        
-        #contact p {
-            max-width: 600px;
-            margin: 0 auto 30px;
-            color: var(--text-secondary);
-        }
-
-        /* 8. Footer */
-        footer {
-            text-align: center;
-            padding: 30px 0;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        /* 9. Animasi Fade-in (Fitur Canggih) */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+            border: none;
+            cursor: none; /* Kursor kustom */
+            
+            /* Efek 3D */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 6px 0 var(--accent-dark); 
             transform: translateY(0);
         }
-        
-        /* 10. Responsif (Mobile) */
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            #home h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.8rem; }
 
-            header .container {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            nav ul {
-                padding-top: 10px;
-                flex-wrap: wrap; /* Agar menu muat di mobile */
-                justify-content: center;
-                gap: 10px;
-            }
-            nav li {
-                margin-left: 15px;
-            }
-
-            #home {
-                padding: 0 20px;
-            }
-
-            section {
-                padding: 40px 0;
-            }
-            
-            body {
-                /* Menambah padding di atas agar konten tidak tertutup header */
-                padding-top: 120px;
-            }
+        .cta-button:hover {
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 0 var(--accent-dark); 
         }
+
+        .cta-button:active {
+            transform: translateY(4px); 
+            box-shadow: 0 2px 0 var(--accent-dark); 
+        }
+
+        .secondary-cta {
+            background: var(--bg-card);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 0 var(--shadow-dark);
+        }
+        .secondary-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 var(--shadow-dark);
+            border-color: var(--border-color);
+        }
+        .secondary-cta:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 var(--shadow-dark);
+        }
+
+        /* Tombol Order di dalam Card */
+        .order-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: var(--accent-gradient);
+            color: var(--bg-primary);
+            padding: 0.9rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 0 var(--accent-dark);
+            cursor: none; /* Kursor kustom */
+        }
+        .order-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 var(--accent-dark);
+        }
+        .order-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 var(--accent-dark);
+        }
+
+
+        /* ======================================================= */
+        /* === 5. KONTEN LAINNYA (PARALLAX HERO) === */
+        /* ======================================================= */
+        /* Hero (PARALLAX) */
+        .hero-section { 
+            height: 95vh; 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            text-align: center; 
+            overflow: hidden; 
+        }
+        .hero-animation-layer { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: radial-gradient(circle at 70% 30%, var(--shadow-light) 0%, transparent 40%), radial-gradient(circle at 30% 80%, var(--secondary-gradient) 0%, transparent 50%); 
+            opacity: 0.3; 
+            filter: blur(60px); 
+            animation: gradientFlow 20s infinite alternate; 
+            z-index: 0; 
+        }
+        @keyframes gradientFlow { from { transform: scale(1); } to { transform: scale(1.1); } }
         
-        @media (max-width: 480px) {
-            .btn {
+        /* Konten Hero (BARU: akan digerakkan oleh JS Parallax) */
+        .hero-content { 
+            z-index: 1; 
+            max-width: 900px; 
+            margin: 0 auto;
+            /* Transisi ditambahkan agar gerakan parallax awal mulus */
+            transition: transform 0.1s ease-out;
+        }
+        .hero-title { font-family: var(--font-heading); font-size: 4.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 2rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 10px var(--shadow-light); }
+        .hero-title .highlight { background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-subtitle { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 3.5rem; font-weight: 300; }
+        .hero-buttons { display: flex; justify-content: center; gap: 20px; }
+
+        /* Features */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .feature-item { text-align: center; padding: 35px 20px; min-height: 250px; }
+        .feature-icon { font-size: 3rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .feature-item h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+
+        /* Tabs */
+        .tab-interface { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .tab-nav { display: flex; justify-content: center; margin-bottom: 3rem; background: var(--bg-secondary); border-radius: 12px; padding: 6px; box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+        .tab-button { background: none; border: none; color: var(--text-muted); padding: 10px 20px; font-size: 1rem; cursor: none; border-radius: 10px; transition: all 0.3s ease; font-weight: 600; }
+        .tab-button.active { color: var(--bg-primary); background: var(--accent-gradient); box-shadow: 0 0 10px var(--shadow-light); transform: translateY(-1px); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Server Cards */
+        .server-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .server-detail-card { padding: 25px; border-radius: 15px; background: var(--bg-secondary); border: 1px solid var(--border-color); position: relative; }
+        .server-detail-card h4 { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1rem; }
+        .status-badge { position: absolute; top: 20px; right: 20px; padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; background-color: var(--color-success); color: var(--bg-primary); animation: pulseGlow 1.8s infinite alternate; }
+        @keyframes pulseGlow { from { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); } to { box-shadow: 0 0 0 8px rgba(40, 167, 69, 0); } }
+        .server-detail-card ul { list-style: none; padding: 0; margin-bottom: 1.5rem; }
+        .server-detail-card ul li { padding: 8px 0; border-bottom: 1px dashed var(--border-color); }
+        .speed-indicator.green { color: var(--color-success); font-weight: 600; }
+        .speed-indicator.blue { color: var(--color-info); font-weight: 600; }
+        .price-display { font-size: 1.1rem; font-weight: 700; color: var(--secondary-gradient); padding-top: 10px; }
+        
+        .protocol-info { padding: 30px; }
+        .protocol-list { list-style: none; padding-left: 0; margin-bottom: 2rem; }
+        .protocol-list li { padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+        .protocol-list li i { margin-right: 15px; font-size: 1.2rem; color: #ffcc00; }
+        .stb-detail { display: flex; justify-content: space-between; align-items: center; padding: 15px; background-color: var(--bg-secondary); border-radius: 8px; margin-bottom: 2rem; }
+        .stb-price { font-size: 1.6rem; font-weight: 800; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .stb-features span { margin-left: 15px; color: var(--color-success); }
+
+
+        /* VPS Cards & Progress Bar */
+        .two-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+        .vps-plan-card { padding: 35px; }
+        .vps-header { display: flex; align-items: center; margin-bottom: 20px; }
+        .vps-icon { font-size: 2.2rem; background: var(--secondary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-right: 15px; }
+        .vps-plan-card h3 { font-family: var(--font-heading); font-size: 1.8rem; margin: 0; }
+        .badge { font-size: 0.7rem; padding: 3px 8px; background-color: #dc3545; color: white; border-radius: 5px; margin-left: 10px; font-weight: 600; }
+        .specs-list { list-style: none; padding: 0; margin-bottom: 2rem; }
+        .specs-list li { padding: 10px 0; border-bottom: 1px dashed var(--border-color); }
+        .vps-price { font-size: 1.5rem; font-weight: 800; margin-top: 1.5rem; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .progress-bar-container { margin: 1.5rem 0 1rem; }
+        .progress-bar-label { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
+        .progress-bar { height: 8px; background-color: var(--bg-secondary); border-radius: 4px; overflow: hidden; }
+        .progress-bar::before { content: ''; display: block; height: 100%; background: linear-gradient(90deg, #38c172, #3490dc); width: var(--progress-width); transition: width 1s ease-out; border-radius: 4px; }
+
+        /* Footer & Floating CTA */
+        .footer { background-color: var(--bg-secondary); text-align: center; padding: 2.5rem 0; border-top: 1px solid var(--border-color); color: var(--text-muted); }
+        .social-links a {
+            color: var(--text-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--wa-green);
+        }
+
+        /* === FLOATING WA GROUP FIX (Mobile Bug Fixed) === */
+        .floating-wa-group { 
+            position: fixed; 
+            bottom: 25px; 
+            right: 25px; 
+            background-color: var(--wa-green); 
+            color: white; 
+            width: 60px; 
+            height: 60px; 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 1000; 
+            box-shadow: 0 5px 20px rgba(37, 211, 102, 0.6); 
+            transition: all 0.3s ease; 
+            font-size: 1.8rem; 
+            text-decoration: none; 
+            cursor: none; /* Kursor kustom */
+        }
+        .floating-wa-group:hover { 
+            transform: scale(1.1); 
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.8); 
+        }
+        .tooltip-text {
+            position: absolute;
+            right: 70px; /* Jauhkan dari tombol */
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            font-size: 0.9rem;
+            pointer-events: none; /* Penting agar tidak menghalangi klik */
+        }
+
+        .floating-wa-group:hover .tooltip-text { 
+            opacity: 1; 
+            visibility: visible;
+        }
+
+        /* ======================================================= */
+        /* === 6. RESPONSIVENESS (MOBILE STABIL) === */
+        /* ======================================================= */
+        .hamburger-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-color);
+            z-index: 1001;
+            padding: 5px;
+        }
+
+        @media (max-width: 992px) {
+            /* Matikan kursor kustom di mobile, kembalikan kursor asli */
+            .cursor-dot, .cursor-outline { display: none; }
+            html, body, a, button, .switch-label { cursor: auto; }
+
+            /* Logika Menu Mobile BARU & STABIL */
+            .hamburger-menu { display: block; }
+            
+            .main-nav {
+                position: absolute;
+                top: 73px; /* Sesuaikan dengan tinggi navbar Anda */
+                left: 0;
                 width: 100%;
-                margin-bottom: 10px;
-            }
-            .btn-secondary {
-                margin-left: 0;
+                background: var(--bg-secondary);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+                border-bottom-left-radius: 15px;
+                border-bottom-right-radius: 15px;
+                
+                transform: translateY(-150%); 
+                transition: transform 0.4s ease-out;
+                z-index: 999;
             }
             
-            body {
-                padding-top: 160px; /* Tambah padding lagi jika menu wrap 2 baris */
+            .main-nav.active {
+                transform: translateY(0); 
             }
+            
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                padding: 20px 0;
+            }
+            .nav-links li {
+                margin: 15px 0;
+                width: 100%;
+                text-align: center;
+            }
+            .nav-links .nav-cta {
+                width: 80%;
+                margin: 15px auto 0 auto;
+            }
+
+            /* FIX FLOATING BUTTON BUG DI MOBILE */
+            .floating-wa-group .tooltip-text {
+                display: none !important; 
+            }
+            .floating-wa-group {
+                width: 55px;
+                height: 55px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 1.6rem;
+            }
+
+            /* Penyesuaian Layout */
+            .hero-title { font-size: 3.5rem; }
+            .section-title { font-size: 2.5rem; }
+            .two-columns { grid-template-columns: 1fr; }
         }
 
+        @media (max-width: 600px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .section-title { font-size: 2rem; }
+            .hero-buttons { flex-direction: column; gap: 15px; }
+            .secondary-cta { margin-left: 0; }
+            .tab-nav { flex-direction: column; }
+            .tab-button { margin: 5px 0; }
+            .server-card-grid { grid-template-columns: 1fr; }
+        }
     </style>
+    
 </head>
-<body>
+<body data-theme="dark" data-lang="id">
 
-    <header>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <header class="navbar">
         <div class="container">
-            <a href="#home" class="logo">
-                <img src="riksanstore.jpg" alt="R-Store Logo">
-                <span class="logo-text">R-Store</span>
+            <a href="#hero" class="logo">
+                <img src="riksanstore.jpg" alt="R-store Logo">
+                <span class="logo-text">R-STORE <span class="premium-tag">GLOBAL</span></span>
             </a>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#vpn">VPN Premium</a></li>
-                    <li><a href="#vps">VPS Premium</a></li>
-                    <li><a href="#contact">Kontak</a></li>
+            <nav class="main-nav">
+                <ul class="nav-links">
+                    <li><a href="#vpn" class="nav-item" data-i18n="navVpn">VPN Premium</a></li>
+                    <li><a href="#vps" class="nav-item" data-i18n="navVps">VPS Global</a></li>
+                    <li><a href="#features" class="nav-item" data-i18n="navFeatures">Fitur</a></li>
+                    
+                    <li class="lang-toggle">
+                        <button id="lang-switch" class="lang-button">
+                            <span class="current-lang">ID</span> <i class="fas fa-globe"></i>
+                        </button>
+                    </li>
+                    <li class="mode-toggle">
+                        <input type="checkbox" id="theme-switch" class="switch-input">
+                        <label for="theme-switch" class="switch-label">
+                            <i class="fas fa-sun icon-sun"></i>
+                            <i class="fas fa-moon icon-moon"></i>
+                        </label>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20untuk%20order%20layanan%20ULTRA%20PREMIUM%20Anda." 
+                           class="cta-button nav-cta" target="_blank" data-i18n="orderNowCta">
+                           Order Sekarang
+                        </a>
+                    </li>
                 </ul>
             </nav>
+            <div class="hamburger-menu">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </header>
 
-    <main>
-
-        <section id="home">
-            <div class="container fade-in">
-                <h1>Selamat Datang di R-Store</h1>
-                <p>Solusi Panel VPN & VPS Premium dengan Server Terbaik dan Harga Terjangkau.</p>
-                <a href="#vpn" class="btn">Lihat Paket VPN</a>
-                <a href="#vps" class="btn btn-secondary">Lihat Paket VPS</a>
+    <section id="hero" class="hero-section">
+        <div class="container hero-content">
+            <h1 class="hero-title" data-i18n="heroTitle">Koneksi <span class="highlight">Level Enterprise</span>.</h1>
+            <p class="hero-subtitle" data-i18n="heroSubtitle">Panel Premium dengan Teknologi Terdepan, Kecepatan Optimal, dan Keamanan Maksimal.</p>
+            <div class="hero-buttons">
+                <a href="#vpn" class="cta-button primary-cta" data-i18n="exploreVpn">Jelajahi VPN</a>
+                <a href="#vps" class="cta-button secondary-cta" data-i18n="orderVps">Pesan VPS</a>
             </div>
-        </section>
+        </div>
+        <div class="hero-animation-layer"></div>
+    </section>
 
-        <section id="vpn">
-            <div class="container">
-                <h2 class="fade-in">🚀 Paket VPN Premium</h2>
-                <div class="paket-grid">
-                    
-                    <div class="card fade-in" style="transition-delay: 100ms;">
-                        <div class="card-header">
-                            <h3>Paket Reguler</h3>
-                            <div class="card-price">5k - 15k <span>/Bulan</span></div>
-                        </div>
-                        <ul>
-                            <li>Full Speed Access</li>
-                            <li>Protokol: SSH, Vmess, Trojan</li>
-                            <li>Dukungan Penuh</li>
-                            <li>Bisa untuk Gaming & Streaming</li>
-                        </ul>
-                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20dengan%20Paket%20VPN%20Reguler." class="btn">Pesan Sekarang</a>
-                    </div>
-                    
-                    <div class="card fade-in" style="transition-delay: 200ms;">
-                        <div class="card-header">
-                            <h3>Paket Khusus STB</h3>
-                            <div class="card-price">20k <span>/Bulan</span></div>
-                        </div>
-                        <ul>
-                            <li>Dioptimalkan untuk STB</li>
-                            <li>Stabil & Anti Lag</li>
-                            <li>Termasuk semua protokol</li>
-                            <li>Setup mudah</li>
-                        </ul>
-                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20dengan%20Paket%20VPN%20Khusus%20STB." class="btn">Pesan Sekarang</a>
-                    </div>
-
-                    <div class="card fade-in" style="transition-delay: 300ms;">
-                        <div class="card-header">
-                            <h3>Server Tersedia</h3>
-                        </div>
-                        <ul>
-                            <li><b>Server Indonesia (ID):</b></li>
-                            <li>- IKD</li>
-                            <li>- Nusa</li>
-                            <li>- Wijaya</li>
-                            <li>- Biznet</li>
-                            <li>- Neva</li>
-                        </ul>
-                        <ul>
-                            <li><b>Server Singapore (SG):</b></li>
-                            <li>- Melbi</li>
-                            <li>- Lasweb</li>
-                            <li>- DO</li>
-                            <li>- Mualu</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <section id="vps" style="background-color: var(--bg-light);">
-            <div class="container">
-                <h2 class="fade-in">⚙️ VPS Premium Siap Pakai</h2>
-                <p style="text-align: center; color: var(--text-secondary); margin-top: -10px; margin-bottom: 40px;" class="fade-in">
-                    VPS sudah terinstall Script VPN Premium. Siap untuk Anda kelola.
-                </p>
-                <div class="paket-grid">
-
-                    <div class="card fade-in" style="transition-delay: 100ms;">
-                        <div class="card-header">
-                            <h3>VPS Indonesia</h3>
-                            <div class="card-price">Mulai <span>(Hubungi WA)</span></div>
-                        </div>
-                        <ul>
-                            <li>Provider: <b>Nusa, Neva</b></li>
-                            <li>RAM: <b>1 GB - 2 GB</b></li>
-                            <li>Bandwidth: <b>Unlimited</b></li>
-                            <li>Script VPN Siap Pakai</li>
-                            <li>Performa Cepat (Lokal)</li>
-                        </ul>
-                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20dengan%20VPS%20Indonesia." class="btn">Tanya Harga</a>
-                    </div>
-
-                    <div class="card fade-in" style="transition-delay: 200ms;">
-                        <div class="card-header">
-                            <h3>VPS Singapore</h3>
-                            <div class="card-price">Mulai <span>(Hubungi WA)</span></div>
-                        </div>
-                        <ul>
-                            <li>Provider: <b>Lasweb, Melbi</b></li>
-                            <li>RAM: <b>1 GB - 2 GB</b></li>
-                            <li>Bandwidth: <b>30 TB</b></li>
-                            <li>Script VPN Siap Pakai</li>
-                            <li>Koneksi Internasional Stabil</li>
-                        </ul>
-                        <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20tertarik%20dengan%20VPS%20Singapore." class="btn">Tanya Harga</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact">
-            <div class="container">
-                <h2 class="fade-in">Tertarik untuk Memesan?</h2>
-                <p class="fade-in" style="transition-delay: 100ms;">
-                    Hubungi kami sekarang untuk konsultasi atau pemesanan. Klik tombol di bawah untuk terhubung langsung dengan admin kami atau bergabung dengan grup komunitas.
-                </p>
-                <div class="fade-in" style="transition-delay: 200ms;">
-                    <a href="https://api.whatsapp.com/send?phone=6282113945743&text=Halo%20R-Store%2C%20saya%20mau%20order..." class="btn">
-                        Chat Admin (WhatsApp)
-                    </a>
-                    <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" class="btn btn-secondary">
-                        Gabung Grup WA
-                    </a>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
+    <section id="features" class="info-section">
         <div class="container">
-            <p>&copy; 2025 R-Store. Dibuat dengan ❤️ untuk koneksi premium.</p>
+            <h2 class="section-title" data-i18n="whyChoose">Mengapa Memilih R-STORE?</h2>
+            <div class="feature-grid">
+                <div class="feature-item card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h3 data-i18n="feat1Title">Kecepatan Hyper</h3>
+                    <p data-i18n="feat1Desc">Optimasi routing jaringan untuk kecepatan tanpa tandingan, ideal untuk gaming dan 4K streaming.</p>
+                </div>
+                <div class="feature-item card">
+                    <i class="fas fa-user-lock feature-icon"></i>
+                    <h3 data-i18n="feat2Title">Privasi Absolut</h3>
+                    <p data-i18n="feat2Desc">Enkripsi militer (AES-256) dan kebijakan *no-log* yang ketat melindungi identitas digital Anda.</p>
+                </div>
+                <div class="feature-item card">
+                    <i class="fas fa-server feature-icon"></i>
+                    <h3 data-i18n="feat3Title">Jaringan Dedicated</h3>
+                    <p data-i18n="feat3Desc">Server premium di Indonesia dan Singapore dengan Bandwidth besar dan jaminan Uptime 99.9%.</p>
+                </div>
+                <div class="feature-item card">
+                    <i class="fas fa-headset feature-icon"></i>
+                    <h3 data-i18n="feat4Title">Dukungan Profesional</h3>
+                    <p data-i18n="feat4Desc">Tim support yang responsif dan berpengetahuan luas siap melayani Anda 24 jam sehari.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vpn" class="service-section alt-bg">
+        <div class="container">
+            <h2 class="section-title" data-i18n="vpnSectionTitle">🌐 VPN Premium R-STORE</h2>
+            
+            <div class="tab-interface card">
+                <div class="tab-nav">
+                    <button class="tab-button active" data-tab="vpn-indo" data-i18n="tabIndo">🇮🇩 Server Indonesia</button>
+                    <button class="tab-button" data-tab="vpn-sg" data-i18n="tabSG">🇸🇬 Server Singapore</button>
+                    <button class="tab-button" data-tab="vpn-protocols" data-i18n="tabProtocols">🛡️ Protokol & Harga</button>
+                </div>
+
+                <div class="tab-content active" id="vpn-indo">
+                    <div class="server-card-grid">
+                        <div class="server-detail-card">
+                            <h4 data-i18n="serverIKD">IKD - Jakarta Elite</h4>
+                            <div class="status-badge online" data-i18n="statusOnline">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li data-i18n="pingLow">Ping: <span class="speed-indicator green">Extremely Low</span></li>
+                                <li data-i18n="bwUnlimited">Bandwidth: Unlimited</li>
+                                <li data-i18n="latency3ms">Latency: <span class="speed-indicator green">3-5 ms</span></li>
+                                <li class="price-display" data-i18n="priceVpn">Harga: **Rp 5.000 - Rp 15.000**</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20IKD%20Indonesia." class="order-btn" target="_blank" data-i18n="orderIKD">Pesan Server IKD</a>
+                        </div>
+                         <div class="server-detail-card">
+                            <h4 data-i18n="serverNeva">Neva - Premium Dedicated</h4>
+                            <div class="status-badge online" data-i18n="statusOnline">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li data-i18n="pingLow">Ping: <span class="speed-indicator green">Extremely Low</span></li>
+                                <li data-i18n="bwUnlimited">Bandwidth: Unlimited</li>
+                                <li data-i18n="latency5ms">Latency: <span class="speed-indicator green">5-8 ms</span></li>
+                                <li class="price-display" data-i18n="priceVpn">Harga: **Rp 5.000 - Rp 15.000**</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Neva%20Indonesia." class="order-btn" target="_blank" data-i18n="orderNeva">Pesan Server Neva</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="vpn-sg">
+                     <div class="server-card-grid">
+                        <div class="server-detail-card">
+                            <h4 data-i18n="serverMelbi">Melbi - Singapore FAST</h4>
+                            <div class="status-badge online" data-i18n="statusOnline">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li data-i18n="pingGood">Ping: <span class="speed-indicator blue">Very Good</span></li>
+                                <li data-i18n="bwHigh">Bandwidth: High Capacity</li>
+                                <li data-i18n="latency20ms">Latency: <span class="speed-indicator blue">20-30 ms</span></li>
+                                <li class="price-display" data-i18n="priceVpn">Harga: **Rp 5.000 - Rp 15.000**</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Melbi%20Singapore." class="order-btn" target="_blank" data-i18n="orderMelbi">Pesan Server Melbi</a>
+                        </div>
+                         <div class="server-detail-card">
+                            <h4 data-i18n="serverLasweb">Lasweb - Singapore Dedicated</h4>
+                            <div class="status-badge online" data-i18n="statusOnline">Online <i class="fas fa-check-circle"></i></div>
+                            <ul>
+                                <li data-i18n="pingGood">Ping: <span class="speed-indicator blue">Very Good</span></li>
+                                <li data-i18n="bwHigh">Bandwidth: High Capacity</li>
+                                <li data-i18n="latency25ms">Latency: <span class="speed-indicator blue">25-35 ms</span></li>
+                                <li class="price-display" data-i18n="priceVpn">Harga: **Rp 5.000 - Rp 15.000**</li>
+                            </ul>
+                            <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20pesan%20VPN%20Server%20Lasweb%20Singapore." class="order-btn" target="_blank" data-i18n="orderLasweb">Pesan Server Lasweb</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="vpn-protocols">
+                    <div class="protocol-info card">
+                        <h3 data-i18n="protocolTitle">Dukungan Protokol VPN Canggih</h3>
+                        <ul class="protocol-list">
+                            <li><i class="fas fa-network-wired"></i> **SSH:** <span data-i18n="sshDesc">Secure Shell - Simpel & Cepat.</span></li>
+                            <li><i class="fas fa-sitemap"></i> **Vmess:** <span data-i18n="vmessDesc">VMess Protocol - Fleksibel & Anti-Sensor.</span></li>
+                            <li><i class="fas fa-horse-head"></i> **Trojan:** <span data-i18n="trojanDesc">Trojan Protocol - Kuat & Stealth.</span></li>
+                        </ul>
+                        <hr>
+                        <h3 data-i18n="stbTitle">🛠️ Jasa Setting STB (Set Top Box)</h3>
+                        <div class="stb-detail">
+                            <span class="stb-price">Rp 20.000</span>
+                            <div class="stb-features">
+                                <span data-i18n="stbFeat1"><i class="fas fa-check-circle"></i> Unlock Fitur</span>
+                                <span data-i18n="stbFeat2"><i class="fas fa-check-circle"></i> Optimasi RAM</span>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20mau%20order%20Jasa%20Setting%20STB%20(Rp%2020.000)." class="order-btn" target="_blank" data-i18n="orderStbCta">Order Jasa STB</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="vps" class="service-section">
+        <div class="container">
+            <h2 class="section-title" data-i18n="vpsSectionTitle">🖥️ VPS Premium & Ketersediaan Stok</h2>
+            
+            <div class="card-container two-columns">
+                <div class="card vps-plan-card">
+                    <div class="vps-header">
+                        <i class="fas fa-flag-checkered vps-icon"></i>
+                        <h3 data-i18n="vpsIndoTitle">VPS Indonesia <span class="badge">NUSA / NEVA</span></h3>
+                    </div>
+                    <ul class="specs-list">
+                        <li data-i18n="specRam">RAM: 1 GB - 2 GB</li>
+                        <li data-i18n="specBwUnl">Bandwidth: Unlimited</li>
+                        <li data-i18n="specStorage">Storage: SSD High-Speed</li>
+                        <li data-i18n="specScript">Script: Pre-Installed All Protocol</li>
+                    </ul>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-label" data-i18n="stockLabelIndo">Ketersediaan Stok (Terjual 85%)</div>
+                        <div class="progress-bar" data-progress="85"></div>
+                    </div>
+                    <div class="vps-price" data-i18n="priceStart">Harga Mulai Dari ...</div>
+                    <a href="https://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20dengan%20VPS%20Indonesia%20(NUSA/NEVA)%20RAM%201-2GB%20Unlimited%20BW." class="order-btn" target="_blank" data-i18n="orderVpsIndo">Order VPS Indo</a>
+                </div>
+
+                <div class="card vps-plan-card">
+                    <div class="vps-header">
+                        <i class="fas fa-flag-checkered vps-icon"></i>
+                        <h3 data-i18n="vpsSgTitle">VPS Singapore <span class="badge">LASWEB / MELBI</span></h3>
+                    </div>
+                    <ul class="specs-list">
+                        <li data-i18n="specRam">RAM: 1 GB - 2 GB</li>
+                        <li data-i18n="specBw30Tb">Bandwidth: 30 TB / Bulan</li>
+                        <li data-i18n="specStorage">Storage: SSD High-Speed</li>
+                        <li data-i18n="specScript">Script: Pre-Installed All Protocol</li>
+                    </ul>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-label" data-i18n="stockLabelSG">Ketersediaan Stok (Terjual 92%)</div>
+                        <div class="progress-bar" data-progress="92"></div>
+                    </div>
+                    <div class="vps-price" data-i18n="priceStart">Harga Mulai Dari ...</div>
+                    <a href="httpsm://wa.me/6282113945743?text=Halo%20R-store,%20saya%20tertarik%20dengan%20VPS%20Singapore%20(LASWEB/MELBI)%20RAM%201-2GB%2030TB%20BW." class="order-btn" target="_blank" data-i18n="orderVpsSg">Order VPS SG</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p data-i18n="footerText">&copy; 2025 R-STORE PREMIUM. Didesain dengan Teknologi Tinggi.</p>
+            <div class="social-links">
+                <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" target="_blank" title="Join WhatsApp Group"><i class="fab fa-whatsapp"></i></a>
+            </div>
         </div>
     </footer>
 
+    <a href="https://chat.whatsapp.com/ITd9WHh7CBUHPJ6oidEUJ6" class="floating-wa-group" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+        <span class="tooltip-text" data-i18n="joinWaGroup">Gabung Grup WA</span>
+    </a>
+
     <script>
-        // Fitur Canggih: Animasi "Fade In" saat elemen terlihat di layar
         document.addEventListener("DOMContentLoaded", function() {
-            // Pilih semua elemen yang ingin dianimasikan
-            const fadeElements = document.querySelectorAll('.fade-in');
 
-            // Opsi untuk IntersectionObserver
-            const observerOptions = {
-                root: null, // relatif terhadap viewport
-                rootMargin: '0px',
-                threshold: 0.1 // 10% elemen terlihat
+            // =======================================================
+            // === INTERNATIONALIZATION DATA (STABIL) ===
+            // =======================================================
+            const i18nData = {
+                en: {
+                    pageTitle: "R-STORE GLOBAL - High-End Connection Panel",
+                    navVpn: "VPN Premium", navVps: "VPS Global", navFeatures: "Features",
+                    orderNowCta: "Order Now",
+                    exploreVpn: "Explore VPN", orderVps: "Order VPS",
+                    heroTitle: "Enterprise-Level <span class=\"highlight\">Connection</span>.",
+                    heroSubtitle: "Premium Panel with Leading Technology, Optimal Speed, and Maximum Security.",
+                    whyChoose: "Why Choose R-STORE?",
+                    feat1Title: "Hyper Speed", feat1Desc: "Optimized network routing for unbeatable speed, ideal for gaming and 4K streaming.",
+                    feat2Title: "Absolute Privacy", feat2Desc: "Military encryption (AES-256) and strict no-log policy protect your digital identity.",
+                    feat3Title: "Dedicated Network", feat3Desc: "Premium servers in Indonesia and Singapore with large Bandwidth and 99.9% Uptime guarantee.",
+                    feat4Title: "Professional Support", feat4Desc: "Responsive and knowledgeable support team ready to serve you 24 hours a day.",
+                    vpnSectionTitle: "🌐 R-STORE Premium VPN",
+                    tabIndo: "🇮🇩 Indonesia Server", tabSG: "🇸🇬 Singapore Server", tabProtocols: "🛡️ Protocols & Pricing",
+                    statusOnline: "Online",
+                    pingLow: "Ping: <span class=\"speed-indicator green\">Extremely Low</span>", latency3ms: "Latency: <span class=\"speed-indicator green\">3-5 ms</span>",
+                    pingGood: "Ping: <span class=\"speed-indicator blue\">Very Good</span>", latency20ms: "Latency: <span class=\"speed-indicator blue\">20-30 ms</span>",
+                    bwUnlimited: "Bandwidth: Unlimited", bwHigh: "Bandwidth: High Capacity",
+                    priceVpn: "Price: **Rp 5.000 - Rp 15.000**",
+                    orderIKD: "Order IKD Server", orderNeva: "Order Neva Server",
+                    orderMelbi: "Order Melbi Server", orderLasweb: "Order Lasweb Server",
+                    protocolTitle: "Advanced VPN Protocol Support",
+                    sshDesc: "Secure Shell - Simple & Fast.", vmessDesc: "VMess Protocol - Flexible & Anti-Censorship.", trojanDesc: "Trojan Protocol - Strong & Stealth.",
+                    stbTitle: "🛠️ STB (Set Top Box) Setting Service",
+                    stbFeat1: "<i class=\"fas fa-check-circle\"></i> Unlock Features", stbFeat2: "<i class=\"fas fa-check-circle\"></i> RAM Optimization",
+                    orderStbCta: "Order STB Service",
+                    vpsSectionTitle: "🖥️ Premium VPS & Stock Availability",
+                    vpsIndoTitle: "Indonesia VPS", vpsSgTitle: "Singapore VPS",
+                    specRam: "RAM: 1 GB - 2 GB", specBwUnl: "Bandwidth: Unlimited", specBw30Tb: "Bandwidth: 30 TB / Month", specStorage: "Storage: SSD High-Speed", specScript: "Script: Pre-Installed All Protocol",
+                    stockLabelIndo: "Stock Availability (Sold 85%)", stockLabelSG: "Stock Availability (Sold 92%)",
+                    priceStart: "Price Starts From ...",
+                    orderVpsIndo: "Order Indo VPS", orderVpsSg: "Order SG VPS",
+                    footerText: "&copy; 2025 R-STORE PREMIUM. Designed with High Technology.",
+                    joinWaGroup: "Join WA Group"
+                },
+                id: {
+                    pageTitle: "R-STORE GLOBAL - Panel Koneksi High-End",
+                    navVpn: "VPN Premium", navVps: "VPS Global", navFeatures: "Fitur",
+                    orderNowCta: "Order Sekarang",
+                    exploreVpn: "Jelajahi VPN", orderVps: "Pesan VPS",
+                    heroTitle: "Koneksi <span class=\"highlight\">Level Enterprise</span>.",
+                    heroSubtitle: "Panel Premium dengan Teknologi Terdepan, Kecepatan Optimal, dan Keamanan Maksimal.",
+                    whyChoose: "Mengapa Memilih R-STORE?",
+                    feat1Title: "Kecepatan Hyper", feat1Desc: "Optimasi routing jaringan untuk kecepatan tanpa tandingan, ideal untuk gaming dan 4K streaming.",
+                    feat2Title: "Privasi Absolut", feat2Desc: "Enkripsi militer (AES-256) dan kebijakan *no-log* yang ketat melindungi identitas digital Anda.",
+                    feat3Title: "Jaringan Dedicated", feat3Desc: "Server premium di Indonesia dan Singapore dengan Bandwidth besar dan jaminan Uptime 99.9%.",
+                    feat4Title: "Dukungan Profesional", feat4Desc: "Tim support yang responsif dan berpengetahuan luas siap melayani Anda 24 jam sehari.",
+                    vpnSectionTitle: "🌐 VPN Premium R-STORE",
+                    tabIndo: "🇮🇩 Server Indonesia", tabSG: "🇸🇬 Server Singapore", tabProtocols: "🛡️ Protokol & Harga",
+                    statusOnline: "Online",
+                    pingLow: "Ping: <span class=\"speed-indicator green\">Extremely Low</span>", latency3ms: "Latency: <span class=\"speed-indicator green\">3-5 ms</span>",
+                    pingGood: "Ping: <span class=\"speed-indicator blue\">Very Good</span>", latency20ms: "Latency: <span class=\"speed-indicator blue\">20-30 ms</span>",
+                    bwUnlimited: "Bandwidth: Unlimited", bwHigh: "Bandwidth: High Capacity",
+                    priceVpn: "Harga: **Rp 5.000 - Rp 15.000**",
+                    orderIKD: "Pesan Server IKD", orderNeva: "Pesan Server Neva",
+                    orderMelbi: "Pesan Server Melbi", orderLasweb: "Pesan Server Lasweb",
+                    protocolTitle: "Dukungan Protokol VPN Canggih",
+                    sshDesc: "Secure Shell - Simpel & Cepat.", vmessDesc: "VMess Protocol - Fleksibel & Anti-Sensor.", trojanDesc: "Trojan Protocol - Kuat & Stealth.",
+                    stbTitle: "🛠️ Jasa Setting STB (Set Top Box)",
+                    stbFeat1: "<i class=\"fas fa-check-circle\"></i> Unlock Fitur", stbFeat2: "<i class=\"fas fa-check-circle\"></i> Optimasi RAM",
+                    orderStbCta: "Order Jasa STB",
+                    vpsSectionTitle: "🖥️ VPS Premium & Ketersediaan Stok",
+                    vpsIndoTitle: "VPS Indonesia", vpsSgTitle: "VPS Singapore",
+                    specRam: "RAM: 1 GB - 2 GB", specBwUnl: "Bandwidth: Unlimited", specBw30Tb: "Bandwidth: 30 TB / Bulan", specStorage: "Storage: SSD High-Speed", specScript: "Script: Pre-Installed All Protocol",
+                    stockLabelIndo: "Ketersediaan Stok (Terjual 85%)", stockLabelSG: "Ketersediaan Stok (Terjual 92%)",
+                    priceStart: "Harga Mulai Dari ...",
+                    orderVpsIndo: "Order VPS Indo", orderVpsSg: "Order VPS SG",
+                    footerText: "&copy; 2025 R-STORE PREMIUM. Didesain dengan Teknologi Tinggi.",
+                    joinWaGroup: "Gabung Grup WA"
+                }
             };
+            
+            // =======================================================
+            // === FUNCTION: Apply Translation (Logika Baru Stabil) ===
+            // =======================================================
+            let currentLang = localStorage.getItem('lang') || 'id';
 
-            // Buat Observer
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    // Jika elemen masuk ke viewport
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        // Hentikan observasi setelah animasi berjalan
-                        observer.unobserve(entry.target);
+            function applyTranslation(lang) {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    const translation = i18nData[lang][key]; 
+                    
+                    if (translation) {
+                        el.innerHTML = translation;
                     }
                 });
-            }, observerOptions);
+                document.body.setAttribute('data-lang', lang);
+                localStorage.setItem('lang', lang);
+                document.querySelector('.current-lang').textContent = lang.toUpperCase();
+            }
 
-            // Terapkan observer ke setiap elemen
-            fadeElements.forEach(el => {
-                observer.observe(el);
-            });
+            // =======================================================
+            // === FUNCTION: Inisialisasi Event Listeners ===
+            // =======================================================
+            function initializeApp() {
+                
+                // 1. Terapkan Bahasa saat awal load
+                applyTranslation(currentLang);
+
+                // 2. Language Switch Logic
+                document.getElementById('lang-switch').addEventListener('click', () => {
+                    currentLang = (currentLang === 'id') ? 'en' : 'id';
+                    applyTranslation(currentLang);
+                });
+                
+                // 3. Theme Toggle (Dark/Light Mode)
+                const themeSwitch = document.getElementById('theme-switch');
+                const body = document.body;
+                const currentTheme = localStorage.getItem('theme') || 'dark';
+                body.setAttribute('data-theme', currentTheme);
+                themeSwitch.checked = (currentTheme === 'light');
+
+                themeSwitch.addEventListener('change', function() {
+                    const newTheme = this.checked ? 'light' : 'dark';
+                    body.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                });
+
+                // 4. Tabbed Interface Logic
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const tabId = button.getAttribute('data-tab');
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+                        button.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+
+                // 5. Hamburger Menu Toggle (Logika BARU & STABIL)
+                const hamburger = document.querySelector('.hamburger-menu');
+                const mainNav = document.querySelector('.main-nav');
+                
+                hamburger.addEventListener('click', () => {
+                    mainNav.classList.toggle('active');
+                    const icon = hamburger.querySelector('i');
+                    if (mainNav.classList.contains('active')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+
+                // 6. Progress Bar Animation (Hanya saat terlihat)
+                const progressObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const progressBar = entry.target;
+                            const progressValue = progressBar.getAttribute('data-progress');
+                            progressBar.style.setProperty('--progress-width', progressValue + '%'); 
+                            progressObserver.unobserve(entry.target); 
+                        }
+                    });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.progress-bar').forEach(bar => {
+                    progressObserver.observe(bar);
+                });
+                
+                // 7. Card Scroll Animation (BARU: Zoom & Fade)
+                const scrollObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) scale(1)';
+                            scrollObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.card, .server-detail-card').forEach(el => {
+                    // Posisi awal animasi baru
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(30px) scale(0.95)';
+                    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)';
+                    scrollObserver.observe(el);
+                });
+
+                // === (BARU) 8. Logika Kursor Kustom ===
+                const cursorDot = document.querySelector('.cursor-dot');
+                const cursorOutline = document.querySelector('.cursor-outline');
+                
+                window.addEventListener('mousemove', function(e) {
+                    const posX = e.clientX;
+                    const posY = e.clientY;
+                    
+                    cursorDot.style.left = \`${posX}px\`;
+                    cursorDot.style.top = \`${posY}px\`;
+                    
+                    cursorOutline.style.left = \`${posX}px\`;
+                    cursorOutline.style.top = \`${posY}px\`;
+                });
+                
+                // Efek hover pada link/tombol
+                const hoverElements = document.querySelectorAll('a, button, .switch-label');
+                hoverElements.forEach(el => {
+                    el.addEventListener('mouseover', () => {
+                        cursorDot.classList.add('link-hover');
+                        cursorOutline.classList.add('link-hover');
+                    });
+                    el.addEventListener('mouseout', () => {
+                        cursorDot.classList.remove('link-hover');
+                        cursorOutline.classList.remove('link-hover');
+                    });
+                });
+
+                // === (BARU) 9. Logika Parallax Hero ===
+                const heroContent = document.querySelector('.hero-content');
+                window.addEventListener('scroll', function() {
+                    let scrollY = window.scrollY;
+                    // Hanya terapkan parallax jika layar lebar (bukan mobile)
+                    if (window.innerWidth > 992) {
+                        // Gerakkan konten hero ke bawah (speed 0.3x) saat scroll
+                        heroContent.style.transform = \`translateY(\${scrollY * 0.3}px)\`;
+                    } else {
+                        heroContent.style.transform = 'translateY(0px)'; // Reset di mobile
+                    }
+                });
+            }
+
+            // Jalankan aplikasi setelah DOM siap
+            initializeApp();
         });
     </script>
-
 </body>
 </html>
