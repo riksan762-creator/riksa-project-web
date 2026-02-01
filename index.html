@@ -1,801 +1,311 @@
 <!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ULTRA LOGISTICS - Platform Logistik B2B</title>
-    <!-- Tailwind CSS CDN -->
+    <title>R-STORE | Official Premium Digital Services</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Outfit:wght@300;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#0062ff',
+                        accent: '#00f2ff',
+                        dark: '#020205',
+                        surface: '#0a0a0f',
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        /* Define Dark (Default) Palette: Indigo, Black, Electric Blue, Purple */
-        .dark {
-            --bg-deep: #0A0C18; /* Near Black / Deep Indigo */
-            --text-primary: #F3F4F6; /* Light Gray Text */
-            --text-secondary: #9CA3AF; /* Gray Text */
-            --accent-blue: #3B82F6; /* Electric Blue */
-            --accent-purple: #9333EA; /* Vibrant Purple */
-            --card-bg: #1A1F30; /* Slightly Lighter Card/Section Background */
-            --input-bg: #272C3F; /* Darker input */
-            --shadow-color: rgba(147, 51, 234, 0.4);
-            --border-color: #374151; /* Gray-700 */
-        }
-
-        /* Define Light Palette */
-        .light {
-            --bg-deep: #F9FAFB; /* Very Light Gray */
-            --text-primary: #111827; /* Darkest Text */
-            --text-secondary: #4B5563; /* Medium Gray Text */
-            --accent-blue: #1D4ED8; /* Deeper Blue */
-            --accent-purple: #7E22CE; /* Deeper Purple */
-            --card-bg: #FFFFFF; /* White Card Background */
-            --input-bg: #E5E7EB; /* Light Gray Input */
-            --shadow-color: rgba(60, 60, 60, 0.15);
-            --border-color: #E5E7EB; /* Gray-200 */
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
-            scroll-behavior: smooth;
-            transition: background-color 0.5s, color 0.5s;
-        }
-
-        .premium-bg {
-            background-color: var(--card-bg);
-            transition: background-color 0.5s;
-        }
+        [x-cloak] { display: none !important; }
+        .premium-blur { backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); }
         
-        input, select, textarea {
-            background-color: var(--input-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
+        /* Smooth Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020205; }
+        ::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0062ff; }
+
+        /* Card Styles */
+        .cyber-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .cyber-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 98, 255, 0.4);
+            background: rgba(0, 98, 255, 0.02);
+            box-shadow: 0 20px 40px -20px rgba(0, 98, 255, 0.3);
         }
 
-        .cta-btn {
-            background: linear-gradient(90deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
-            color: white;
-            font-weight: 700;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
+        /* Animated Progress Bars */
+        .load-bar-bg { height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+        .load-bar-fill { height: 100%; background: #0062ff; transition: width 1.5s ease-out; }
 
-        .cta-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 20px var(--shadow-color);
-        }
-        
-        .accent-text-blue { color: var(--accent-blue); }
-        .accent-text-purple { color: var(--accent-purple); }
-        
-        .shadow-glow {
-            box-shadow: 0 0 20px 0 var(--accent-purple)30;
-        }
+        /* Glow Effects */
+        .text-glow-primary { text-shadow: 0 0 15px rgba(0, 98, 255, 0.6); }
+        .glow-dot { box-shadow: 0 0 10px #22c55e; }
 
-        /* Fixed Floating WhatsApp Button */
-        #whatsapp-cta {
-            z-index: 1000;
-            right: 1.5rem;
-            bottom: 1.5rem;
-            background-color: var(--accent-purple); 
-            box-shadow: 0 0 20px 5px var(--shadow-color);
-            animation: pulse-glow 2.5s infinite;
+        /* Button Shine */
+        .btn-premium {
+            position: relative; overflow: hidden;
+            background: linear-gradient(135deg, #0062ff, #6366f1);
+            transition: all 0.3s;
         }
-        .dark #whatsapp-cta { box-shadow: 0 0 20px 5px rgba(147, 51, 234, 0.6); }
-        .light #whatsapp-cta { box-shadow: 0 0 15px 5px rgba(126, 34, 206, 0.4); }
-        #whatsapp-cta:hover { filter: brightness(1.2); }
+        .btn-premium::after {
+            content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: rgba(255,255,255,0.1); transform: rotate(45deg); transition: 0.6s;
+        }
+        .btn-premium:hover::after { left: 120%; }
 
-        @keyframes pulse-glow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.08); }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
         }
-
-        /* Gradient Separator Line */
-        .gradient-divider {
-            height: 2px;
-            background: linear-gradient(90deg, transparent 0%, var(--accent-blue) 25%, var(--accent-purple) 75%, transparent 100%);
-            margin: 4rem 0;
-        }
-
-        /* Attention Box Styling for Rules (Keep it strong) */
-        .attention-box {
-            border: 3px solid var(--accent-purple);
-            background-color: var(--card-bg);
-        }
-
-        /* FAQ Toggle Styling */
-        .faq-item input:checked + label + .faq-content {
-            max-height: 500px;
-            padding-bottom: 1.5rem;
-        }
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
-            padding-bottom: 0;
-        }
+        .float-anim { animation: float 5s ease-in-out infinite; }
     </style>
 </head>
-<body>
+<body 
+    x-data="{ 
+        isDarkMode: true,
+        handleAction(type, target = '') {
+            let msg = '';
+            if (type === 'vpn') msg = `Halo R-STORE! Saya ingin beli Paket VPN ${target}.`;
+            if (type === 'wa') msg = `Halo R-STORE! Saya butuh bantuan mengenai layanan Digital.`;
+            window.open(`https://wa.me/6282113945743?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+    }" 
+    :class="isDarkMode ? 'bg-dark text-slate-100' : 'bg-slate-50 text-slate-900'"
+    class="transition-colors duration-500 font-sans selection:bg-primary selection:text-white"
+>
 
-    <!-- Header & Navigation -->
-    <header class="sticky top-0 premium-bg shadow-lg z-50 border-b" style="border-color: var(--border-color);">
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo -->
-            <a href="#" class="text-3xl font-black tracking-widest flex items-center">
-                <i data-lucide="rocket" class="w-7 h-7 mr-2 accent-text-blue"></i>
-                <span id="logo-text" class="tracking-widest" style="color: var(--text-primary);">ULTRA <span class="accent-text-purple">PRIME</span></span>
-            </a>
-
-            <!-- Desktop Nav -->
-            <nav class="hidden md:flex space-x-10 font-medium" id="desktop-nav">
-                <!-- Links populated by JS -->
-            </nav>
-
-            <!-- Controls (Language, Mobile Menu, Dark Mode) -->
-            <div class="flex items-center space-x-3">
-                <!-- Dark Mode Toggle -->
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                    <i data-lucide="sun" id="theme-icon" class="w-5 h-5 accent-text-purple"></i>
-                </button>
-                
-                <!-- Language Toggle -->
-                <button id="lang-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                    <i data-lucide="globe" class="w-5 h-5 accent-text-blue"></i>
-                </button>
-
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition">
-                    <i data-lucide="menu" class="w-6 h-6 accent-text-blue"></i>
-                </button>
-            </div>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden premium-bg border-t" style="border-color: var(--border-color);">
-            <nav class="flex flex-col space-y-2 px-4 font-medium" id="mobile-nav">
-                <!-- Links populated by JS -->
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <!-- Hero Section -->
-        <section class="py-24 lg:py-48 text-center" id="hero">
-            <div class="container mx-auto px-4 max-w-6xl">
-                <span class="text-xl sm:text-2xl font-bold mb-4 block accent-text-purple" id="hero-tagline">FORWARDING TEKNOLOGI MUTAKHIR</span>
-                <h1 class="text-5xl sm:text-7xl lg:text-8xl font-extrabold mb-8 leading-tight" style="color: var(--text-primary);" id="hero-title">
-                    Jalur Khusus Impor Barang <span class="accent-text-blue block lg:inline">Dari China ke Indonesia</span>.
-                </h1>
-                <p class="text-lg sm:text-2xl mb-12 text-gray-500 max-w-4xl mx-auto" id="hero-subtitle">
-                    Layanan *all-in* premium B2B (Bisnis-ke-Bisnis) dengan fokus pada kecepatan, keamanan, dan biaya yang transparan.
-                </p>
-                <a id="hero-cta-btn" href="#contact" class="inline-flex items-center justify-center px-12 py-5 text-base font-bold rounded-full shadow-2xl duration-300 ease-in-out text-xl space-x-3 cta-btn">
-                    <i data-lucide="send" class="w-6 h-6"></i>
-                    <span id="hero-cta-text">Konsultasi Protokol Layanan</span>
-                </a>
-            </div>
-        </section>
-
-        <!-- Services Section (SECTION DITAMBAHKAN KEMBALI) -->
-        <section class="py-16 lg:py-24 premium-bg border-b" style="border-color: var(--border-color);" id="services">
-            <div class="container mx-auto px-4 max-w-7xl">
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-12 accent-text-blue" id="services-title">Keunggulan ULTRA PRIME Forwarding</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <!-- Service 1: Biaya All-in Final -->
-                    <div class="p-6 rounded-2xl border transition duration-300 hover:shadow-xl" style="border-color: var(--border-color);">
-                        <i data-lucide="coins" class="w-10 h-10 mb-4 accent-text-purple"></i>
-                        <h3 class="text-xl font-bold mb-2" id="service-1-title">Biaya All-in Final</h3>
-                        <p class="text-gray-500 text-sm" id="service-1-text">Harga per Kg/CBM sudah mencakup Pajak, Bea Masuk, dan Pengiriman. Tidak ada kejutan biaya di akhir.</p>
-                    </div>
-                    <!-- Service 2: Jalur Udara Prioritas -->
-                    <div class="p-6 rounded-2xl border transition duration-300 hover:shadow-xl" style="border-color: var(--border-color);">
-                        <i data-lucide="plane" class="w-10 h-10 mb-4 accent-text-purple"></i>
-                        <h3 class="text-xl font-bold mb-2" id="service-2-title">Jalur Udara Prioritas</h3>
-                        <p class="text-gray-500 text-sm" id="service-2-text">Pengiriman via Udara (Air Freight) dengan estimasi terdepan, ideal untuk produk *fast moving* Anda.</p>
-                    </div>
-                    <!-- Service 3: Inspeksi & Repacking -->
-                    <div class="p-6 rounded-2xl border transition duration-300 hover:shadow-xl" style="border-color: var(--border-color);">
-                        <i data-lucide="scan-line" class="w-10 h-10 mb-4 accent-text-purple"></i>
-                        <h3 class="text-xl font-bold mb-2" id="service-3-title">Inspeksi & Repacking</h3>
-                        <p class="text-gray-500 text-sm" id="service-3-text">Tim di gudang China memastikan produk sesuai pesanan, dikemas ulang (repacking) untuk keamanan maksimal.</p>
-                    </div>
-                    <!-- Service 4: Personal Account Manager -->
-                    <div class="p-6 rounded-2xl border transition duration-300 hover:shadow-xl" style="border-color: var(--border-color);">
-                        <i data-lucide="user-check" class="w-10 h-10 mb-4 accent-text-purple"></i>
-                        <h3 class="text-xl font-bold mb-2" id="service-4-title">Personal Account Manager</h3>
-                        <p class="text-gray-500 text-sm" id="service-4-text">Satu kontak yang berdedikasi untuk semua pertanyaan dan koordinasi pengiriman Anda.</p>
-                    </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 inset-x-0 z-[100] py-4 premium-blur border-b border-white/5">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4 group cursor-pointer">
+                <div class="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center shadow-lg shadow-primary/30 group-hover:rotate-6 transition-transform">
+                    <i data-lucide="shield-check" class="text-white w-6 h-6"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-xl font-black font-display tracking-tighter uppercase leading-none">R-STORE <span class="text-primary italic">DIGITAL</span></span>
+                    <span class="text-[7px] font-bold tracking-[0.5em] opacity-40 uppercase mt-1">Premium Ecosystem</span>
                 </div>
             </div>
-        </section>
-
-        <!-- Gradient Separator -->
-        <div class="gradient-divider container mx-auto max-w-7xl"></div>
-
-        <!-- Tracking Section (New Feature) -->
-        <section class="py-16 lg:py-24" id="tracking">
-            <div class="container mx-auto px-4 max-w-3xl">
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-10 accent-text-purple" id="tracking-title">Lacak Kiriman Anda</h2>
-                
-                <div class="premium-bg p-8 rounded-2xl shadow-glow">
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
-                        <input type="text" id="tracking-input" placeholder="Masukkan ID Logistik (Ex: UPX-2025-1234)" class="flex-grow p-3 rounded-xl focus:ring-2 focus:ring-accent-blue" aria-label="Tracking number input">
-                        <button id="tracking-button" class="cta-btn flex-shrink-0 px-8 py-3 rounded-xl transition duration-300">
-                            <span id="tracking-btn-text">Lacak Sekarang</span>
-                        </button>
-                    </div>
-
-                    <!-- Tracking Result Display -->
-                    <div class="mt-8 pt-6 border-t" style="border-color: var(--border-color);">
-                        <p class="font-semibold text-lg mb-2" id="tracking-status-label">Status Terakhir:</p>
-                        <div id="tracking-result" class="p-4 rounded-lg text-lg font-mono" style="background-color: var(--input-bg); color: var(--text-primary);">
-                            <i data-lucide="loader-2" class="w-5 h-5 inline mr-2 text-gray-500"></i>
-                            <span id="tracking-status-text">Belum Ada Nomor Resi</span>
-                        </div>
-                    </div>
-                </div>
+            
+            <div class="flex items-center gap-3">
+                <button @click="isDarkMode = !isDarkMode" class="p-2.5 bg-white/5 border border-white/10 rounded-xl text-yellow-400 hover:scale-110 transition-all">
+                    <i :data-lucide="isDarkMode ? 'sun' : 'moon'" class="w-5 h-5"></i>
+                </button>
+                <button @click="handleAction('wa')" class="hidden md:block btn-premium px-6 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest text-white shadow-xl">Kontak Admin</button>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <!-- Gradient Separator -->
-        <div class="gradient-divider container mx-auto max-w-7xl"></div>
-        
-        <!-- Cost Estimator Section (New Feature) -->
-        <section class="py-16 lg:py-24" id="calculator">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-10 accent-text-blue" id="calculator-title">Kalkulator Estimasi Biaya All-in</h2>
-                
-                <div class="premium-bg p-8 md:p-12 rounded-2xl shadow-xl border" style="border-color: var(--border-color);">
-                    <p class="text-center text-gray-500 mb-8" id="calculator-disclaimer">
-                        *Estimasi ini menggunakan rata-rata biaya per Kg/CBM. Harga final bergantung pada jenis barang, kurs harian, dan jalur yang dipilih.
+    <!-- Hero Section -->
+    <section class="pt-48 pb-20 relative overflow-hidden">
+        <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary mb-8">
+                <span class="w-2 h-2 rounded-full bg-green-500 glow-dot animate-pulse"></span>
+                <span class="text-[9px] font-black uppercase tracking-widest">Global Network Nodes Active</span>
+            </div>
+            <h1 class="text-5xl md:text-8xl font-black font-display tracking-tighter leading-[0.9] mb-8 uppercase italic">
+                INTERNET <span class="text-primary text-glow-primary underline decoration-primary/20">TANPA</span> <br>
+                BATAS <span class="text-slate-700">AKSES.</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-base md:text-lg opacity-50 font-medium mb-12 leading-relaxed">
+                Infrastruktur jaringan premium dengan protokol SSH, VMess, & Trojan. Dipadukan dengan Sawargipay untuk transaksi PPOB termurah.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#pricing" class="btn-premium px-10 py-5 rounded-2xl text-white font-black text-[11px] uppercase tracking-[0.2em] shadow-2xl shadow-primary/30">Order Paket</a>
+                <a href="#servers" class="px-10 py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] hover:bg-white/10 transition-all">Monitor Server</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sawargipay PPOB -->
+    <section id="sawargipay" class="py-20 container mx-auto px-6">
+        <div class="cyber-card rounded-[3.5rem] overflow-hidden">
+            <div class="grid lg:grid-cols-2">
+                <div class="p-12 flex items-center justify-center bg-gradient-to-br from-primary/10 to-transparent">
+                    <img 
+                        src="sawargipay.jpg" 
+                        alt="Sawargipay Logo" 
+                        class="float-anim w-64 h-64 md:w-80 md:h-80 object-cover rounded-[3.5rem] shadow-2xl border-4 border-white/5"
+                        onerror="this.src='https://via.placeholder.com/400/0062ff/ffffff?text=SAWARGIPAY'"
+                    >
+                </div>
+                <div class="p-10 lg:p-20 flex flex-col justify-center">
+                    <h2 class="text-4xl md:text-6xl font-black font-display tracking-tighter mb-4 italic uppercase">SAWARGI<span class="text-primary">PAY</span></h2>
+                    <p class="text-lg font-bold text-primary mb-6 uppercase tracking-wider">Aplikasi PPOB & Top Up Termurah</p>
+                    <p class="opacity-40 text-sm md:text-base leading-relaxed mb-10">
+                        Mitra resmi R-STORE untuk kebutuhan Pulsa, Paket Data, PLN, dan Voucher Game. Transaksi kilat 24 jam dengan harga grosir untuk penggunaan pribadi maupun jualan kembali.
                     </p>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div>
-                            <label for="weight" class="block text-sm font-medium mb-2" id="calculator-weight">Berat Barang (Kg)</label>
-                            <input type="number" id="weight" value="10" min="1" step="1" class="w-full p-3 rounded-lg focus:ring-2 focus:ring-accent-purple">
+                    <div class="grid grid-cols-2 gap-4 mb-10">
+                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5 text-[9px] font-black uppercase tracking-widest flex items-center gap-3">
+                            <i data-lucide="zap" class="text-primary w-4 h-4"></i> Instan
                         </div>
-                        <div>
-                            <label for="cbm" class="block text-sm font-medium mb-2" id="calculator-cbm">Volume Barang (CBM)</label>
-                            <input type="number" id="cbm" value="0.5" min="0.1" step="0.1" class="w-full p-3 rounded-lg focus:ring-2 focus:ring-accent-purple">
-                        </div>
-                        <div>
-                            <label for="lane" class="block text-sm font-medium mb-2" id="calculator-lane">Jalur Pengiriman</label>
-                            <select id="lane" class="w-full p-3 rounded-lg focus:ring-2 focus:ring-accent-purple">
-                                <option value="air" id="lane-air">Udara (Prioritas)</option>
-                                <option value="sea" id="lane-sea">Laut (Ekonomis)</option>
-                            </select>
+                        <div class="p-4 rounded-2xl bg-white/5 border border-white/5 text-[9px] font-black uppercase tracking-widest flex items-center gap-3">
+                            <i data-lucide="badge-percent" class="text-primary w-4 h-4"></i> Murah
                         </div>
                     </div>
-
-                    <button id="calculate-button" class="w-full cta-btn py-4 rounded-xl text-xl mb-8 transition duration-300">
-                        <span id="calculate-btn-text">Hitung Estimasi</span>
+                    <button @click="window.open('https://apkpure.com/sawargipay/com.sawargipay.pro')" class="btn-premium w-full py-5 rounded-2xl text-white font-black text-[11px] uppercase tracking-[0.3em] flex items-center justify-center gap-3 shadow-xl shadow-primary/20">
+                        <i data-lucide="download-cloud"></i> Unduh APK Sawargipay
                     </button>
-                    
-                    <!-- Result -->
-                    <div class="border-t pt-6" style="border-color: var(--border-color);">
-                        <p class="font-bold text-xl mb-2 accent-text-purple" id="estimate-label">Total Estimasi All-in:</p>
-                        <div id="calculator-result" class="text-4xl font-extrabold" style="color: var(--accent-blue);">
-                            Rp 0
-                        </div>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Gradient Separator -->
-        <div class="gradient-divider container mx-auto max-w-7xl"></div>
-        
-        <!-- Rules Section (CRITICAL) - Focus on Import Protocols -->
-        <section class="py-16 lg:py-24" id="rules">
-            <div class="container mx-auto px-4 max-w-5xl">
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-10 accent-text-purple" id="rules-title">PROTOKOL & KETENTUAN ORDER JASTIP</h2>
-                
-                <div class="attention-box p-8 md:p-12 rounded-2xl shadow-xl">
-                    <p class="text-center text-2xl font-black mb-8 text-white bg-accent-purple py-3 rounded-lg tracking-wider" id="rules-intro-title">
-                        DIMOHON UNTUK MEMBACA RULES SEBELUM ORDER ‼️
-                    </p>
-                    
-                    <ul class="space-y-6 text-gray-500 list-disc pl-5">
-                        <li class="flex items-start space-x-4">
-                            <i data-lucide="package" class="w-6 h-6 mt-1 flex-shrink-0 accent-text-purple"></i>
-                            <span id="rule-min-order"></span>
-                        </li>
-                        <li class="flex items-start space-x-4">
-                            <i data-lucide="clock" class="w-6 h-6 mt-1 flex-shrink-0 accent-text-blue"></i>
-                            <span id="rule-eta"></span>
-                        </li>
-                        <li class="flex items-start space-x-4">
-                            <i data-lucide="box-select" class="w-6 h-6 mt-1 flex-shrink-0 text-yellow-500"></i>
-                            <span id="rule-liability"></span>
-                        </li>
-                        <li class="flex items-start space-x-4">
-                            <i data-lucide="banknote" class="w-6 h-6 mt-1 flex-shrink-0 text-green-500"></i>
-                            <span id="rule-refund"></span>
-                        </li>
-                        <li class="flex items-start space-x-4">
-                            <i data-lucide="video" class="w-6 h-6 mt-1 flex-shrink-0 text-red-500"></i>
-                            <span id="rule-complaint"></span>
-                        </li>
-                    </ul>
-                    <div class="mt-10 pt-8 border-t border-accent-blue/50">
-                        <p class="text-center text-2xl font-extrabold accent-text-purple" id="rule-agreement">
-                            ORDER = SETUJU DENGAN SEMUA RULES INI. <span class="block text-base mt-2 text-gray-500">Kami berhak menolak atau membatalkan order jika protokol tidak dipenuhi.</span>
-                        </p>
+    <!-- Server Monitor -->
+    <section id="servers" class="py-24 container mx-auto px-6">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div class="text-left">
+                <h2 class="text-4xl font-black font-display italic tracking-tighter uppercase mb-2">Network <span class="text-primary">Monitor.</span></h2>
+                <p class="text-[10px] font-bold opacity-30 uppercase tracking-[0.4em]">Real-time Latency & Load Indicators</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <template x-for="s in [
+                { loc: '🇮🇩', name: 'Nusa ID Node', ping: '4ms', load: '15', type: 'BASIC' },
+                { loc: '🇮🇩', name: 'Wijaya VIP', ping: '7ms', load: '42', type: 'PREMIUM' },
+                { loc: '🇮🇩', name: 'Biznet Fiber', ping: '11ms', load: '22', type: 'BASIC' },
+                { loc: '🇸🇬', name: 'DO Singapore', ping: '17ms', load: '65', type: 'PREMIUM' },
+                { loc: '🇸🇬', name: 'Melbi SG', ping: '19ms', load: '12', type: 'BASIC' },
+                { loc: '🇸🇬', name: 'Lasweb UDP', ping: '22ms', load: '38', type: 'UDP' },
+                { loc: '🔥', name: 'IKD Private', ping: '9ms', load: '85', type: 'ELITE' },
+                { loc: '⚡', name: 'UDP Custom', ping: '5ms', load: '50', type: 'ALL' }
+            ]">
+                <div class="cyber-card p-7 rounded-[2.5rem] flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-6">
+                            <div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl" x-text="s.loc"></div>
+                            <div class="text-right">
+                                <span class="text-[8px] font-black text-slate-500 uppercase tracking-widest block mb-1" x-text="s.type"></span>
+                                <div class="flex items-center gap-1 justify-end">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 glow-dot"></span>
+                                    <span class="text-[8px] font-bold text-green-500 uppercase">Live</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="text-lg font-black uppercase italic tracking-tight mb-4 group-hover:text-primary transition-colors" x-text="s.name"></h4>
+                        
+                        <!-- Load & Ping Stats -->
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between items-center text-[10px] font-bold opacity-40 uppercase">
+                                <span>Latency</span>
+                                <span class="text-primary font-black font-mono text-sm" x-text="s.ping"></span>
+                            </div>
+                            <div class="space-y-1.5">
+                                <div class="flex justify-between items-center text-[8px] font-bold opacity-30 uppercase tracking-tighter">
+                                    <span>Server Load</span>
+                                    <span x-text="s.load + '%'"></span>
+                                </div>
+                                <div class="load-bar-bg">
+                                    <div class="load-bar-fill" :style="'width: ' + s.load + '%'"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                    <button @click="handleAction('vpn', s.name)" class="w-full py-3.5 bg-white/5 border border-white/5 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] hover:bg-primary hover:text-white transition-all">Get Config</button>
+                </div>
+            </template>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 bg-primary/5">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-black font-display italic uppercase tracking-tighter">Pilihan <span class="text-primary">Paket.</span></h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Basic -->
+                <div class="cyber-card p-10 md:p-12 rounded-[3.5rem] flex flex-col justify-between">
+                    <div>
+                        <div class="mb-10">
+                            <span class="text-[10px] font-black text-slate-500 tracking-[0.3em] uppercase">Casual Pack</span>
+                            <h3 class="text-4xl font-black mt-2 italic uppercase">Basic Access</h3>
+                        </div>
+                        <div class="mb-12">
+                            <p class="text-6xl font-black text-primary">7k <span class="text-xs opacity-30 font-bold uppercase tracking-widest">/ Bulan</span></p>
+                        </div>
+                        <ul class="space-y-4 mb-12">
+                            <li class="flex items-center gap-4 text-sm font-bold opacity-60"><i data-lucide="check" class="text-primary w-5 h-5"></i> Akun SSH & UDP Custom</li>
+                            <li class="flex items-center gap-4 text-sm font-bold opacity-60"><i data-lucide="check" class="text-primary w-5 h-5"></i> ZiVPN Indonesia Support</li>
+                            <li class="flex items-center gap-4 text-sm font-bold opacity-60"><i data-lucide="check" class="text-primary w-5 h-5"></i> Unlimited Kuota Bandwidth</li>
+                        </ul>
+                    </div>
+                    <button @click="handleAction('vpn', '7k Basic')" class="w-full py-5 rounded-2xl border-2 border-primary/20 text-[11px] font-black uppercase tracking-widest hover:bg-primary hover:text-white transition-all shadow-lg">Beli Paket Basic</button>
+                </div>
+
+                <!-- Elite VIP -->
+                <div class="p-10 md:p-12 rounded-[3.5rem] bg-primary text-white shadow-2xl shadow-primary/40 flex flex-col justify-between relative overflow-hidden transform md:-translate-y-8">
+                    <div class="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-[80px]"></div>
+                    <div>
+                        <div class="mb-10">
+                            <span class="px-4 py-1.5 bg-white/20 rounded-lg text-[9px] font-black uppercase tracking-widest">Paling Populer</span>
+                            <h3 class="text-4xl font-black mt-4 italic uppercase">Elite VIP</h3>
+                        </div>
+                        <div class="mb-12">
+                            <p class="text-6xl font-black">15k <span class="text-xs text-white/50 font-bold uppercase tracking-widest">/ Bulan</span></p>
+                        </div>
+                        <ul class="space-y-4 mb-12">
+                            <li class="flex items-center gap-4 text-sm font-bold"><i data-lucide="star" class="w-5 h-5 fill-white"></i> VMess, Trojan, VLess Access</li>
+                            <li class="flex items-center gap-4 text-sm font-bold"><i data-lucide="star" class="w-5 h-5 fill-white"></i> IKD Elite Server Private Node</li>
+                            <li class="flex items-center gap-4 text-sm font-bold"><i data-lucide="star" class="w-5 h-5 fill-white"></i> STB Support & Prioritas CS</li>
+                        </ul>
+                    </div>
+                    <button @click="handleAction('vpn', '15k VIP')" class="w-full py-6 rounded-2xl bg-white text-primary font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl hover:scale-105 transition-all">Beli Paket VIP</button>
                 </div>
             </div>
-        </section>
-
-        <!-- Gradient Separator -->
-        <div class="gradient-divider container mx-auto max-w-7xl"></div>
-        
-        <!-- FAQ Section (New Feature - Accordion) -->
-        <section class="py-16 lg:py-24" id="faq">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <h2 class="text-3xl sm:text-5xl font-extrabold text-center mb-12 accent-text-blue" id="faq-title">Pertanyaan Umum (FAQ)</h2>
-                
-                <div class="space-y-4">
-                    <!-- FAQ 1 -->
-                    <div class="premium-bg rounded-xl shadow-lg faq-item border" style="border-color: var(--border-color);">
-                        <input type="checkbox" id="faq1" class="hidden">
-                        <label for="faq1" class="flex justify-between items-center p-5 cursor-pointer font-semibold text-lg hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition duration-300" style="color: var(--text-primary);">
-                            <span id="faq-q1"></span>
-                            <i data-lucide="chevron-down" class="w-6 h-6 transition-transform transform"></i>
-                        </label>
-                        <div class="faq-content px-5 text-gray-500">
-                            <p id="faq-a1"></p>
-                        </div>
-                    </div>
-
-                    <!-- FAQ 2 -->
-                    <div class="premium-bg rounded-xl shadow-lg faq-item border" style="border-color: var(--border-color);">
-                        <input type="checkbox" id="faq2" class="hidden">
-                        <label for="faq2" class="flex justify-between items-center p-5 cursor-pointer font-semibold text-lg hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition duration-300" style="color: var(--text-primary);">
-                            <span id="faq-q2"></span>
-                            <i data-lucide="chevron-down" class="w-6 h-6 transition-transform transform"></i>
-                        </label>
-                        <div class="faq-content px-5 text-gray-500">
-                            <p id="faq-a2"></p>
-                        </div>
-                    </div>
-                    
-                    <!-- FAQ 3 -->
-                    <div class="premium-bg rounded-xl shadow-lg faq-item border" style="border-color: var(--border-color);">
-                        <input type="checkbox" id="faq3" class="hidden">
-                        <label for="faq3" class="flex justify-between items-center p-5 cursor-pointer font-semibold text-lg hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition duration-300" style="color: var(--text-primary);">
-                            <span id="faq-q3"></span>
-                            <i data-lucide="chevron-down" class="w-6 h-6 transition-transform transform"></i>
-                        </label>
-                        <div class="faq-content px-5 text-gray-500">
-                            <p id="faq-a3"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section - Final Push -->
-        <section class="py-20 lg:py-32 text-center" id="contact">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <h2 class="text-3xl sm:text-5xl font-extrabold mb-4 accent-text-blue" id="cta-section-title">Siap Tingkatkan Level Impor Anda?</h2>
-                <p class="text-lg sm:text-xl text-gray-500 mb-10" id="cta-section-subtitle">
-                    Hubungi Manajer Akun kami. Kirim *link* produk Anda, dan kami akan berikan estimasi biaya total (All-in) yang final.
-                </p>
-                <a id="cta-final-btn-link" href="https://wa.me/6282113945743?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20impor%20ULTRA%20PRIME.%20Mohon%20informasi%20protokol%20pengiriman." target="_blank" class="inline-flex items-center justify-center px-16 py-6 text-base font-bold rounded-full shadow-2xl duration-300 ease-in-out text-2xl space-x-4 cta-btn">
-                    <i data-lucide="message-circle" class="w-7 h-7"></i>
-                    <span id="cta-final-text">Mulai Konsultasi (Gratis)</span>
-                </a>
-            </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="text-white py-12 border-t" style="background-color: var(--card-bg); border-color: var(--border-color);" id="footer">
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-3xl font-black mb-3 tracking-widest" style="color: var(--text-primary);">ULTRA <span class="accent-text-purple">PRIME</span></p>
-            <p class="text-sm mb-6 text-gray-500" id="footer-tagline">Jasa *Freight Forwarding* B2B Premium | China <i data-lucide="arrow-right" class="w-4 h-4 inline mx-1 accent-text-blue"></i> Indonesia</p>
-            
-            <p class="text-xs text-gray-600" id="footer-copyright">&copy; 2025 ULTRA PRIME LOGISTICS. Hak Cipta Dilindungi. | Kode Layanan: ULTRAPRIME</p>
+    <footer class="py-20 border-t border-white/5">
+        <div class="container mx-auto px-6 text-center">
+            <div class="flex justify-center items-center gap-3 mb-10">
+                <div class="w-11 h-11 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
+                    <i data-lucide="shield" class="w-6 h-6"></i>
+                </div>
+                <span class="text-2xl font-black font-display italic tracking-tighter uppercase">R-STORE <span class="text-primary text-glow-primary">NETWORKS</span></span>
+            </div>
+            <div class="flex flex-wrap justify-center gap-8 text-[9px] font-black uppercase tracking-[0.4em] opacity-40 mb-12">
+                <button @click="handleAction('wa')" class="hover:text-primary transition-colors">Bantuan</button>
+                <button @click="window.open('https://t.me/Swiler21')" class="hover:text-primary transition-colors">Telegram</button>
+                <button @click="window.open('https://apkpure.com/sawargipay/com.sawargipay.pro')" class="hover:text-primary transition-colors">Sawargipay</button>
+            </div>
+            <p class="text-[9px] font-bold opacity-20 uppercase tracking-[1.5em] mb-4">Security • Performance • Freedom</p>
+            <p class="text-[10px] font-medium opacity-30">© 2026 R-STORE DIGITAL. Hak Cipta Dilindungi.</p>
         </div>
     </footer>
 
-    <!-- Fixed Floating WhatsApp Button (Icon Only) -->
-    <a id="whatsapp-cta" href="https://wa.me/6282113945743?text=Halo%2C%20saya%20tertarik%20dengan%20layanan%20impor%20ULTRA%20PRIME.%20Mohon%20informasi%20protokol%20pengiriman." target="_blank" class="fixed p-4 rounded-full text-white transition transform duration-300">
-        <i data-lucide="whatsapp" class="w-7 h-7"></i>
-    </a>
-
+    <!-- WhatsApp Bubble -->
+    <button @click="handleAction('wa')" class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center shadow-2xl shadow-primary/50 hover:scale-110 active:scale-95 transition-all z-[200]">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+    </button>
 
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-
-        // --- 1. THEME TOGGLE LOGIC (Dark/Light Mode) ---
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const themeIcon = document.getElementById('theme-icon');
-        const root = document.documentElement;
-
-        // Load theme preference from localStorage or default to 'dark'
-        const initialTheme = localStorage.getItem('theme') || 'dark';
-        root.classList.add(initialTheme);
-
-        function updateThemeIcon(theme) {
-            themeIcon.setAttribute('data-lucide', theme === 'dark' ? 'sun' : 'moon');
-            lucide.createIcons(); // Re-render icon
-        }
-
-        updateThemeIcon(initialTheme); // Set initial icon
-
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = root.classList.contains('dark');
-            const newTheme = isDark ? 'light' : 'dark';
-
-            root.classList.remove(isDark ? 'dark' : 'light');
-            root.classList.add(newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
         });
-        
-        // --- 2. LANGUAGE AND TRANSLATION DATA ---
-        const translations = {
-            id: {
-                navHome: "Beranda", navServices: "Keunggulan", navRules: "Protokol", navContact: "Kontak", navTracking: "Lacak Kiriman",
-
-                heroTagline: "FORWARDING TEKNOLOGI MUTAKHIR",
-                heroTitle: 'Jalur Khusus Impor Barang <span class="accent-text-blue block lg:inline">Dari China ke Indonesia</span>.',
-                heroSubtitle: "Layanan *all-in* premium B2B (Bisnis-ke-Bisnis) dengan fokus pada kecepatan, keamanan, dan biaya yang transparan.",
-                heroCtaText: "Konsultasi Protokol Layanan",
-
-                servicesTitle: "Keunggulan ULTRA PRIME Forwarding",
-                service1Title: "Biaya All-in Final",
-                service1Text: "Harga per Kg/CBM sudah mencakup Pajak, Bea Masuk, dan Pengiriman. Tidak ada kejutan biaya di akhir.",
-                service2Title: "Jalur Udara Prioritas",
-                service2Text: "Pengiriman via Udara (Air Freight) dengan estimasi terdepan, ideal untuk produk *fast moving* Anda.",
-                service3Title: "Inspeksi & Repacking",
-                service3Text: "Tim di gudang China memastikan produk sesuai pesanan, dikemas ulang (repacking) untuk keamanan maksimal.",
-                service4Title: "Personal Account Manager",
-                service4Text: "Satu kontak yang berdedikasi untuk semua pertanyaan dan koordinasi pengiriman Anda.",
-
-                // Tracking
-                trackingTitle: "Lacak Kiriman Anda",
-                trackingInputPlaceholder: "Masukkan ID Logistik (Ex: UPX-2025-1234)",
-                trackingBtn: "Lacak Sekarang",
-                trackingStatusLabel: "Status Terakhir:",
-                trackingStatusInitial: "Belum Ada Nomor Resi",
-
-                // Calculator
-                calculatorTitle: "Kalkulator Estimasi Biaya All-in",
-                calculatorDisclaimer: "*Estimasi ini menggunakan rata-rata biaya per Kg/CBM. Harga final bergantung pada jenis barang, kurs harian, dan jalur yang dipilih.",
-                calculatorWeight: "Berat Barang (Kg)",
-                calculatorCBM: "Volume Barang (CBM)",
-                calculatorLane: "Jalur Pengiriman",
-                laneAir: "Udara (Prioritas)",
-                laneSea: "Laut (Ekonomis)",
-                calculateBtn: "Hitung Estimasi",
-                estimateLabel: "Total Estimasi All-in:",
-
-                // Rules
-                rulesTitle: "PROTOKOL & KETENTUAN ORDER JASTIP",
-                rulesIntroTitle: "DIMOHON UNTUK MEMBACA RULES SEBELUM ORDER ‼️",
-                ruleMinOrder: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">A. Minimum Order & Jalur Pengiriman:</strong> Mix Toko = Min 1 Kg Total Berat. Jalur tersedia: Laut (Sea Freight) dan Udara (Air Freight).',
-                ruleEta: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">B. Estimasi Waktu (ETA) & Keterlambatan:</strong> Pengiriman sesuai dengan Estimasi Waktu Tiba (ETA) yang diberikan. Jika terjadi *redline* (pemeriksaan pabean ketat), akan terjadi **delay 1-2 minggu atau lebih** di luar kontrol kami.',
-                ruleLiability: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">C. Batasan Tanggung Jawab:</strong> Kerusakan atau kekurangan barang adalah di luar tanggung jawab Jastip, terutama untuk barang yang rentan pecah dan rusak. Kami hanya bertindak sebagai JASA TITIP dan akan membantu komplain ke *seller* China.',
-                ruleRefund: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">D. Prosedur *Refund* Kurs:</strong> Jika ada *refund* dari *seller* China, dana akan kami kembalikan ke klien dengan menggunakan **kurs beli Rp 2.300** (kurs yang disepakati).',
-                ruleComplaint: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">E. Prosedur Klaim (WAJIB):</strong> Komplain hanya diproses jika menyertakan **Video *Unboxing* (tanpa jeda)** yang menunjukkan resi pengiriman dengan jelas. Tanpa video, komplain tidak dapat diproses.',
-                ruleAgreement: 'ORDER = SETUJU DENGAN SEMUA RULES INI. <span class="block text-base mt-2 text-gray-500">Kami berhak menolak atau membatalkan order jika protokol tidak dipenuhi.</span>',
-                
-                // FAQ
-                faqTitle: "Pertanyaan Umum (FAQ)",
-                faqQ1: "Apakah ini termasuk biaya pajak?",
-                faqA1: "Ya, harga *all-in* kami mencakup PPN, PPh, Bea Masuk, dan semua biaya gudang/forwarding dari China sampai tiba di alamat Anda di Indonesia.",
-                faqQ2: "Berapa lama estimasi waktu tiba?",
-                faqA2: "Jalur Udara (Air Freight) berkisar 7-14 hari kerja. Jalur Laut (Sea Freight) berkisar 30-45 hari kerja. Waktu dapat berubah jika ada pemeriksaan *redline* pabean.",
-                faqQ3: "Bagaimana jika barang pecah/rusak?",
-                faqA3: "Kerusakan menjadi tanggung jawab Anda sebagai importir, karena kami hanya jasa titip (Jastip). Kami hanya bertanggung jawab atas kehilangan total jika barang diasuransikan. Wajib asuransi untuk barang di atas USD 500.",
-
-
-                ctaSectionTitle: "Siap Tingkatkan Level Impor Anda?",
-                ctaSectionSubtitle: "Hubungi Manajer Akun kami. Kirim *link* produk Anda, dan kami akan berikan estimasi biaya total (All-in) yang final.",
-                ctaFinalText: "Mulai Konsultasi (Gratis)",
-
-                trackingText: "Akses Logistik Terintegrasi (Cek Resi)",
-                footerTagline: "Jasa *Freight Forwarding* B2B Premium | China \u2192 Indonesia",
-                footerCopyright: "© 2025 ULTRA PRIME LOGISTICS. Hak Cipta Dilindungi. | Kode Layanan: ULTRAPRIME",
-            },
-            en: {
-                navHome: "Home", navServices: "Advantages", navRules: "Protocols", navContact: "Contact", navTracking: "Track Shipment",
-
-                heroTagline: "STATE-OF-THE-ART FORWARDING TECHNOLOGY",
-                heroTitle: 'Dedicated Import Lane for <span class="accent-text-blue block lg:inline">Goods from China to Indonesia</span>.',
-                heroSubtitle: "Premium B2B (Business-to-Business) all-in service focusing on speed, security, and transparent costs.",
-                heroCtaText: "Consult Service Protocol",
-
-                servicesTitle: "ULTRA PRIME Forwarding Advantages",
-                service1Title: "Final All-in Cost",
-                service1Text: "Price per Kg/CBM includes Tax, Import Duties, and Shipping. No surprise fees at the end.",
-                service2Title: "Priority Air Lane",
-                service2Text: "Air Freight shipment with leading estimates, ideal for your fast-moving products.",
-                service3Title: "Inspection & Repacking",
-                service3Text: "Our team in the China warehouse ensures products match the order, repacked for maximum security.",
-                service4Title: "Personal Account Manager",
-                service4Text: "A dedicated single point of contact for all your shipping inquiries and coordination.",
-
-                // Tracking
-                trackingTitle: "Track Your Shipment",
-                trackingInputPlaceholder: "Enter Logistics ID (Ex: UPX-2025-1234)",
-                trackingBtn: "Track Now",
-                trackingStatusLabel: "Latest Status:",
-                trackingStatusInitial: "No Tracking Number Entered",
-
-                // Calculator
-                calculatorTitle: "Cost Estimation Calculator",
-                calculatorDisclaimer: "*This estimate uses average cost per Kg/CBM. Final price depends on item type, daily exchange rate, and chosen lane.",
-                calculatorWeight: "Item Weight (Kg)",
-                calculatorCBM: "Item Volume (CBM)",
-                calculatorLane: "Shipping Lane",
-                laneAir: "Air (Priority)",
-                laneSea: "Sea (Economy)",
-                calculateBtn: "Calculate Estimate",
-                estimateLabel: "Total All-in Estimate:",
-
-                // Rules
-                rulesTitle: "JASTIP ORDER PROTOCOLS & TERMS",
-                rulesIntroTitle: "MUST READ THE RULES BEFORE ORDERING ‼️",
-                ruleMinOrder: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">A. Minimum Order & Shipping Lane:</strong> Mixed Stores = Min 1 Kg Total Weight. Available Lanes: Sea Freight and Air Freight.',
-                ruleEta: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">B. Estimated Time (ETA) & Delays:</strong> Shipments adhere to the provided Estimated Time of Arrival (ETA). If a *redline* (strict customs inspection) occurs, there will be a **delay of 1-2 weeks or more** outside of our control.',
-                ruleLiability: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">C. Limitation of Liability:</strong> Damage or shortage of goods is outside of Jastip\'s responsibility, especially for fragile and easily damaged items. We only act as a JASTIP SERVICE and will assist with complaints to the China *seller*.',
-                ruleRefund: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">D. Refund Exchange Rate Procedure:</strong> If there is a *refund* from the China *seller*, the funds will be returned to the client using a **buying rate of Rp 2,300** (agreed upon rate).',
-                ruleComplaint: '<strong class="font-bold block mb-1" style="color: var(--text-primary);">E. Claim Procedure (MANDATORY):</strong> Claims are only processed if accompanied by an **Unboxing Video (no pause)** that clearly shows the shipping receipt. Without a video, the claim cannot be processed.',
-                ruleAgreement: 'ORDER = AGREEMENT TO ALL THESE RULES. <span class="block text-base mt-2 text-gray-500">We reserve the right to reject or cancel orders if protocols are not met.</span>',
-                
-                // FAQ
-                faqTitle: "Frequently Asked Questions (FAQ)",
-                faqQ1: "Does this include tax costs?",
-                faqA1: "Yes, our *all-in* price includes VAT, Income Tax, Import Duties, and all warehouse/forwarding fees from China until arrival at your address in Indonesia.",
-                faqQ2: "What is the estimated time of arrival?",
-                faqA2: "Air Freight ranges from 7-14 working days. Sea Freight ranges from 30-45 working days. Time may change due to customs *redline* inspections.",
-                faqQ3: "What if the goods are broken/damaged?",
-                faqA3: "Damage is your responsibility as the importer, as we are only a Jastip service. We are only responsible for total loss if the goods are insured. Insurance is mandatory for goods above USD 500.",
-
-
-                ctaSectionTitle: "Ready to Upgrade Your Import Level?",
-                ctaSectionSubtitle: "Contact our Account Manager. Send your product *links*, and we will provide a final total (All-in) cost estimate.",
-                ctaFinalText: "Start Consultation (Free)",
-
-                trackingText: "Integrated Logistics Access (Check Receipt)",
-                footerTagline: "Premium B2B Freight Forwarding Service | China \u2192 Indonesia",
-                footerCopyright: "© 2025 ULTRA PRIME LOGISTICS. All Rights Reserved. | Service Code: ULTRAPRIME",
-            }
-        };
-
-        let currentLang = 'id';
-        const langToggleBtn = document.getElementById('lang-toggle');
-        
-        // --- 2.1 TRANSLATION FUNCTION ---
-        function renderNav(lang) {
-            const navLinks = [
-                { id: 'navHome', href: '#' },
-                { id: 'navTracking', href: '#tracking' },
-                { id: 'navServices', href: '#services' },
-                { id: 'navRules', href: '#rules' },
-                { id: 'navContact', href: '#contact' },
-            ];
-
-            const desktopNav = document.getElementById('desktop-nav');
-            const mobileNav = document.getElementById('mobile-nav');
-            desktopNav.innerHTML = '';
-            mobileNav.innerHTML = '';
-
-            navLinks.forEach(link => {
-                const text = translations[lang][link.id];
-
-                // Desktop link
-                const desktopA = document.createElement('a');
-                desktopA.href = link.href;
-                desktopA.className = 'hover:text-accent-blue transition';
-                desktopA.textContent = text;
-                // Update text color dynamically
-                desktopA.style.color = 'var(--text-primary)';
-                desktopNav.appendChild(desktopA);
-
-                // Mobile link
-                const mobileA = document.createElement('a');
-                mobileA.href = link.href;
-                mobileA.className = 'block px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md';
-                mobileA.textContent = text;
-                mobileA.style.color = 'var(--text-primary)';
-                mobileNav.appendChild(mobileA);
-            });
-        }
-
-
-        function updateContent(lang) {
-            const t = translations[lang];
-            
-            // Set HTML lang attribute
-            root.lang = lang;
-
-            // Simple Text Updates
-            document.getElementById('hero-tagline').textContent = t.heroTagline;
-            document.getElementById('hero-title').innerHTML = t.heroTitle;
-            document.getElementById('hero-subtitle').textContent = t.heroSubtitle.replace(/\*/g, ''); 
-            document.getElementById('hero-cta-text').textContent = t.heroCtaText;
-            
-            // Services (DIPASTIKAN SEMUA ID SUDAH ADA DI HTML)
-            document.getElementById('services-title').textContent = t.servicesTitle;
-            document.getElementById('service-1-title').textContent = t.service1Title;
-            document.getElementById('service-1-text').textContent = t.service1Text;
-            document.getElementById('service-2-title').textContent = t.service2Title; // FIXED ID: Sebelumnya 'service2-title'
-            document.getElementById('service-2-text').textContent = t.service2Text;
-            document.getElementById('service-3-title').textContent = t.service3Title;
-            document.getElementById('service-3-text').textContent = t.service3Text;
-            document.getElementById('service-4-title').textContent = t.service4Title;
-            document.getElementById('service-4-text').textContent = t.service4Text;
-
-            // Tracking
-            document.getElementById('tracking-title').textContent = t.trackingTitle;
-            document.getElementById('tracking-input').placeholder = t.trackingInputPlaceholder;
-            document.getElementById('tracking-btn-text').textContent = t.trackingBtn;
-            document.getElementById('tracking-status-label').textContent = t.trackingStatusLabel;
-            // Only update the initial/default state text if it hasn't been tracked yet
-            const trackingResult = document.getElementById('tracking-result').querySelector('#tracking-status-text');
-            if (trackingResult.textContent === translations['id']['trackingStatusInitial'] || trackingResult.textContent === translations['en']['trackingStatusInitial']) {
-                trackingResult.textContent = t.trackingStatusInitial;
-            }
-
-
-            // Calculator
-            document.getElementById('calculator-title').textContent = t.calculatorTitle;
-            document.getElementById('calculator-disclaimer').textContent = t.calculatorDisclaimer.replace(/\*/g, '');
-            document.getElementById('calculator-weight').textContent = t.calculatorWeight;
-            document.getElementById('calculator-cbm').textContent = t.calculatorCBM;
-            document.getElementById('calculator-lane').textContent = t.calculatorLane;
-            document.getElementById('lane-air').textContent = t.laneAir;
-            document.getElementById('lane-sea').textContent = t.laneSea;
-            document.getElementById('calculate-btn-text').textContent = t.calculateBtn;
-            document.getElementById('estimate-label').textContent = t.estimateLabel;
-
-
-            // Rules (innerHTML required)
-            document.getElementById('rules-title').textContent = t.rulesTitle;
-            document.getElementById('rules-intro-title').textContent = t.rulesIntroTitle;
-            document.getElementById('rule-min-order').innerHTML = t.ruleMinOrder;
-            document.getElementById('rule-eta').innerHTML = t.ruleEta.replace(/\*/g, '');
-            document.getElementById('rule-liability').innerHTML = t.ruleLiability;
-            document.getElementById('rule-refund').innerHTML = t.ruleRefund;
-            document.getElementById('rule-complaint').innerHTML = t.ruleComplaint.replace(/\*/g, '');
-            document.getElementById('rule-agreement').innerHTML = t.ruleAgreement;
-
-            // FAQ
-            document.getElementById('faq-title').textContent = t.faqTitle;
-            document.getElementById('faq-q1').textContent = t.faqQ1;
-            document.getElementById('faq-a1').textContent = t.faqA1.replace(/\*/g, '');
-            document.getElementById('faq-q2').textContent = t.faqQ2;
-            document.getElementById('faq-a2').textContent = t.faqA2.replace(/\*/g, '');
-            document.getElementById('faq-q3').textContent = t.faqQ3;
-            document.getElementById('faq-a3').textContent = t.faqA3.replace(/\*/g, '');
-
-            // CTA & Footer
-            document.getElementById('cta-section-title').textContent = t.ctaSectionTitle;
-            document.getElementById('cta-section-subtitle').textContent = t.ctaSectionSubtitle.replace(/\*/g, '');
-            document.getElementById('cta-final-text').textContent = t.ctaFinalText;
-            document.getElementById('footer-tagline').innerHTML = t.footerTagline.replace(/\*/g, '');
-            document.getElementById('footer-copyright').textContent = t.footerCopyright;
-
-            // Re-render navigation
-            renderNav(lang);
-        }
-
-        langToggleBtn.addEventListener('click', () => {
-            currentLang = currentLang === 'id' ? 'en' : 'id';
-            updateContent(currentLang);
-        });
-
-        // 3. MOBILE MENU LOGIC
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Hide mobile menu when a link is clicked
-        document.getElementById('mobile-nav').addEventListener('click', (e) => {
-            if (e.target.tagName === 'A') {
-                mobileMenu.classList.add('hidden');
-            }
-        });
-
-        // --- 4. TRACKING SIMULATOR LOGIC ---
-        const trackingButton = document.getElementById('tracking-button');
-        const trackingInput = document.getElementById('tracking-input');
-        const trackingResult = document.getElementById('tracking-result');
-
-        const trackingData = {
-            "UPX-2025-1234": { status: "Kargo Tiba di Gudang Jakarta, Siap Dikirim ke Alamat Anda", color: "text-green-500", icon: "truck" },
-            "UPX-2025-5678": { status: "Sedang dalam Proses Pemeriksaan Pabean (Redline) - Perkiraan Delay 1 Minggu", color: "text-red-500", icon: "alert-octagon" },
-            "UPX-2025-9012": { status: "Kargo Lepas Landas dari China (Shenzhen)", color: "text-yellow-500", icon: "plane" },
-        };
-
-        trackingButton.addEventListener('click', () => {
-            const id = trackingInput.value.toUpperCase().trim();
-            const defaultText = translations[currentLang].trackingStatusInitial;
-            const statusLabelText = translations[currentLang].trackingStatusLabel;
-
-            if (id in trackingData) {
-                const data = trackingData[id];
-                trackingResult.innerHTML = `
-                    <i data-lucide="${data.icon}" class="w-5 h-5 inline mr-2 ${data.color}"></i>
-                    <span id="tracking-status-text" class="${data.color}">${data.status}</span>
-                `;
-            } else if (id === '') {
-                 trackingResult.innerHTML = `
-                    <i data-lucide="loader-2" class="w-5 h-5 inline mr-2 text-gray-500"></i>
-                    <span id="tracking-status-text" class="text-gray-500">${defaultText}</span>
-                `;
-            } else {
-                trackingResult.innerHTML = `
-                    <i data-lucide="x-circle" class="w-5 h-5 inline mr-2 text-red-400"></i>
-                    <span id="tracking-status-text" class="text-red-400">ID Logistik tidak ditemukan. Cek kembali nomor Anda.</span>
-                `;
-            }
-            lucide.createIcons(); // Re-render icon
-        });
-
-        // --- 5. COST ESTIMATOR LOGIC (Simulated Rates) ---
-        const calculateButton = document.getElementById('calculate-button');
-        const resultDisplay = document.getElementById('calculator-result');
-
-        // Simulated Rates (Example: Price per Unit, assuming All-in USD/unit, converted to IDR)
-        // Rate: IDR 14,000 / USD
-        const SIMULATED_RATES = {
-            air_per_kg: 85000, // IDR 85k/kg
-            sea_per_kg: 25000, // IDR 25k/kg (if using kg for LCL)
-            sea_per_cbm: 4000000, // IDR 4jt/CBM
-            min_charge: 100000, // Minimum IDR 100k charge
-        };
-
-        function formatRupiah(number) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(number);
-        }
-
-        calculateButton.addEventListener('click', () => {
-            const weight = parseFloat(document.getElementById('weight').value) || 0;
-            const cbm = parseFloat(document.getElementById('cbm').value) || 0;
-            const lane = document.getElementById('lane').value;
-            let totalCost = 0;
-
-            if (lane === 'air') {
-                // Air Freight (usually charged strictly by KG, min 10kg)
-                const finalWeight = Math.max(weight, 10); 
-                totalCost = finalWeight * SIMULATED_RATES.air_per_kg;
-            } else {
-                // Sea Freight (using the greater of KG or CBM cost)
-                const costByWeight = weight * SIMULATED_RATES.sea_per_kg;
-                const costByCBM = cbm * SIMULATED_RATES.sea_per_cbm;
-                // Charge based on the greater of the two volume metrics
-                totalCost = Math.max(costByWeight, costByCBM); 
-            }
-            
-            // Apply minimum charge if total cost is low
-            totalCost = Math.max(totalCost, SIMULATED_RATES.min_charge);
-
-            // Display result
-            resultDisplay.textContent = formatRupiah(totalCost);
-        });
-
-        // --- 6. INITIALIZATION ---
-        // Initial content load
-        updateContent(currentLang);
-
     </script>
 </body>
 </html>
