@@ -3,358 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PremiumPro | Hak Cipta Dilindungi & SawargiPay</title>
+    <title>PremiumPro | Elevate Your Digital Experience</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --p-blue: #2563eb;
-            --p-slate: #0f172a;
-            --p-gold: #f59e0b;
+            --grad-1: #2563eb;
+            --grad-2: #9333ea;
         }
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
-            color: var(--p-slate);
+            background-color: #fafafa;
+            color: #0f172a;
             overflow-x: hidden;
         }
 
-        /* Modern Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-
-        /* Advanced Glassmorphism */
-        .glass-ui {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(226, 232, 240, 0.5);
+        .gradient-text {
+            background: linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* Shimmer Effect for Download Button */
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--grad-1) 0%, var(--grad-2) 100%);
         }
-        .btn-download {
-            background: linear-gradient(135deg, #1e40af, #2563eb);
+
+        .nav-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(241, 245, 249, 1);
+        }
+
+        /* Improved Search Bar */
+        .search-wrapper {
             position: relative;
-            overflow: hidden;
-        }
-        .btn-download::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: translateX(-100%);
-            animation: shimmer 2.5s infinite;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
         }
 
-        /* Notification Animation */
-        #notify-box {
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            transform: translate(-50%, 150%);
+        .search-wrapper:focus-within {
+            border-color: #2563eb;
+            box-shadow: 0 20px 50px -15px rgba(37, 99, 235, 0.15);
         }
-        #notify-box.active { transform: translate(-50%, 0); }
 
-        /* Card Interactions */
-        .item-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(226, 232, 240, 0.6);
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #1e293b;
+            background: transparent;
         }
-        .item-card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 40px 60px -15px rgba(37, 99, 235, 0.15);
-            border-color: var(--p-blue);
+
+        /* Product Card Styling */
+        .product-card-big {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid #f1f5f9;
+            border-radius: 32px;
+            background: white;
+        }
+
+        .product-card-big:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -12px rgba(37, 99, 235, 0.12);
+            border-color: #e2e8f0;
+        }
+
+        .cart-drawer-anim {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .badge-priv { @apply bg-blue-50 text-blue-600 border-blue-100; }
+        .badge-shar { @apply bg-amber-50 text-amber-600 border-amber-100; }
+        
+        .payment-logo {
+            height: 24px;
+            filter: grayscale(1) opacity(0.4);
+            transition: all 0.3s ease;
+        }
+
+        .payment-container:hover .payment-logo {
+            filter: grayscale(0) opacity(1);
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        .footer-premium {
-            background: linear-gradient(to bottom, #0f172a, #020617);
-        }
     </style>
 </head>
-<body class="no-scrollbar">
+<body class="antialiased">
 
-    <!-- Notifikasi Sistem -->
-    <div id="notify-box" class="fixed bottom-8 left-1/2 z-[9999] w-[90%] max-w-md">
-        <div class="glass-ui p-4 rounded-3xl shadow-2xl flex items-center gap-4 border border-blue-100">
-            <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
-                <i class="fa-solid fa-cart-plus text-lg"></i>
-            </div>
-            <div class="flex-grow">
-                <p class="text-[10px] font-black uppercase tracking-widest text-blue-600">Berhasil!</p>
-                <p id="notify-msg" class="text-sm font-bold text-slate-800">Produk ditambahkan ke keranjang</p>
-            </div>
-            <button onclick="hideNotify()" class="text-slate-400 p-2"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Toast -->
+    <div id="toast" class="fixed top-8 left-1/2 -translate-x-1/2 z-[10001] opacity-0 -translate-y-5 transition-all duration-500 pointer-events-none">
+        <div class="gradient-bg text-white px-6 py-3 rounded-2xl shadow-xl flex items-center gap-3">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="toast-text" class="text-[10px] font-black uppercase tracking-widest"></span>
         </div>
     </div>
 
-    <!-- Header / Navigasi Utama -->
-    <nav class="sticky top-0 w-full z-[1000] glass-ui px-4 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3 group cursor-pointer" onclick="location.reload()">
-                <div class="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center text-white transition-all group-hover:rotate-[15deg] shadow-lg shadow-blue-200">
-                    <i class="fa-solid fa-bolt-lightning text-xl"></i>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-[100] nav-glass">
+        <div class="max-w-5xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 gradient-bg rounded-xl flex items-center justify-center text-white shadow-lg">
+                    <i class="fa-solid fa-bolt-lightning"></i>
                 </div>
-                <div>
-                    <h1 class="text-xl font-extrabold tracking-tighter leading-none text-slate-900">PREMIUM<span class="text-blue-600">PRO</span></h1>
-                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Digital Excellence</span>
-                </div>
+                <h1 class="text-xl font-black tracking-tighter uppercase italic gradient-text">PremiumPro</h1>
             </div>
-
-            <div class="flex items-center gap-2 sm:gap-4">
-                <!-- Fitur Download Canggih di Navbar -->
-                <a href="https://apkpure.com/sawargipay/com.sawargipay.pro" target="_blank" class="btn-download hidden md:flex items-center gap-2 px-5 py-3 rounded-2xl text-white shadow-lg shadow-blue-200 group transition-all active:scale-95">
-                    <i class="fa-solid fa-mobile-screen-button text-sm"></i>
-                    <span class="text-xs font-black uppercase tracking-widest">Download SawargiPay</span>
-                </a>
-
-                <button onclick="toggleCart(true)" class="relative bg-slate-900 text-white px-5 py-3.5 rounded-2xl flex items-center gap-3 shadow-xl hover:bg-blue-600 transition-all">
-                    <i class="fa-solid fa-shopping-bag text-lg"></i>
-                    <span id="cart-badge" class="bg-blue-600 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-black absolute -top-2 -right-2 border-2 border-white">0</span>
-                </button>
-            </div>
+            <button onclick="toggleCart(true)" class="relative w-12 h-12 flex items-center justify-center bg-white rounded-xl border border-slate-100 group shadow-sm transition-all hover:bg-slate-50">
+                <i class="fa-solid fa-bag-shopping text-slate-400 group-hover:gradient-text"></i>
+                <span id="cart-count" class="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 gradient-bg text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
+            </button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="pt-20 pb-16 px-6 text-center bg-white">
-        <div class="max-w-5xl mx-auto">
-            <div class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 rounded-full mb-8">
-                <i class="fa-solid fa-shield-check text-blue-600 text-xs"></i>
-                <span class="text-[10px] font-black text-blue-700 uppercase tracking-widest">HAK CIPTA DILINDUNGI & RESMI</span>
+    <!-- Header Section -->
+    <header class="pt-40 pb-16 px-6 text-center">
+        <div class="max-w-4xl mx-auto">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 mb-8">
+                <span class="text-[9px] font-black text-blue-600 uppercase tracking-widest italic">The Choice of Professionals</span>
             </div>
-            <h1 class="text-5xl md:text-8xl font-black text-slate-900 tracking-tighter leading-[0.9] mb-8">
-                PREMIUM <br> <span class="text-blue-600">REDEFINED.</span>
-            </h1>
-            <p class="text-slate-500 text-lg md:text-xl font-medium max-w-2xl mx-auto mb-16">
-                Belanja produk digital dan top-up PPOB lebih murah lewat aplikasi mitra resmi kami.
+            
+            <h2 class="text-5xl sm:text-7xl font-black tracking-tighter mb-6 leading-tight text-slate-900">
+                AKSES <span class="gradient-text italic">UNLIMITED</span> <br>
+                HARGA <span class="underline decoration-blue-500/30 decoration-8">HEMAT.</span>
+            </h2>
+            
+            <p class="text-slate-500 text-sm sm:text-base font-medium mb-12 max-w-xl mx-auto italic leading-relaxed">
+                Platform kurasi aplikasi premium terbaik di Indonesia. Cepat, Bergaransi, dan 100% Aman untuk semua perangkatmu.
             </p>
 
-            <!-- CTA Utama Download -->
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-                <a href="https://apkpure.com/sawargipay/com.sawargipay.pro" target="_blank" class="btn-download w-full sm:w-auto px-10 py-5 rounded-[24px] text-white flex items-center justify-center gap-4 shadow-2xl shadow-blue-300 transition-all hover:scale-105 active:scale-95">
-                    <i class="fa-brands fa-google-play text-2xl"></i>
-                    <div class="text-left">
-                        <p class="text-[9px] font-bold uppercase tracking-widest opacity-80">Get it on APKPure</p>
-                        <p class="text-lg font-black tracking-tight leading-none">Download SawargiPay</p>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Search Engine -->
-            <div class="max-w-2xl mx-auto relative">
-                <div class="group relative flex items-center bg-white border-2 border-slate-100 rounded-3xl p-2 shadow-2xl shadow-blue-900/5 focus-within:border-blue-600 transition-all">
-                    <div class="pl-6 pr-4 text-slate-300 group-focus-within:text-blue-600 transition-colors">
-                        <i class="fa-solid fa-magnifying-glass text-xl"></i>
-                    </div>
-                    <input type="text" id="main-search" oninput="executeSearch()" placeholder="Cari layanan premium..." 
-                        class="w-full py-4 bg-transparent outline-none text-slate-900 font-bold">
+            <!-- Corrected Search Bar -->
+            <div class="search-wrapper">
+                <div class="pl-4 text-slate-300">
+                    <i class="fa-solid fa-magnifying-glass"></i>
                 </div>
+                <input type="text" id="search" oninput="doSearch()" placeholder="Cari Netflix, Spotify, Canva..." class="search-input">
+                <button class="gradient-bg text-white px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-md">Cari</button>
             </div>
         </div>
     </header>
 
-    <!-- Katalog Produk -->
-    <section id="store" class="max-w-7xl mx-auto px-6 py-12">
-        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar mb-16 pb-2" id="cat-nav">
-            <!-- JS Inject -->
+    <!-- Product Grid -->
+    <main class="max-w-5xl mx-auto px-6 pb-20">
+        <div id="product-grid" class="flex flex-col gap-5">
+            <!-- Items via JS -->
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="product-grid">
-            <!-- JS Inject -->
+        <!-- Stock Note -->
+        <div class="mt-12 text-center p-10 bg-white rounded-[32px] border border-slate-100 shadow-sm">
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-2">Pemberitahuan Resmi</p>
+            <p class="text-[10px] font-bold text-slate-500 leading-relaxed italic">
+                Semua akun bergaransi penuh sesuai durasi. Transaksi manual via WhatsApp untuk keamanan 100%.
+            </p>
         </div>
-    </section>
 
-    <!-- Footer Premium -->
-    <footer class="footer-premium text-white pt-24 pb-12 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
-                <!-- Brand & Download App -->
-                <div class="space-y-8">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-bolt-lightning text-white"></i>
-                        </div>
-                        <h2 class="text-2xl font-black tracking-tighter">PREMIUMPRO</h2>
+        <!-- SawargiPay Footer Section - Redesigned -->
+        <div class="mt-20 p-8 sm:p-12 bg-white rounded-[40px] border-2 border-dashed border-slate-100 flex flex-col md:flex-row items-center justify-between gap-8 group">
+            <div class="text-center md:text-left">
+                <div class="flex items-center gap-3 justify-center md:justify-start mb-2">
+                    <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center text-white text-xs">
+                        <i class="fa-solid fa-wallet"></i>
                     </div>
-                    <p class="text-slate-400 text-sm leading-relaxed">
-                        Nikmati kemudahan transaksi PPOB & Akun Premium dalam satu genggaman melalui aplikasi **SawargiPay**.
-                    </p>
-                    <a href="https://apkpure.com/sawargipay/com.sawargipay.pro" target="_blank" class="inline-flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl hover:bg-white/10 transition-all group">
-                        <i class="fa-solid fa-download text-blue-500 text-xl group-hover:bounce"></i>
-                        <div>
-                            <p class="text-[10px] font-black uppercase tracking-widest text-slate-400">Aplikasi PPOB Resmi</p>
-                            <p class="text-sm font-black">Download SawargiPay v1.0</p>
-                        </div>
-                    </a>
+                    <h3 class="text-2xl font-black uppercase italic tracking-tighter text-slate-900">SawargiPay</h3>
                 </div>
-
-                <!-- Menu -->
-                <div class="grid grid-cols-2 gap-8">
-                    <div>
-                        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-6">Navigasi</h4>
-                        <ul class="space-y-4 text-slate-400 text-sm font-bold">
-                            <li><a href="#" class="hover:text-white transition-colors">Produk Kami</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Cek Status</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Hubungi Kami</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-6">Legalitas</h4>
-                        <ul class="space-y-4 text-slate-400 text-sm font-bold">
-                            <li><a href="#" class="hover:text-white transition-colors">Syarat & Ketentuan</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Kebijakan Privasi</a></li>
-                            <li><a href="#" class="hover:text-white transition-colors">Lisensi Resmi</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Hak Cipta & Keamanan -->
-                <div>
-                    <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 mb-6">Status Keamanan</h4>
-                    <div class="bg-white/5 p-6 rounded-3xl border border-white/10 space-y-4">
-                        <div class="flex items-center gap-4">
-                            <i class="fa-solid fa-shield-halved text-emerald-500"></i>
-                            <span class="text-xs font-bold uppercase tracking-widest">Sistem Terproteksi</span>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <i class="fa-solid fa-copyright text-blue-500"></i>
-                            <span class="text-xs font-bold uppercase tracking-widest italic opacity-60">Hak Cipta Dilindungi</span>
-                        </div>
-                    </div>
-                </div>
+                <p class="text-slate-400 text-sm font-medium italic">Partner Resmi PPOB & Agen Kuota Termurah Indonesia.</p>
             </div>
+            <a href="https://apkpure.com/id/sawargipay/com.sawargipay.pro" target="_blank" class="flex items-center gap-4 bg-slate-900 text-white px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-green-600 transition-all shadow-xl shadow-slate-200">
+                <i class="fa-solid fa-download"></i> Unduh via APKPure
+            </a>
+        </div>
+    </main>
 
-            <!-- Copyright Line -->
-            <div class="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex flex-col md:flex-row items-center gap-4">
-                    <p class="text-slate-500 text-[9px] font-black uppercase tracking-[0.3em]">
-                        ©️ 2024 PREMIUMPRO DIGITAL. ALL RIGHTS RESERVED.
-                    </p>
-                    <span class="hidden md:block text-slate-700">|</span>
-                    <p class="text-slate-400 text-[9px] font-black uppercase tracking-widest">MITRA RESMI SAWARGIPAY</p>
+    <!-- Footer -->
+    <footer class="pt-20 pb-12 bg-white border-t border-slate-50">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex flex-col items-center">
+                <div class="flex flex-wrap justify-center items-center gap-12 mb-16">
+                    <div class="payment-container"><img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="Gopay" class="payment-logo"></div>
+                    <div class="payment-container"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Bank_Mandiri_logo_2016.svg" alt="Mandiri" class="payment-logo"></div>
+                    <div class="payment-container"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Bank_Central_Asia.svg" alt="BCA" class="payment-logo"></div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-check-double text-blue-600 text-xs"></i>
-                    <p class="text-slate-400 text-[9px] font-black uppercase tracking-widest">HAK CIPTA DILINDUNGI NEGARA</p>
-                </div>
+                <div class="w-12 h-1 bg-slate-100 rounded-full mb-8"></div>
+                <p class="text-[9px] font-bold text-slate-300 uppercase tracking-[0.5em] text-center italic leading-loose">
+                    © 2024 PremiumPro Official Catalog <br> 
+                    Powered by SawargiPay Digital System
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Keranjang -->
-    <div id="cart-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[2000] hidden opacity-0 transition-all duration-500"></div>
-    <div id="cart-drawer" class="fixed top-0 right-0 w-full sm:w-[480px] h-full bg-white z-[3000] shadow-2xl translate-x-full transition-transform duration-500 flex flex-col">
-        <div class="p-8 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-            <h2 class="text-2xl font-black text-slate-900 tracking-tighter">Keranjang</h2>
-            <button onclick="toggleCart(false)" class="w-12 h-12 bg-white border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 shadow-sm active:scale-90 transition-all">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
+    <!-- Cart Drawer -->
+    <div id="cart-overlay" onclick="toggleCart(false)" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[1000] hidden opacity-0 transition-opacity duration-500"></div>
+    <div id="cart-drawer" class="fixed top-0 right-0 w-full sm:w-[420px] h-full bg-white z-[1100] translate-x-full shadow-2xl flex flex-col cart-drawer-anim">
+        <div class="p-8 border-b flex items-center justify-between">
+            <h3 class="text-lg font-black italic gradient-text uppercase tracking-tighter">Ringkasan Pesanan</h3>
+            <button onclick="toggleCart(false)" class="w-10 h-10 flex items-center justify-center bg-slate-50 rounded-xl text-slate-400"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <div id="cart-list" class="flex-grow overflow-y-auto p-8 space-y-4 no-scrollbar"></div>
-        <div class="p-8 border-t border-slate-100">
-            <div class="flex justify-between items-end mb-8">
-                <span class="text-[10px] font-black text-slate-300 uppercase tracking-widest">Total Bayar</span>
-                <span id="cart-total" class="text-3xl font-black text-slate-900 tracking-tighter">Rp 0</span>
+        <div id="cart-items" class="flex-grow overflow-y-auto p-8 space-y-4 no-scrollbar"></div>
+        <div class="p-8 border-t bg-slate-50">
+            <div class="flex justify-between items-center mb-6">
+                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Total Bayar</span>
+                <span id="cart-total" class="text-2xl font-black text-slate-900 italic">Rp 0</span>
             </div>
-            <button onclick="sendOrder()" class="w-full bg-blue-600 text-white py-6 rounded-3xl font-black text-sm flex items-center justify-center gap-4 shadow-xl shadow-blue-200">
-                <i class="fa-brands fa-whatsapp text-2xl"></i> HUBUNGI ADMIN
+            <button onclick="checkout()" class="w-full gradient-bg text-white py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-blue-500/30 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Pesan Sekarang
             </button>
         </div>
     </div>
 
     <script>
-        const storeData = {
-            products: [
-                { id: 1, name: "Netflix Premium", dur: "30 Hari", type: "Ultra HD 4K", price: 33500, cat: "Streaming", icon: "fa-solid fa-film", color: "text-red-600 bg-red-50" },
-                { id: 2, name: "YouTube Premium", dur: "30 Hari", type: "Tanpa Iklan", price: 12900, cat: "Media", icon: "fa-brands fa-youtube", color: "text-rose-600 bg-rose-50" },
-                { id: 3, name: "Spotify Premium", dur: "30 Hari", type: "Akun Pribadi", price: 14000, cat: "Music", icon: "fa-brands fa-spotify", color: "text-emerald-600 bg-emerald-50" },
-                { id: 4, name: "Canva Pro", dur: "30 Hari", type: "Premium Tim", price: 8500, cat: "Design", icon: "fa-solid fa-palette", color: "text-blue-600 bg-blue-50" },
-                { id: 5, name: "ChatGPT Plus", dur: "30 Hari", type: "GPT-4 Access", price: 18500, cat: "AI", icon: "fa-solid fa-robot", color: "text-teal-600 bg-teal-50" },
-                { id: 6, name: "Apple Music", dur: "30 Hari", type: "High Quality", price: 11000, cat: "Music", icon: "fa-brands fa-apple", color: "text-slate-900 bg-slate-100" }
-            ],
-            cart: [],
-            filter: "Semua",
-            query: ""
-        };
+        const PRODUCTS = [
+            { id: 1, name: "Apple Music 1B", price: 10000, plan: "private", type: "buyer", icon: "fa-music", color: "from-rose-500 to-pink-600", desc: "Nikmati jutaan lagu dengan kualitas audio terbaik tanpa jeda iklan." },
+            { id: 2, name: "Canva 1B", price: 7000, plan: "private", type: "seller", icon: "fa-palette", color: "from-blue-500 to-indigo-600", desc: "Desain profesional jadi mudah dengan akses elemen premium tak terbatas." },
+            { id: 3, name: "ChatGPT 1B", price: 16000, plan: "private", type: "buyer", icon: "fa-robot", color: "from-teal-600 to-cyan-700", desc: "Asisten AI cerdas untuk membantu pekerjaan, tugas, dan ide kreatifmu." },
+            { id: 4, name: "Capcut 1B", price: 5500, plan: "sharing", type: "seller", icon: "fa-scissors", color: "from-slate-800 to-black", desc: "Editor video nomor satu di dunia. Akses fitur Pro & tanpa watermark." },
+            { id: 5, name: "Disney 1B", price: 30000, plan: "sharing", type: "seller", icon: "fa-film", color: "from-blue-800 to-blue-900", desc: "Rumah bagi film Marvel, Disney, Pixar, dan series lokal terbaik." },
+            { id: 6, name: "IQIYI 1B", price: 12000, plan: "sharing", type: "seller", icon: "fa-clapperboard", color: "from-emerald-500 to-green-600", desc: "Streaming Drama Asia, Anime, dan Variety Show dengan kualitas HD." },
+            { id: 7, name: "Loklok 1B", price: 25000, plan: "sharing", type: "seller", icon: "fa-play-circle", color: "from-orange-500 to-red-600", desc: "Streaming film global tanpa batas dengan pengalaman baru." },
+            { id: 8, name: "Netflix 1B Semi Private", price: 33000, plan: "semi private", type: "seller", icon: "fa-play", color: "from-red-600 to-red-800", desc: "Kualitas 4K Ultra HD. Akun stabil untuk maraton film favoritmu." },
+            { id: 9, name: "Prime Video 1B", price: 15000, plan: "private", type: "seller", icon: "fa-brands fa-amazon", color: "from-sky-500 to-blue-600", desc: "Streaming original Amazon kualitas HD eksklusif." },
+            { id: 10, name: "Spotify 1B", price: 13500, plan: "private", type: "seller", icon: "fa-brands fa-spotify", color: "from-green-500 to-green-600", desc: "Musik tanpa iklan, download offline, skip lagu sepuasnya." },
+            { id: 11, name: "Spotify 3B", price: 27500, plan: "private", type: "seller", icon: "fa-brands fa-spotify", color: "from-green-600 to-emerald-700", desc: "Paket hemat 3 bulan untuk telinga yang haus musik." },
+            { id: 12, name: "Viu 12B", price: 15000, plan: "private", type: "seller", icon: "fa-video", color: "from-yellow-500 to-orange-500", desc: "Drama Korea terupdate durasi satu tahun penuh." },
+            { id: 13, name: "Vidio Platinum TV 1Th", price: 13000, plan: "private", type: "seller", icon: "fa-tv", color: "from-red-500 to-rose-600", desc: "Akses TV Nasional & olahraga terlengkap selama setahun." },
+            { id: 14, name: "Vidio Platinum Mobile 1B", price: 23000, plan: "private", type: "seller", icon: "fa-mobile-screen", color: "from-red-600 to-red-700", desc: "Akses khusus smartphone untuk Platinum Mobile." },
+            { id: 15, name: "WeTV 1B", price: 15000, plan: "sharing", type: "seller", icon: "fa-desktop", color: "from-blue-400 to-blue-600", desc: "Nonton series lokal & mandarin eksklusif kualitas HD." },
+            { id: 16, name: "YouTube 1B", price: 12500, plan: "private", type: "seller", icon: "fa-brands fa-youtube", color: "from-red-600 to-rose-700", desc: "Bebas iklan di YouTube & akses penuh ke YouTube Music Premium." },
+            { id: 17, name: "YouTube 3B", price: 35000, plan: "private", type: "seller", icon: "fa-brands fa-youtube", color: "from-red-700 to-black", desc: "YouTube premium paket hemat untuk 3 bulan ke depan." }
+        ];
 
-        const state = { filter: "Semua", query: "" };
+        let state = { cart: [], search: "" };
 
-        function showNotify(msg) {
-            const box = document.getElementById('notify-box');
-            document.getElementById('notify-msg').innerText = msg;
-            box.classList.add('active');
-            setTimeout(() => box.classList.remove('active'), 3000);
+        function showToast(text) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-text').innerText = text;
+            t.classList.remove('opacity-0', '-translate-y-5');
+            setTimeout(() => t.classList.add('opacity-0', '-translate-y-5'), 2000);
         }
 
-        function toggleCart(open) {
-            const drawer = document.getElementById('cart-drawer');
-            const overlay = document.getElementById('cart-overlay');
-            if(open) {
-                overlay.classList.remove('hidden');
-                setTimeout(() => { overlay.classList.add('opacity-100'); drawer.classList.remove('translate-x-full'); }, 10);
-            } else {
-                drawer.classList.add('translate-x-full');
-                overlay.classList.remove('opacity-100');
-                setTimeout(() => overlay.classList.add('hidden'), 500);
-            }
+        function toggleCart(show) {
+            const d = document.getElementById('cart-drawer');
+            const o = document.getElementById('cart-overlay');
+            if(show) { o.classList.remove('hidden'); setTimeout(() => { o.classList.add('opacity-100'); d.classList.remove('translate-x-full'); }, 10);
+            } else { d.classList.add('translate-x-full'); o.classList.remove('opacity-100'); setTimeout(() => o.classList.add('hidden'), 500); }
         }
 
-        function executeSearch() {
-            state.query = document.getElementById('main-search').value.toLowerCase();
-            renderProducts();
-        }
-
-        function renderCats() {
-            const cats = ["Semua", ...new Set(storeData.products.map(p => p.cat))];
-            document.getElementById('cat-nav').innerHTML = cats.map(c => `
-                <button onclick="setFilter('${c}')" class="whitespace-nowrap px-8 py-3.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${state.filter === c ? 'bg-blue-600 text-white shadow-xl shadow-blue-100' : 'bg-white text-slate-400 border border-slate-100 hover:border-blue-200'}">
-                    ${c}
-                </button>
-            `).join('');
-        }
-
-        function setFilter(f) {
-            state.filter = f;
-            renderCats();
+        function doSearch() {
+            state.search = document.getElementById('search').value.toLowerCase();
             renderProducts();
         }
 
         function renderProducts() {
             const grid = document.getElementById('product-grid');
-            const filtered = storeData.products.filter(p => {
-                const matchCat = state.filter === "Semua" || p.cat === state.filter;
-                const matchQuery = p.name.toLowerCase().includes(state.query);
-                return matchCat && matchQuery;
-            });
+            const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(state.search));
+            
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="text-center py-20 opacity-30 italic">Maaf, produk tidak ditemukan...</div>`;
+                return;
+            }
 
             grid.innerHTML = filtered.map(p => `
-                <div class="item-card bg-white p-8 rounded-[2.5rem] flex flex-col">
-                    <div class="mb-10">
-                        <div class="w-16 h-16 ${p.color} rounded-3xl flex items-center justify-center text-3xl transition-transform hover:scale-110">
-                            <i class="${p.icon}"></i>
-                        </div>
+                <div class="product-card-big p-6 flex flex-col md:flex-row items-center gap-6">
+                    <div class="w-16 h-16 bg-gradient-to-br ${p.color} rounded-2xl flex items-center justify-center text-2xl text-white shadow-lg flex-shrink-0">
+                        <i class="fa-solid ${p.icon}"></i>
                     </div>
-                    <div class="flex-grow">
-                        <h3 class="text-xl font-black text-slate-900 mb-2 tracking-tight">${p.name}</h3>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-10">${p.dur} • ${p.type}</p>
-                    </div>
-                    <div class="flex items-end justify-between">
-                        <div>
-                            <span class="text-[9px] font-black text-slate-300 uppercase block mb-1">Mulai Dari</span>
-                            <span class="text-2xl font-black text-slate-900 tracking-tighter">Rp ${p.price.toLocaleString('id-ID')}</span>
+                    <div class="flex-grow text-center md:text-left">
+                        <div class="flex flex-wrap items-center gap-2 mb-1 justify-center md:justify-start">
+                            <h3 class="text-lg font-black text-slate-900 uppercase tracking-tighter italic leading-none">${p.name}</h3>
+                            <span class="text-[8px] font-black px-2 py-0.5 rounded-full border-2 uppercase tracking-widest ${p.plan.includes('priv') ? 'badge-priv' : 'badge-shar'}">${p.plan}</span>
                         </div>
-                        <button onclick="addToCart(${p.id})" class="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center hover:bg-blue-600 shadow-xl active:scale-90 transition-all">
-                            <i class="fa-solid fa-plus text-xl"></i>
+                        <p class="text-slate-400 text-[11px] font-medium leading-relaxed italic mb-2">${p.desc}</p>
+                    </div>
+                    <div class="flex flex-col items-center md:items-end gap-3 w-full md:w-auto flex-shrink-0 border-t md:border-0 pt-4 md:pt-0">
+                        <div class="text-xl font-black text-slate-900 italic">Rp ${p.price.toLocaleString('id-ID')}</div>
+                        <button onclick="addToCart(${p.id})" class="gradient-bg text-white px-6 py-2.5 rounded-xl font-black text-[9px] uppercase tracking-widest shadow-md hover:scale-105 active:scale-95 transition-all">
+                            Tambahkan
                         </button>
                     </div>
                 </div>
@@ -362,59 +296,56 @@
         }
 
         function addToCart(id) {
-            const p = storeData.products.find(x => x.id === id);
-            storeData.cart.push({...p, uid: Date.now() + Math.random()});
+            const p = PRODUCTS.find(x => x.id === id);
+            state.cart.push({ ...p, uid: Date.now() });
             updateCart();
-            showNotify(`${p.name} ditambahkan!`);
+            showToast(`${p.name} Berhasil Ditambah`);
+        }
+
+        function removeItem(uid) {
+            state.cart = state.cart.filter(i => i.uid !== uid);
+            updateCart();
         }
 
         function updateCart() {
-            const badge = document.getElementById('cart-badge');
-            const list = document.getElementById('cart-list');
+            document.getElementById('cart-count').innerText = state.cart.length;
+            const list = document.getElementById('cart-items');
             const total = document.getElementById('cart-total');
 
-            badge.innerText = storeData.cart.length;
-
-            if(storeData.cart.length === 0) {
-                list.innerHTML = `<div class="text-center py-20 text-slate-200 font-black uppercase text-[10px] tracking-widest">Keranjang Kosong</div>`;
-            } else {
-                list.innerHTML = storeData.cart.map(c => `
-                    <div class="bg-slate-50 p-6 rounded-[2rem] flex items-center gap-4 group">
-                        <div class="w-12 h-12 ${c.color} rounded-xl flex items-center justify-center text-xl"><i class="${c.icon}"></i></div>
-                        <div class="flex-grow">
-                            <h4 class="text-sm font-black text-slate-900">${c.name}</h4>
-                            <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Rp ${c.price.toLocaleString('id-ID')}</p>
-                        </div>
-                        <button onclick="removeCart(${c.uid})" class="text-rose-500 hover:scale-110 transition-transform"><i class="fa-solid fa-trash-can"></i></button>
-                    </div>
-                `).join('');
+            if(state.cart.length === 0) {
+                list.innerHTML = `<div class="text-center py-20 opacity-10 italic"><i class="fa-solid fa-cart-arrow-down text-3xl mb-2"></i><p class="text-[9px] font-black uppercase">Kosong</p></div>`;
+                total.innerText = "Rp 0";
+                return;
             }
 
-            const totalSum = storeData.cart.reduce((s, i) => s + i.price, 0);
-            total.innerText = `Rp ${totalSum.toLocaleString('id-ID')}`;
+            list.innerHTML = state.cart.map(i => `
+                <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100">
+                    <div class="w-10 h-10 bg-gradient-to-br ${i.color} rounded-xl flex items-center justify-center text-white shadow-md flex-shrink-0"><i class="fa-solid ${i.icon} text-sm"></i></div>
+                    <div class="flex-grow">
+                        <h4 class="text-[10px] font-black text-slate-900 uppercase tracking-tighter">${i.name}</h4>
+                        <p class="text-[9px] font-bold text-slate-400 italic">Rp ${i.price.toLocaleString('id-ID')}</p>
+                    </div>
+                    <button onclick="removeItem(${i.uid})" class="text-slate-300 hover:text-rose-500 px-2"><i class="fa-solid fa-trash-can text-xs"></i></button>
+                </div>
+            `).join('');
+
+            const sum = state.cart.reduce((a, b) => a + b.price, 0);
+            total.innerText = `Rp ${sum.toLocaleString('id-ID')}`;
         }
 
-        function removeCart(uid) {
-            storeData.cart = storeData.cart.filter(c => c.uid !== uid);
-            updateCart();
+        function checkout() {
+            if(state.cart.length === 0) return;
+            let msg = "*ORDER PREMIUMPRO X SAWARGIPAY*\n";
+            msg += "━━━━━━━━━━━━━━━━━━\n";
+            state.cart.forEach((i, idx) => { msg += `${idx + 1}. *${i.name}* (${i.plan.toUpperCase()}) - Rp ${i.price.toLocaleString('id-ID')}\n`; });
+            const sum = state.cart.reduce((a, b) => a + b.price, 0);
+            msg += "━━━━━━━━━━━━━━━━━━\n";
+            msg += `*TOTAL TAGIHAN: Rp ${sum.toLocaleString('id-ID')}*\n\n`;
+            msg += "_Halo Admin, saya ingin melanjutkan pesanan ini. Mohon info pembayarannya._";
+            window.open(`https://wa.me/6282113945743?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        function sendOrder() {
-            if(storeData.cart.length === 0) return;
-            let text = "🚀 *ORDER PREMIUMPRO DIGITAL* 🚀\n\n";
-            storeData.cart.forEach((it, i) => text += `✅ *${i+1}. ${it.name}* (${it.dur}) - Rp ${it.price.toLocaleString('id-ID')}\n`);
-            text += `\n💰 *TOTAL BAYAR: Rp ${storeData.cart.reduce((s,i)=>s+i.price,0).toLocaleString('id-ID')}*`;
-            text += `\n\n_Mohon instruksinya Admin, saya siap bayar!_`;
-            window.open(`https://wa.me/6282113945743?text=${encodeURIComponent(text)}`, '_blank');
-        }
-
-        function hideNotify() { document.getElementById('notify-box').classList.remove('active'); }
-
-        window.onload = () => {
-            renderCats();
-            renderProducts();
-            updateCart();
-        };
+        window.onload = renderProducts;
     </script>
 </body>
 </html>
