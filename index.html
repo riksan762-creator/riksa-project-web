@@ -1,125 +1,183 @@
 <!doctype html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>QR Code — sawargi</title>
-  <style>
-    body { font-family: system-ui, -apple-system, Arial; padding: 20px; max-width:700px; margin:auto; }
-    .card { border:1px solid #e0e0e0; padding:16px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.03); }
-    #qrcode { width: 300px; height: 300px; display:flex; align-items:center; justify-content:center; margin: 12px 0; }
-    label{display:block;margin-top:10px}
-    input[type="text"]{width:100%;padding:8px;border-radius:6px;border:1px solid #ccc}
-    button{margin-right:8px;padding:10px 14px;border-radius:6px;border:0;background:#0b74ff;color:white;cursor:pointer}
-    button.secondary{background:#444}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>QR Code SawargiPay</title>
+
+<style>
+
+body{
+font-family:system-ui,-apple-system,Arial;
+padding:20px;
+max-width:700px;
+margin:auto;
+background:#f5f7fb;
+}
+
+.card{
+border:1px solid #e0e0e0;
+padding:20px;
+border-radius:10px;
+background:white;
+box-shadow:0 6px 20px rgba(0,0,0,0.05);
+}
+
+#qrcode{
+margin:20px auto;
+display:flex;
+justify-content:center;
+}
+
+label{
+margin-top:10px;
+display:block;
+font-weight:600;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:6px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+margin-top:12px;
+margin-right:8px;
+padding:10px 16px;
+border:none;
+border-radius:6px;
+background:#0b74ff;
+color:white;
+cursor:pointer;
+font-weight:600;
+}
+
+button.secondary{
+background:#444;
+}
+
+button:hover{
+opacity:0.9;
+}
+
+</style>
+
 </head>
 <body>
-  <h1>QR Code — sawargi</h1>
-  <div class="card">
-    <label>Link (bisa ubah):</label>
-    <input id="url" type="text" value="https://sawargipay.com" />
-    <label>Ukuran QR (px):</label>
-    <input id="size" type="number" value="300" min="100" max="1200" />
-    <div style="margin-top:10px">
-      <button id="generate">Generate QR</button>
-      <button id="downloadPng" class="secondary">Download PNG</button>
-      <button id="downloadPdf" class="secondary">Download PDF (A4)</button>
-    </div>
 
-    <div id="qrcode" aria-hidden="true"></div>
+<h2>QR Code SawargiPay</h2>
 
-    <p style="font-size:13px;color:#555;margin-top:12px">
-      Scan QR ini — akan menuju URL yang tertera pada kolom diatas. PDF yang diunduh berformat A4 dengan QR terpusat.
-    </p>
-  </div>
+<div class="card">
 
-  <!-- libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<label>Link Website</label>
+<input id="url" value="https://sawargipay.com">
 
-  <script>
-    // references
-    const qrcodeEl = document.getElementById('qrcode');
-    const urlInput = document.getElementById('url');
-    const sizeInput = document.getElementById('size');
-    const genBtn = document.getElementById('generate');
-    const pngBtn = document.getElementById('downloadPng');
-    const pdfBtn = document.getElementById('downloadPdf');
+<label>Ukuran QR (px)</label>
+<input id="size" type="number" value="300" min="100" max="1000">
 
-    let qr; // QRCode instance
+<br>
 
-    function generateQR() {
-      const url = (urlInput.value || '').trim();
-      const size = Math.max(100, Math.min(1200, parseInt(sizeInput.value) || 300));
-      // clear old
-      qrcodeEl.innerHTML = '';
-      // create
-      qr = new QRCode(qrcodeEl, {
-        text: url,
-        width: size,
-        height: size,
-        colorDark: "#000000",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.H
-      });
-    }
+<button id="generate">Generate QR</button>
+<button id="downloadPNG" class="secondary">Download PNG</button>
+<button id="downloadPDF" class="secondary">Download PDF</button>
 
-    // initial generate
-    generateQR();
+<div id="qrcode"></div>
 
-    genBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      generateQR();
-    });
+</div>
 
-    async function downloadPNG() {
-      // use html2canvas to ensure we capture exactly what's rendered
-      const canvas = await html2canvas(qrcodeEl, { scale: 4, backgroundColor: null });
-      const dataUrl = canvas.toDataURL('image/png');
-      const a = document.createElement('a');
-      a.href = dataUrl;
-      a.download = 'qr_sawargipay.png';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
 
-    async function downloadPDF() {
-      // render element to canvas (high res)
-      const canvas = await html2canvas(qrcodeEl, { scale: 4, backgroundColor: '#ffffff' });
-      const imgData = canvas.toDataURL('image/png');
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-      // create A4 PDF (portrait). Units: mm. A4 size ~ 210 x 297 mm
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+<script>
 
-      // Calculate image size to fit nicely in PDF center
-      const pageWidth = 210;
-      const pageHeight = 297;
-      // convert canvas px to mm with an assumption (we'll scale to fit)
-      const imgProps = { width: canvas.width, height: canvas.height };
-      // desired width in mm (leave margin)
-      const maxWidthMM = pageWidth - 40; // 20mm margin each side
-      const ratio = imgProps.width / imgProps.height;
-      let imgWidthMM = Math.min(maxWidthMM, imgProps.width * 0.264583); // px to mm approx 1px=0.264583mm
-      let imgHeightMM = imgWidthMM / ratio;
-      if (imgHeightMM > (pageHeight - 60)) { // if too tall, scale down
-        imgHeightMM = pageHeight - 60;
-        imgWidthMM = imgHeightMM * ratio;
-      }
-      const x = (pageWidth - imgWidthMM) / 2;
-      const y = (pageHeight - imgHeightMM) / 2;
+const qrContainer = document.getElementById("qrcode")
+const urlInput = document.getElementById("url")
+const sizeInput = document.getElementById("size")
 
-      pdf.addImage(imgData, 'PNG', x, y, imgWidthMM, imgHeightMM, undefined, 'FAST');
-      pdf.setProperties({ title: 'QR sawargipay' });
-      pdf.save('qr_sawargipay.pdf');
-    }
+let qr
 
-    pngBtn.addEventListener('click', (e) => { e.preventDefault(); downloadPNG(); });
-    pdfBtn.addEventListener('click', (e) => { e.preventDefault(); downloadPDF(); });
+function generateQR(){
 
-  </script>
+let url = urlInput.value.trim()
+let size = parseInt(sizeInput.value)
+
+qrContainer.innerHTML=""
+
+qr = new QRCode(qrContainer,{
+text:url,
+width:size,
+height:size,
+correctLevel:QRCode.CorrectLevel.H
+})
+
+}
+
+generateQR()
+
+document.getElementById("generate").onclick=generateQR
+
+
+function getQRCanvas(){
+
+let canvas = qrContainer.querySelector("canvas")
+
+if(!canvas){
+alert("QR belum dibuat")
+return null
+}
+
+return canvas
+
+}
+
+
+
+document.getElementById("downloadPNG").onclick=function(){
+
+let canvas = getQRCanvas()
+
+if(!canvas) return
+
+let link=document.createElement("a")
+
+link.download="qr-sawargipay.png"
+link.href=canvas.toDataURL("image/png")
+
+link.click()
+
+}
+
+
+
+document.getElementById("downloadPDF").onclick=function(){
+
+let canvas=getQRCanvas()
+
+if(!canvas) return
+
+let img=canvas.toDataURL("image/png")
+
+const {jsPDF}=window.jspdf
+
+let pdf=new jsPDF("p","mm","a4")
+
+let size=120
+
+let x=(210-size)/2
+let y=(297-size)/2
+
+pdf.addImage(img,"PNG",x,y,size,size)
+
+pdf.save("qr-sawargipay.pdf")
+
+}
+
+</script>
+
 </body>
 </html>
