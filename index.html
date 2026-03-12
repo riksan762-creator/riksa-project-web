@@ -1,164 +1,284 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QR Code SawargiPay</title>
+<title>QR Studio Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
+*{box-sizing:border-box;margin:0;padding:0}
+
 body{
-font-family:system-ui,-apple-system,Arial;
-padding:20px;
-max-width:700px;
+font-family:Inter,system-ui;
+background:linear-gradient(135deg,#eef2ff,#f8fafc);
+min-height:100vh;
+color:#0f172a;
+}
+
+header{
+text-align:center;
+padding:40px 20px;
+font-size:30px;
+font-weight:700;
+}
+
+.container{
+max-width:800px;
 margin:auto;
-background:#f5f7fb;
+padding:20px;
 }
 
 .card{
-border:1px solid #e0e0e0;
-padding:20px;
-border-radius:10px;
 background:white;
-box-shadow:0 6px 20px rgba(0,0,0,0.05);
-}
-
-#qrcode{
-margin:20px auto;
-display:flex;
-justify-content:center;
+border-radius:20px;
+padding:30px;
+box-shadow:0 20px 60px rgba(0,0,0,0.08);
 }
 
 label{
-margin-top:10px;
 display:block;
+margin-top:15px;
 font-weight:600;
+font-size:13px;
 }
 
-input{
+input[type=text],
+input[type=color]{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:6px;
-border-radius:6px;
-border:1px solid #ccc;
+border-radius:10px;
+border:1px solid #e2e8f0;
+}
+
+.buttons{
+margin-top:20px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
 }
 
 button{
-margin-top:12px;
-margin-right:8px;
-padding:10px 16px;
-border:none;
-border-radius:6px;
-background:#0b74ff;
-color:white;
-cursor:pointer;
+padding:13px;
+border-radius:10px;
+border:0;
 font-weight:600;
-}
-
-button.secondary{
-background:#444;
+cursor:pointer;
+background:#2563eb;
+color:white;
+transition:0.2s;
 }
 
 button:hover{
-opacity:0.9;
+transform:translateY(-1px);
+}
+
+button.secondary{
+background:#0f172a;
+}
+
+.preview{
+margin-top:35px;
+text-align:center;
+}
+
+.qr-card{
+display:inline-block;
+background:white;
+padding:35px;
+border-radius:20px;
+box-shadow:0 15px 50px rgba(0,0,0,0.08);
+}
+
+.qr-title{
+font-weight:700;
+font-size:20px;
+margin-bottom:10px;
+}
+
+.qr-wrapper{
+position:relative;
+width:280px;
+margin:auto;
+}
+
+#qrcode canvas{
+width:280px !important;
+height:280px !important;
+}
+
+.qr-logo{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:65px;
+height:65px;
+border-radius:12px;
+background:white;
+padding:6px;
+display:none;
+}
+
+.qr-footer{
+margin-top:12px;
+font-size:13px;
+color:#475569;
+word-break:break-all;
+}
+
+footer{
+margin-top:40px;
+text-align:center;
+font-size:12px;
+color:#64748b;
 }
 
 </style>
-
 </head>
+
 <body>
 
-<h2>QR Code SawargiPay</h2>
+<header>QR Studio Pro</header>
+
+<div class="container">
 
 <div class="card">
 
-<label>Link Website</label>
-<input id="url" value="https://sawargipay.com">
+<label>Masukkan URL Website</label>
+<input id="url" placeholder="contoh: google.com">
 
-<label>Ukuran QR (px)</label>
-<input id="size" type="number" value="300" min="100" max="1000">
+<label>Warna QR</label>
+<input type="color" id="color" value="#000000">
 
-<br>
+<label>Upload Logo (opsional)</label>
+<input type="file" id="logo">
 
-<button id="generate">Generate QR</button>
-<button id="downloadPNG" class="secondary">Download PNG</button>
-<button id="downloadPDF" class="secondary">Download PDF</button>
-
-<div id="qrcode"></div>
+<div class="buttons">
+<button onclick="generateQR()">Generate QR</button>
+<button class="secondary" onclick="downloadPNG()">Download PNG</button>
+<button class="secondary" onclick="downloadPDF()">Download PDF</button>
+<button class="secondary" onclick="downloadSVG()">Download SVG</button>
+</div>
 
 </div>
 
+<div class="preview">
+
+<div class="qr-card" id="qrCard">
+
+<div class="qr-title">Scan Me</div>
+
+<div class="qr-wrapper">
+
+<div id="qrcode"></div>
+
+<img id="qrLogo" class="qr-logo">
+
+</div>
+
+<div class="qr-footer" id="domain"></div>
+
+</div>
+
+</div>
+
+<footer>
+QR Studio Pro • Universal QR Generator
+</footer>
+
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 
-const qrContainer = document.getElementById("qrcode")
-const urlInput = document.getElementById("url")
-const sizeInput = document.getElementById("size")
-
 let qr
+
+function fixURL(url){
+
+url=url.trim()
+
+if(!url.startsWith("http://") && !url.startsWith("https://")){
+url="https://"+url
+}
+
+return url
+
+}
 
 function generateQR(){
 
-let url = urlInput.value.trim()
-let size = parseInt(sizeInput.value)
+let raw=document.getElementById("url").value
 
-qrContainer.innerHTML=""
+let url=fixURL(raw)
 
-qr = new QRCode(qrContainer,{
+let color=document.getElementById("color").value
+
+document.getElementById("domain").innerText=url
+
+let container=document.getElementById("qrcode")
+
+container.innerHTML=""
+
+qr=new QRCode(container,{
 text:url,
-width:size,
-height:size,
+width:280,
+height:280,
+colorDark:color,
+colorLight:"#ffffff",
 correctLevel:QRCode.CorrectLevel.H
 })
 
 }
 
+document.getElementById("logo").addEventListener("change",function(){
+
+let file=this.files[0]
+
+if(!file) return
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+let logo=document.getElementById("qrLogo")
+
+logo.src=e.target.result
+
+logo.style.display="block"
+
+}
+
+reader.readAsDataURL(file)
+
+})
+
 generateQR()
 
-document.getElementById("generate").onclick=generateQR
+async function downloadPNG(){
 
-
-function getQRCanvas(){
-
-let canvas = qrContainer.querySelector("canvas")
-
-if(!canvas){
-alert("QR belum dibuat")
-return null
-}
-
-return canvas
-
-}
-
-
-
-document.getElementById("downloadPNG").onclick=function(){
-
-let canvas = getQRCanvas()
-
-if(!canvas) return
+let canvas=await html2canvas(document.getElementById("qrCard"),{scale:4})
 
 let link=document.createElement("a")
 
-link.download="qr-sawargipay.png"
-link.href=canvas.toDataURL("image/png")
+link.download="qr-code.png"
+
+link.href=canvas.toDataURL()
 
 link.click()
 
 }
 
+async function downloadPDF(){
 
-
-document.getElementById("downloadPDF").onclick=function(){
-
-let canvas=getQRCanvas()
-
-if(!canvas) return
+let canvas=await html2canvas(document.getElementById("qrCard"),{scale:4})
 
 let img=canvas.toDataURL("image/png")
 
@@ -166,14 +286,34 @@ const {jsPDF}=window.jspdf
 
 let pdf=new jsPDF("p","mm","a4")
 
-let size=120
+let w=140
+let h=140
 
-let x=(210-size)/2
-let y=(297-size)/2
+pdf.addImage(img,"PNG",(210-w)/2,60,w,h)
 
-pdf.addImage(img,"PNG",x,y,size,size)
+pdf.save("qr-code.pdf")
 
-pdf.save("qr-sawargipay.pdf")
+}
+
+function downloadSVG(){
+
+let canvas=document.querySelector("#qrcode canvas")
+
+let img=canvas.toDataURL()
+
+let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
+<image href="${img}" width="300" height="300"/>
+</svg>`
+
+let blob=new Blob([svg],{type:"image/svg+xml"})
+
+let link=document.createElement("a")
+
+link.href=URL.createObjectURL(blob)
+
+link.download="qr-code.svg"
+
+link.click()
 
 }
 
