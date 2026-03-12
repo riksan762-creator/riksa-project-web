@@ -22,12 +22,12 @@ color:#0f172a;
 header{
 text-align:center;
 padding:40px 20px;
-font-size:30px;
+font-size:32px;
 font-weight:700;
 }
 
 .container{
-max-width:800px;
+max-width:850px;
 margin:auto;
 padding:20px;
 }
@@ -70,11 +70,6 @@ font-weight:600;
 cursor:pointer;
 background:#2563eb;
 color:white;
-transition:0.2s;
-}
-
-button:hover{
-transform:translateY(-1px);
 }
 
 button.secondary{
@@ -82,7 +77,7 @@ background:#0f172a;
 }
 
 .preview{
-margin-top:35px;
+margin-top:40px;
 text-align:center;
 }
 
@@ -102,13 +97,13 @@ margin-bottom:10px;
 
 .qr-wrapper{
 position:relative;
-width:280px;
+width:300px;
 margin:auto;
 }
 
 #qrcode canvas{
-width:280px !important;
-height:280px !important;
+width:300px!important;
+height:300px!important;
 }
 
 .qr-logo{
@@ -116,8 +111,8 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-width:65px;
-height:65px;
+width:70px;
+height:70px;
 border-radius:12px;
 background:white;
 padding:6px;
@@ -129,13 +124,6 @@ margin-top:12px;
 font-size:13px;
 color:#475569;
 word-break:break-all;
-}
-
-footer{
-margin-top:40px;
-text-align:center;
-font-size:12px;
-color:#64748b;
 }
 
 </style>
@@ -155,7 +143,7 @@ color:#64748b;
 <label>Warna QR</label>
 <input type="color" id="color" value="#000000">
 
-<label>Upload Logo (opsional)</label>
+<label>Upload Logo</label>
 <input type="file" id="logo">
 
 <div class="buttons">
@@ -187,10 +175,6 @@ color:#64748b;
 
 </div>
 
-<footer>
-QR Studio Pro • Universal QR Generator
-</footer>
-
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -201,7 +185,7 @@ QR Studio Pro • Universal QR Generator
 
 let qr
 
-function fixURL(url){
+function formatURL(url){
 
 url=url.trim()
 
@@ -217,7 +201,7 @@ function generateQR(){
 
 let raw=document.getElementById("url").value
 
-let url=fixURL(raw)
+let url=formatURL(raw)
 
 let color=document.getElementById("color").value
 
@@ -229,8 +213,8 @@ container.innerHTML=""
 
 qr=new QRCode(container,{
 text:url,
-width:280,
-height:280,
+width:300,
+height:300,
 colorDark:color,
 colorLight:"#ffffff",
 correctLevel:QRCode.CorrectLevel.H
@@ -262,15 +246,23 @@ reader.readAsDataURL(file)
 
 generateQR()
 
-async function downloadPNG(){
+async function exportCanvas(){
 
 let canvas=await html2canvas(document.getElementById("qrCard"),{scale:4})
+
+return canvas
+
+}
+
+async function downloadPNG(){
+
+let canvas=await exportCanvas()
 
 let link=document.createElement("a")
 
 link.download="qr-code.png"
 
-link.href=canvas.toDataURL()
+link.href=canvas.toDataURL("image/png")
 
 link.click()
 
@@ -278,7 +270,7 @@ link.click()
 
 async function downloadPDF(){
 
-let canvas=await html2canvas(document.getElementById("qrCard"),{scale:4})
+let canvas=await exportCanvas()
 
 let img=canvas.toDataURL("image/png")
 
@@ -286,23 +278,23 @@ const {jsPDF}=window.jspdf
 
 let pdf=new jsPDF("p","mm","a4")
 
-let w=140
-let h=140
+let imgWidth=160
+let imgHeight=160
 
-pdf.addImage(img,"PNG",(210-w)/2,60,w,h)
+pdf.addImage(img,"PNG",(210-imgWidth)/2,60,imgWidth,imgHeight)
 
 pdf.save("qr-code.pdf")
 
 }
 
-function downloadSVG(){
+async function downloadSVG(){
 
-let canvas=document.querySelector("#qrcode canvas")
+let canvas=await exportCanvas()
 
-let img=canvas.toDataURL()
+let img=canvas.toDataURL("image/png")
 
-let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300">
-<image href="${img}" width="300" height="300"/>
+let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">
+<image href="${img}" width="500" height="500"/>
 </svg>`
 
 let blob=new Blob([svg],{type:"image/svg+xml"})
