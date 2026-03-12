@@ -1,43 +1,60 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-<title>QR Studio Pro</title>
+<title>QR Studio</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 
 body{
 font-family:Inter,system-ui;
-background:linear-gradient(135deg,#eef2ff,#f8fafc);
+background:linear-gradient(140deg,#eef2ff,#f8fafc);
 min-height:100vh;
 color:#0f172a;
 }
 
+/* HEADER */
+
 header{
 text-align:center;
-padding:40px 20px;
-font-size:32px;
+padding:50px 20px;
+}
+
+header h1{
+font-size:34px;
 font-weight:700;
 }
 
+header p{
+margin-top:8px;
+color:#64748b;
+}
+
+/* CONTAINER */
+
 .container{
-max-width:850px;
+max-width:720px;
 margin:auto;
 padding:20px;
 }
 
+/* CARD */
+
 .card{
 background:white;
-border-radius:20px;
+border-radius:22px;
 padding:30px;
 box-shadow:0 20px 60px rgba(0,0,0,0.08);
 }
+
+/* INPUT */
 
 label{
 display:block;
@@ -46,35 +63,37 @@ font-weight:600;
 font-size:13px;
 }
 
-input[type=text],
-input[type=color]{
+input{
 width:100%;
-padding:12px;
-margin-top:6px;
-border-radius:10px;
-border:1px solid #e2e8f0;
-}
-
-.buttons{
-margin-top:20px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-button{
 padding:13px;
-border-radius:10px;
+margin-top:6px;
+border-radius:12px;
+border:1px solid #e2e8f0;
+font-size:14px;
+}
+
+/* BUTTON */
+
+.generate{
+margin-top:20px;
+width:100%;
+padding:14px;
+border-radius:12px;
 border:0;
 font-weight:600;
 cursor:pointer;
-background:#2563eb;
+background:linear-gradient(90deg,#2563eb,#4f46e5);
 color:white;
+font-size:15px;
+transition:0.2s;
 }
 
-button.secondary{
-background:#0f172a;
+.generate:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
+
+/* QR PREVIEW */
 
 .preview{
 margin-top:40px;
@@ -84,16 +103,18 @@ text-align:center;
 .qr-card{
 display:inline-block;
 background:white;
-padding:35px;
-border-radius:20px;
-box-shadow:0 15px 50px rgba(0,0,0,0.08);
+padding:40px;
+border-radius:25px;
+box-shadow:0 25px 60px rgba(0,0,0,0.1);
 }
 
 .qr-title{
-font-weight:700;
 font-size:20px;
-margin-bottom:10px;
+font-weight:700;
+margin-bottom:15px;
 }
+
+/* QR */
 
 .qr-wrapper{
 position:relative;
@@ -106,6 +127,8 @@ width:300px!important;
 height:300px!important;
 }
 
+/* LOGO */
+
 .qr-logo{
 position:absolute;
 top:50%;
@@ -113,17 +136,46 @@ left:50%;
 transform:translate(-50%,-50%);
 width:70px;
 height:70px;
-border-radius:12px;
+border-radius:14px;
 background:white;
 padding:6px;
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
 display:none;
 }
 
-.qr-footer{
-margin-top:12px;
-font-size:13px;
-color:#475569;
-word-break:break-all;
+/* DOWNLOAD */
+
+.download-section{
+margin-top:25px;
+}
+
+.download-title{
+font-size:14px;
+font-weight:600;
+margin-bottom:10px;
+color:#334155;
+}
+
+.download-buttons{
+display:flex;
+justify-content:center;
+gap:12px;
+}
+
+.download-buttons button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+background:#0f172a;
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
+}
+
+.download-buttons button:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
 </style>
@@ -131,27 +183,27 @@ word-break:break-all;
 
 <body>
 
-<header>QR Studio Pro</header>
+<header>
+
+<h1>QR Studio</h1>
+<p>Buat QR Code untuk website atau link dengan mudah</p>
+
+</header>
 
 <div class="container">
 
 <div class="card">
 
 <label>Masukkan URL Website</label>
-<input id="url" placeholder="contoh: google.com">
+<input id="url" placeholder="contoh: sawargipay.com">
 
 <label>Warna QR</label>
 <input type="color" id="color" value="#000000">
 
-<label>Upload Logo</label>
+<label>Upload Logo (opsional)</label>
 <input type="file" id="logo">
 
-<div class="buttons">
-<button onclick="generateQR()">Generate QR</button>
-<button class="secondary" onclick="downloadPNG()">Download PNG</button>
-<button class="secondary" onclick="downloadPDF()">Download PDF</button>
-<button class="secondary" onclick="downloadSVG()">Download SVG</button>
-</div>
+<button class="generate" onclick="generateQR()">Generate QR Code</button>
 
 </div>
 
@@ -164,12 +216,23 @@ word-break:break-all;
 <div class="qr-wrapper">
 
 <div id="qrcode"></div>
-
 <img id="qrLogo" class="qr-logo">
 
 </div>
 
-<div class="qr-footer" id="domain"></div>
+</div>
+
+<div class="download-section">
+
+<div class="download-title">Download QR Code</div>
+
+<div class="download-buttons">
+
+<button onclick="downloadPNG()">PNG</button>
+<button onclick="downloadPDF()">PDF</button>
+<button onclick="downloadSVG()">SVG</button>
+
+</div>
 
 </div>
 
@@ -186,26 +249,18 @@ word-break:break-all;
 let qr
 
 function formatURL(url){
-
 url=url.trim()
-
 if(!url.startsWith("http://") && !url.startsWith("https://")){
 url="https://"+url
 }
-
 return url
-
 }
 
 function generateQR(){
 
-let raw=document.getElementById("url").value
-
-let url=formatURL(raw)
+let url=formatURL(document.getElementById("url").value)
 
 let color=document.getElementById("color").value
-
-document.getElementById("domain").innerText=url
 
 let container=document.getElementById("qrcode")
 
@@ -222,11 +277,12 @@ correctLevel:QRCode.CorrectLevel.H
 
 }
 
+/* LOGO */
+
 document.getElementById("logo").addEventListener("change",function(){
 
 let file=this.files[0]
-
-if(!file) return
+if(!file)return
 
 let reader=new FileReader()
 
@@ -235,7 +291,6 @@ reader.onload=function(e){
 let logo=document.getElementById("qrLogo")
 
 logo.src=e.target.result
-
 logo.style.display="block"
 
 }
@@ -246,12 +301,10 @@ reader.readAsDataURL(file)
 
 generateQR()
 
+/* EXPORT */
+
 async function exportCanvas(){
-
-let canvas=await html2canvas(document.getElementById("qrCard"),{scale:4})
-
-return canvas
-
+return await html2canvas(document.getElementById("qrCard"),{scale:4})
 }
 
 async function downloadPNG(){
@@ -259,11 +312,8 @@ async function downloadPNG(){
 let canvas=await exportCanvas()
 
 let link=document.createElement("a")
-
 link.download="qr-code.png"
-
 link.href=canvas.toDataURL("image/png")
-
 link.click()
 
 }
@@ -278,10 +328,7 @@ const {jsPDF}=window.jspdf
 
 let pdf=new jsPDF("p","mm","a4")
 
-let imgWidth=160
-let imgHeight=160
-
-pdf.addImage(img,"PNG",(210-imgWidth)/2,60,imgWidth,imgHeight)
+pdf.addImage(img,"PNG",25,40,160,160)
 
 pdf.save("qr-code.pdf")
 
