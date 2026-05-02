@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>QR Studio Pro v3.0 — Infinite Edition</title>
+    <title>QR Studio Pro v4.0 — Ultra High-Res</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Core Libraries -->
     <script type="text/javascript" src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -15,344 +16,309 @@
     <style>
         :root {
             --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.2);
-            --bg: #0f172a;
-            --card: #1e293b;
+            --primary-dark: #4f46e5;
+            --accent: #06b6d4;
+            --bg: #020617;
+            --card: #0f172a;
+            --surface: #1e293b;
             --text: #f8fafc;
-            --muted: #94a3b8;
-            --glass: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.1);
+            --text-dim: #94a3b8;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: var(--bg);
-            background-image: radial-gradient(at 0% 0%, #1e1b4b 0, transparent 50%), radial-gradient(at 100% 100%, #1e1b4b 0, transparent 50%);
             color: var(--text);
             min-height: 100vh;
-            padding-bottom: 50px;
+            line-height: 1.6;
         }
 
-        /* Nav */
-        nav {
-            padding: 25px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            position: sticky; top: 0; z-index: 1000;
-        }
-        .logo { font-weight: 800; font-size: 22px; color: var(--text); display: flex; align-items: center; gap: 10px; }
-        .logo i { color: var(--primary); }
-
-        /* Dashboard Layout */
-        .dashboard {
-            max-width: 1300px;
-            margin: 40px auto;
-            display: grid;
-            grid-template-columns: 380px 1fr 320px;
-            gap: 25px;
-            padding: 0 20px;
+        /* Abstract Background Decor */
+        .glow {
+            position: fixed; width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+            z-index: -1; filter: blur(50px);
         }
 
-        @media (max-width: 1200px) { .dashboard { grid-template-columns: 1fr; } }
+        /* Layout */
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        
+        header { text-align: center; margin-bottom: 50px; }
+        header h1 { font-size: 42px; font-weight: 800; letter-spacing: -2px; margin-bottom: 10px; }
+        header span { background: linear-gradient(90deg, #6366f1, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+        .main-wrapper {
+            display: grid; grid-template-columns: 400px 1fr; gap: 30px; align-items: start;
+        }
+
+        @media (max-width: 968px) { .main-wrapper { grid-template-columns: 1fr; } }
+
+        /* Form Styling */
         .panel {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 28px;
-            border: 1px solid var(--border);
-            height: fit-content;
+            background: var(--card); border-radius: 28px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05); box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
-        .section-title { font-weight: 700; font-size: 16px; margin-bottom: 20px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
-
-        /* Form Elements */
-        .form-group { margin-bottom: 18px; }
-        label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--muted); }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; font-size: 13px; font-weight: 600; color: var(--text-dim); margin-bottom: 8px; }
         
         input[type="text"], select {
-            width: 100%; padding: 12px 16px; border-radius: 12px;
-            background: var(--bg); border: 1px solid var(--border);
-            color: white; font-family: inherit; transition: 0.3s;
+            width: 100%; background: var(--surface); border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px 18px; border-radius: 14px; color: white; font-family: inherit;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+        input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99,102,241,0.2); }
 
-        .color-row { display: flex; gap: 10px; }
-        .color-input {
-            flex: 1; background: var(--bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 8px; display: flex; align-items: center; gap: 10px;
+        .flex-row { display: flex; gap: 12px; }
+        .color-picker-wrap {
+            flex: 1; background: var(--surface); padding: 10px; border-radius: 14px;
+            display: flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,0.1);
         }
-        input[type="color"] { border: none; width: 25px; height: 25px; cursor: pointer; background: none; }
+        input[type="color"] { border: none; width: 30px; height: 30px; cursor: pointer; background: none; }
 
-        /* QR Preview Center */
-        .preview-center { text-align: center; }
-        .qr-display-box {
-            background: white; border-radius: 32px; padding: 40px;
-            display: inline-block; position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            margin-bottom: 30px;
-        }
-        #qr-canvas { border-radius: 12px; }
-        .scan-strength {
-            margin-top: 15px; padding: 10px; border-radius: 12px;
-            background: var(--glass); font-size: 12px; display: flex; justify-content: space-between;
+        /* QR Preview Styling */
+        .preview-pane {
+            display: flex; flex-direction: column; align-items: center; gap: 30px;
         }
 
-        /* Right Sidebar: Actions */
-        .action-list { display: flex; flex-direction: column; gap: 12px; }
+        .qr-canvas-wrapper {
+            background: #ffffff; padding: 40px; border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative;
+            transition: 0.4s ease;
+        }
+        .qr-canvas-wrapper:hover { transform: translateY(-5px); }
+        
+        .qr-label-display {
+            color: #020617; text-align: center; font-weight: 800; font-size: 32px;
+            margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Advanced Buttons */
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 500px; }
+        
         .btn {
-            width: 100%; padding: 14px; border-radius: 14px; border: none;
-            font-weight: 700; cursor: pointer; transition: 0.3s;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 16px; border-radius: 16px; border: none; font-weight: 700;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center;
+            justify-content: center; gap: 10px; font-size: 14px;
         }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px var(--primary-glow); }
-        .btn-glass { background: var(--glass); color: white; border: 1px solid var(--border); }
-        .btn-glass:hover { background: rgba(255,255,255,0.1); }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(99,102,241,0.3); }
+        
+        .btn-secondary { background: var(--surface); color: var(--text); border: 1px solid rgba(255,255,255,0.1); }
+        .btn-secondary:hover { background: #2d3a4f; }
 
-        /* History */
-        .history-card { margin-top: 20px; }
-        .history-item {
-            padding: 12px; border-radius: 10px; background: var(--bg);
-            margin-bottom: 8px; font-size: 11px; border-left: 3px solid var(--primary);
-            cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-        }
+        /* Hidden Tools */
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="logo"><i class="fa-solid fa-wand-magic-sparkles"></i> QR Studio <span>Infinite</span></div>
-    <div class="action-row">
-        <button class="btn-glass btn" style="padding: 8px 15px;" onclick="location.reload()"><i class="fa-solid fa-rotate"></i> Reset</button>
+<div class="glow" style="top: -10%; left: -10%;"></div>
+<div class="glow" style="bottom: -10%; right: -10%; background: radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%);"></div>
+
+<div class="container">
+    <header>
+        <h1>QR Studio <span>Pro v4.0</span></h1>
+        <p style="color: var(--text-dim)">Generator QR Code Kelas Enterprise dengan Render Ultra HD</p>
+    </header>
+
+    <div class="main-wrapper">
+        <!-- Sidebar Controls -->
+        <div class="panel">
+            <div class="input-group">
+                <label><i class="fa-solid fa-link"></i> Link atau Data</label>
+                <input type="text" id="qr-input" placeholder="https://sawargipay.com" oninput="updateQR()">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-font"></i> Teks Label (Atas)</label>
+                <input type="text" id="label-input" placeholder="SCAN ME" oninput="updateLabel()">
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-palette"></i> Tema Warna (Gradasi)</label>
+                <div class="flex-row">
+                    <div class="color-picker-wrap">
+                        <input type="color" id="col-1" value="#6366f1" onchange="updateQR()">
+                    </div>
+                    <div class="color-picker-wrap">
+                        <input type="color" id="col-2" value="#06b6d4" onchange="updateQR()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-shapes"></i> Gaya Visual</label>
+                <select id="dot-style" onchange="updateQR()">
+                    <option value="extra-rounded">Cairan Modern</option>
+                    <option value="classy">Butiran Elegan</option>
+                    <option value="dots">Titik Bulat</option>
+                    <option value="square">Kotak Klasik</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label><i class="fa-solid fa-image"></i> Sisipkan Logo Tengah</label>
+                <input type="file" id="logo-file" accept="image/*" onchange="processLogo(event)">
+            </div>
+        </div>
+
+        <!-- Preview & Download Section -->
+        <div class="preview-pane">
+            <!-- Elemen ini yang akan dicapture untuk PDF & Gambar -->
+            <div class="qr-canvas-wrapper" id="qr-export-area">
+                <div class="qr-label-display" id="label-view">SCAN ME</div>
+                <div id="qr-target"></div>
+            </div>
+
+            <div class="btn-grid">
+                <button class="btn btn-primary" onclick="downloadImage('png')">
+                    <i class="fa-solid fa-file-image"></i> Download PNG HD
+                </button>
+                <button class="btn btn-primary" onclick="downloadImage('svg')">
+                    <i class="fa-solid fa-vector-square"></i> Download SVG
+                </button>
+                <button class="btn btn-secondary" onclick="generatePremiumPDF()">
+                    <i class="fa-solid fa-file-pdf"></i> Export PDF
+                </button>
+                <button class="btn btn-secondary" onclick="exportDataXLS()">
+                    <i class="fa-solid fa-file-excel"></i> Save Data XLS
+                </button>
+            </div>
+        </div>
     </div>
-</nav>
-
-<div class="dashboard">
-    <!-- LEFT: DESIGN CONFIG -->
-    <aside class="panel">
-        <div class="section-title">🎨 Design QR</div>
-        
-        <div class="form-group">
-            <label>Link / Konten</label>
-            <input type="text" id="qr-data" placeholder="https://..." oninput="updateQR()">
-        </div>
-
-        <div class="form-group">
-            <label>Label Teks</label>
-            <input type="text" id="qr-label" placeholder="SCAN ME" oninput="updateUI()">
-        </div>
-
-        <div class="form-group">
-            <label>Warna Utama (Gradient)</label>
-            <div class="color-row">
-                <div class="color-input">
-                    <input type="color" id="col-1" value="#6366f1" onchange="updateQR()">
-                </div>
-                <div class="color-input">
-                    <input type="color" id="col-2" value="#a855f7" onchange="updateQR()">
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>Bentuk Dots</label>
-            <select id="dot-style" onchange="updateQR()">
-                <option value="extra-rounded">Extra Rounded</option>
-                <option value="classy">Classy Dots</option>
-                <option value="dots">Circular</option>
-                <option value="square">Modern Square</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Sudut (Corners)</label>
-            <select id="corner-style" onchange="updateQR()">
-                <option value="extra-rounded">Smooth</option>
-                <option value="dot">Dot</option>
-                <option value="square">Sharp</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Upload Logo Tengah</label>
-            <input type="file" id="logo-file" accept="image/*" onchange="handleLogo(event)">
-        </div>
-    </aside>
-
-    <!-- CENTER: PREVIEW -->
-    <main class="preview-center">
-        <div class="qr-display-box">
-            <div id="label-view" style="color: #0f172a; font-weight: 800; font-size: 24px; margin-bottom: 20px;">SCAN ME</div>
-            <div id="qr-canvas"></div>
-            <div style="color: #64748b; font-size: 10px; margin-top: 20px; letter-spacing: 2px;">SECURE GENERATED QR</div>
-        </div>
-
-        <div class="scan-strength" style="max-width: 400px; margin: auto;">
-            <span>Scan Strength:</span>
-            <span id="strength-val" style="color: #10b981; font-weight: 700;">EXCELLENT</span>
-        </div>
-    </main>
-
-    <!-- RIGHT: DOWNLOAD & HISTORY -->
-    <aside>
-        <div class="panel action-list">
-            <div class="section-title">💾 Export</div>
-            <button class="btn btn-primary" onclick="download('png')"><i class="fa-solid fa-image"></i> Download PNG</button>
-            <button class="btn btn-glass" onclick="download('svg')"><i class="fa-solid fa-vector-square"></i> SVG Vector</button>
-            <button class="btn btn-glass" onclick="exportPDF()"><i class="fa-solid fa-file-pdf"></i> PDF Pro</button>
-            <button class="btn btn-glass" onclick="exportExcel()"><i class="fa-solid fa-file-excel"></i> Export XLS</button>
-        </div>
-
-        <div class="panel history-card">
-            <div class="section-title">🕒 Riwayat</div>
-            <div id="history-container">
-                <!-- History Items via JS -->
-            </div>
-        </div>
-    </aside>
 </div>
 
 <script>
-    let logoData = "";
-    let qrHistory = JSON.parse(localStorage.getItem('qr_infinite_history')) || [];
-
-    // Inisialisasi QR Styling
-    const qrCode = new QRCodeStyling({
-        width: 300,
-        height: 300,
-        data: "https://google.com",
+    let currentLogo = "";
+    
+    // Konfigurasi QR Code Engine
+    const qrEngine = new QRCodeStyling({
+        width: 320,
+        height: 320,
+        type: "svg",
+        data: "https://sawargipay.com",
         image: "",
         dotsOptions: {
-            color: "#6366f1",
             type: "extra-rounded",
             gradient: {
                 type: "linear",
                 rotation: 45,
-                colorStops: [{ offset: 0, color: "#6366f1" }, { offset: 1, color: "#a855f7" }]
+                colorStops: [{ offset: 0, color: "#6366f1" }, { offset: 1, color: "#06b6d4" }]
             }
         },
         backgroundOptions: { color: "#ffffff" },
-        imageOptions: { crossOrigin: "anonymous", margin: 5, imageSize: 0.4 },
-        cornersSquareOptions: { type: 'extra-rounded' },
-        qrOptions: { errorCorrectionLevel: 'H' }
+        imageOptions: { crossOrigin: "anonymous", margin: 10, imageSize: 0.4 },
+        cornersSquareOptions: { type: "extra-rounded", color: "#4f46e5" },
+        qrOptions: { errorCorrectionLevel: "H" }
     });
 
-    qrCode.append(document.getElementById("qr-canvas"));
+    qrEngine.append(document.getElementById("qr-target"));
 
+    // Function Update Real-time
     function updateQR() {
-        const data = document.getElementById('qr-data').value || "https://google.com";
+        const content = document.getElementById('qr-input').value || "https://sawargipay.com";
         const c1 = document.getElementById('col-1').value;
         const c2 = document.getElementById('col-2').value;
-        const dStyle = document.getElementById('dot-style').value;
-        const cStyle = document.getElementById('corner-style').value;
+        const style = document.getElementById('dot-style').value;
 
-        qrCode.update({
-            data: data,
+        qrEngine.update({
+            data: content,
             dotsOptions: {
-                type: dStyle,
+                type: style,
                 gradient: {
                     type: "linear",
                     colorStops: [{ offset: 0, color: c1 }, { offset: 1, color: c2 }]
                 }
             },
-            cornersSquareOptions: { type: cStyle, color: c1 },
-            image: logoData
+            cornersSquareOptions: { color: c1 },
+            image: currentLogo
         });
-
-        // Update Strength Info
-        const strength = data.length > 100 ? "MODERATE" : "EXCELLENT";
-        const strCol = data.length > 100 ? "#f59e0b" : "#10b981";
-        document.getElementById('strength-val').innerText = strength;
-        document.getElementById('strength-val').style.color = strCol;
-
-        saveHistory(data);
     }
 
-    function updateUI() {
-        const label = document.getElementById('qr-label').value;
-        document.getElementById('label-view').innerText = label || "SCAN ME";
+    function updateLabel() {
+        const text = document.getElementById('label-input').value;
+        document.getElementById('label-view').innerText = text || "SCAN ME";
     }
 
-    function handleLogo(e) {
+    function processLogo(e) {
         const file = e.target.files[0];
+        if (!file) return;
         const reader = new FileReader();
         reader.onload = (event) => {
-            logoData = event.target.result;
+            currentLogo = event.target.result;
             updateQR();
         };
         reader.readAsDataURL(file);
     }
 
-    function saveHistory(data) {
-        if(data === "https://google.com" || data.length < 5) return;
-        if(!qrHistory.includes(data)) {
-            qrHistory.unshift(data);
-            qrHistory = qrHistory.slice(0, 5); // Simpan 5 terakhir
-            localStorage.setItem('qr_infinite_history', JSON.stringify(qrHistory));
-            renderHistory();
-        }
+    // DOWNLOAD ENGINE (FIXED BUGS)
+    function downloadImage(ext) {
+        // Nama file otomatis berdasarkan input
+        const name = "QR_" + (document.getElementById('label-input').value || "Studio") + "_" + Date.now();
+        qrEngine.download({ name: name, extension: ext });
     }
 
-    function renderHistory() {
-        const container = document.getElementById('history-container');
-        container.innerHTML = qrHistory.map(item => `
-            <div class="history-item" onclick="loadFromHistory('${item}')">
-                <i class="fa-solid fa-link"></i> ${item}
-            </div>
-        `).join('');
-    }
-
-    function loadFromHistory(val) {
-        document.getElementById('qr-data').value = val;
-        updateQR();
-    }
-
-    function download(ext) {
-        qrCode.download({ name: "QR_Studio_Infinite", extension: ext });
-    }
-
-    async function exportPDF() {
+    async function generatePremiumPDF() {
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF();
+        const pdf = new jsPDF('p', 'mm', 'a4');
         const label = document.getElementById('label-view').innerText;
-        
-        qrCode._canvas.toBlob((blob) => {
+        const link = document.getElementById('qr-input').value || "https://sawargipay.com";
+
+        // Ambil image data dari canvas internal library
+        qrEngine._canvas.toBlob((blob) => {
             const reader = new FileReader();
             reader.onload = function() {
-                pdf.setFillColor(15, 23, 42); // Navy Blue Background
-                pdf.rect(0, 0, 210, 40, 'F');
-                pdf.setTextColor(255, 255, 255);
-                pdf.setFontSize(20);
-                pdf.text("OFFICIAL QR DOCUMENT", 105, 25, { align: "center" });
+                const imgData = reader.result;
                 
-                pdf.setTextColor(0, 0, 0);
+                // Desain PDF
+                pdf.setFillColor(2, 6, 23); // Dark background header
+                pdf.rect(0, 0, 210, 50, 'F');
+                
+                pdf.setTextColor(255, 255, 255);
+                pdf.setFont("helvetica", "bold");
                 pdf.setFontSize(24);
-                pdf.text(label, 105, 70, { align: "center" });
-                pdf.addImage(reader.result, 'PNG', 55, 80, 100, 100);
+                pdf.text("OFFICIAL QR CODE", 105, 30, { align: "center" });
+
+                pdf.setTextColor(15, 23, 42);
+                pdf.setFontSize(28);
+                pdf.text(label, 105, 80, { align: "center" });
+
+                // Tambahkan QR di tengah
+                pdf.addImage(imgData, 'PNG', 45, 90, 120, 120);
+
+                pdf.setFontSize(12);
+                pdf.setFont("helvetica", "normal");
+                pdf.text("Scan URL: " + link, 105, 225, { align: "center" });
                 
                 pdf.setFontSize(10);
-                pdf.text("Generated via QR Studio Infinite Edition", 105, 190, { align: "center" });
-                pdf.save("Professional_QR.pdf");
+                pdf.setTextColor(150, 150, 150);
+                pdf.text("Generated by QR Studio Pro Ultra HD Edition", 105, 280, { align: "center" });
+
+                pdf.save(label + "_Document.pdf");
             };
             reader.readAsDataURL(blob);
-        });
+        }, 'image/png');
     }
 
-    function exportExcel() {
-        const data = qrHistory.map(h => [h, new Date().toLocaleString()]);
-        const ws = XLSX.utils.aoa_to_sheet([["Content", "Generated At"], ...data]);
+    function exportDataXLS() {
+        const data = [
+            ["Item", "Keterangan"],
+            ["Label", document.getElementById('label-view').innerText],
+            ["Data/Link", document.getElementById('qr-input').value || "https://sawargipay.com"],
+            ["Warna 1", document.getElementById('col-1').value],
+            ["Warna 2", document.getElementById('col-2').value],
+            ["Timestamp", new Date().toLocaleString()]
+        ];
+
+        const ws = XLSX.utils.aoa_to_sheet(data);
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "QR History");
-        XLSX.writeFile(wb, "QR_History_Log.xlsx");
+        XLSX.utils.book_append_sheet(wb, ws, "QR Metadata");
+        XLSX.writeFile(wb, "QR_Studio_Data.xlsx");
     }
 
-    // Init
-    renderHistory();
-    updateQR();
 </script>
 
 </body>
